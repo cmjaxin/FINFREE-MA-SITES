@@ -28,6 +28,165 @@ export default function Home() {
   const advisor = getCurrentAdvisor();
   const a = advisor;
 
+  // Update meta tags and schemas for SEO
+  useEffect(() => {
+    // Update page title
+    const title = `${a.name} | Mortgage Advisor | ${a.city}, ${a.state} | NEO Home Loans | NMLS #${a.nmls}`;
+    document.title = title;
+
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", `${a.name} is a Mortgage Advisor with NEO Home Loans in ${a.city}, ${a.state}. NMLS #${a.nmls}. ${a.yearsExperience} years of experience helping homebuyers with personalized mortgage strategies. Specializing in ${a.specialties.slice(0, 3).join(", ")}.`);
+    }
+
+    // Update meta keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute("content", `${a.name}, mortgage advisor, ${a.city}, ${a.state}, NEO Home Loans, NMLS ${a.nmls}, ${a.specialties.join(", ")}, home loans, mortgage strategy`);
+    }
+
+    // Update OG tags for social sharing
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute("content", title);
+    } else {
+      const newOgTitle = document.createElement("meta");
+      newOgTitle.setAttribute("property", "og:title");
+      newOgTitle.setAttribute("content", title);
+      document.head.appendChild(newOgTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute("content", `Mortgage Advisor specializing in ${a.specialties.slice(0, 2).join(" and ")} in ${a.city}, ${a.state}.`);
+    } else {
+      const newOgDesc = document.createElement("meta");
+      newOgDesc.setAttribute("property", "og:description");
+      newOgDesc.setAttribute("content", `Mortgage Advisor specializing in ${a.specialties.slice(0, 2).join(" and ")} in ${a.city}, ${a.state}.`);
+      document.head.appendChild(newOgDesc);
+    }
+
+    // Remove existing JSON-LD scripts
+    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    existingScripts.forEach(script => {
+      if (script.id === "person-schema" || script.id === "local-business-schema" || script.id === "breadcrumb-schema" || script.id === "organization-schema") {
+        script.remove();
+      }
+    });
+
+    // Person Schema (for the advisor)
+    const personSchema = {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": a.name,
+      "jobTitle": a.title,
+      "identifier": `NMLS #${a.nmls}`,
+      "image": a.headshot,
+      "telephone": a.phone,
+      "email": a.email,
+      "areaServed": a.specialties,
+      "knowsAbout": ["Mortgage Loans", "Home Purchase", "Refinancing", "Medical Professional Loans", ...a.specialties],
+      "worksFor": {
+        "@type": "Organization",
+        "name": a.company,
+        "url": "https://neohomeloans.com"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": a.address.split(",")[0].trim(),
+        "addressLocality": a.city,
+        "addressRegion": a.stateAbbr,
+        "postalCode": a.address.split(",").length > 2 ? a.address.split(",")[2].trim() : "84124",
+        "addressCountry": "US"
+      }
+    };
+
+    const personScriptEl = document.createElement("script");
+    personScriptEl.id = "person-schema";
+    personScriptEl.type = "application/ld+json";
+    personScriptEl.textContent = JSON.stringify(personSchema);
+    document.head.appendChild(personScriptEl);
+
+    // LocalBusiness Schema
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": `${a.name} - Mortgage Advisor at ${a.company}`,
+      "image": a.headshot,
+      "description": `${a.name} is a mortgage advisor specializing in ${a.specialties.slice(0, 2).join(" and ")} with ${a.yearsExperience} years of experience.`,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": a.address.split(",")[0].trim(),
+        "addressLocality": a.city,
+        "addressRegion": a.stateAbbr,
+        "postalCode": "84124",
+        "addressCountry": "US"
+      },
+      "telephone": a.phone,
+      "email": a.email,
+      "priceRange": "$$",
+      "areaServed": ["US"],
+      "knowsAbout": a.specialties,
+      "url": typeof window !== "undefined" ? window.location.href : ""
+    };
+
+    const localBusinessScriptEl = document.createElement("script");
+    localBusinessScriptEl.id = "local-business-schema";
+    localBusinessScriptEl.type = "application/ld+json";
+    localBusinessScriptEl.textContent = JSON.stringify(localBusinessSchema);
+    document.head.appendChild(localBusinessScriptEl);
+
+    // Organization Schema (NEO Home Loans)
+    const organizationSchema = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": a.company,
+      "url": "https://neohomeloans.com",
+      "logo": a.logoUrl,
+      "description": "NEO Home Loans provides specialized mortgage solutions for medical professionals, military veterans, first-time homebuyers, and entrepreneurs.",
+      "sameAs": ["https://www.facebook.com/NEOHomeLoansMortgage", "https://www.linkedin.com/company/neo-home-loans"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Mortgage Advisor",
+        "telephone": a.phone,
+        "email": a.email
+      }
+    };
+
+    const orgScriptEl = document.createElement("script");
+    orgScriptEl.id = "organization-schema";
+    orgScriptEl.type = "application/ld+json";
+    orgScriptEl.textContent = JSON.stringify(organizationSchema);
+    document.head.appendChild(orgScriptEl);
+
+    // Breadcrumb Schema
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "NEO Home Loans",
+          "item": "https://neohomeloans.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": a.name,
+          "item": typeof window !== "undefined" ? window.location.href : ""
+        }
+      ]
+    };
+
+    const breadcrumbScriptEl = document.createElement("script");
+    breadcrumbScriptEl.id = "breadcrumb-schema";
+    breadcrumbScriptEl.type = "application/ld+json";
+    breadcrumbScriptEl.textContent = JSON.stringify(breadcrumbSchema);
+    document.head.appendChild(breadcrumbScriptEl);
+  }, [a]);
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
