@@ -1,6 +1,55 @@
-import advisorsData from "@/data/advisors.json";
+import advisorsDataRaw from "@/data/advisors.json";
 
-export type Advisor = (typeof advisorsData.advisors)[keyof typeof advisorsData.advisors];
+const advisorsData = advisorsDataRaw as {
+  advisors: Record<string, any>;
+  domainMappings: Record<string, string>;
+};
+
+export type Advisor = {
+  name: string;
+  firstName: string;
+  title: string;
+  company: string;
+  nmls: string;
+  yearsExperience: string;
+  phone: string;
+  phoneTel: string;
+  email: string;
+  address: string;
+  city: string;
+  state: string;
+  stateAbbr: string;
+  applyUrl: string;
+  calendarUrl: string;
+  headshot: string;
+  heroBgImage: string;
+  heroTestimonialImage: string;
+  heroTestimonialAlt: string;
+  logoUrl: string;
+  reviewsApiKey: string;
+  reviewsWidgetKey: string;
+  bnTouchUserId: string;
+  bnTouchWebFormId: string;
+  bnTouchSource: string;
+  heroHeadline: string[];
+  heroSubhead: string;
+  heroBio: string;
+  trustBarHeading: string;
+  trustBarItems: string[];
+  trustBarFootnote: string;
+  reviewsSectionHeading: string;
+  reviewsSectionSubhead: string;
+  aboutBio: string[];
+  aboutTags: string[];
+  aboutWhyChoose: string[];
+  footerDescription: string;
+  specialties: string[];
+  testimonials: Array<{
+    quote: string;
+    author: string;
+    location: string;
+  }>;
+};
 
 /**
  * Get the advisor slug from the current hostname
