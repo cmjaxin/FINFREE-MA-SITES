@@ -1,11 +1,11 @@
 /*
- * NEO HOME LOANS — MORTGAGE ADVISOR HOMEPAGE TEMPLATE
+ * NEO HOME LOANS -MORTGAGE ADVISOR HOMEPAGE TEMPLATE
  * =====================================================
  * Built on the Donald Miller StoryBrand framework.
  * All advisor-specific data lives in ADVISOR_CONFIG below.
  * To generate a new advisor site, only edit ADVISOR_CONFIG.
  *
- * Design System — NEO Brand:
+ * Design System -NEO Brand:
  *   Font:    Montserrat (loaded in index.html)
  *   Navy:    #0A2540  (hero, problem, technology, CTA, footer backgrounds)
  *   Teal:    #5BCBF5  (accent, CTAs, eyebrows, highlights)
@@ -311,17 +311,17 @@ export default function Home() {
               The Right Mortgage Can Save You Thousands.<br />The Wrong One Can Cost You.
             </h2>
             <p style={{ fontSize: "1rem", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "1rem" }}>
-              Buying a home is one of the biggest financial decisions you'll ever make. Yet many buyers are simply handed a loan — not a strategy.
+              Buying a home is one of the biggest financial decisions you'll ever make. Yet many buyers are simply handed a loan -not a strategy.
             </p>
             <p style={{ fontSize: "0.95rem", color: "#6a8fa8", lineHeight: 1.8 }}>
-              Between changing interest rates, rising home prices, and countless financing options, it's easy to wonder if you're making the right decision. You deserve someone who will explain your options, answer your questions, and help you choose a mortgage that fits your goals — not just today, but for years to come.
+              Between changing interest rates, rising home prices, and countless financing options, it's easy to wonder if you're making the right decision. You deserve someone who will explain your options, answer your questions, and help you choose a mortgage that fits your goals -not just today, but for years to come.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
             {[
-              { num: "01", title: "Rates and prices keep changing", body: "The market shifts constantly. Without a clear strategy, it's easy to make a decision you'll regret — and pay for it for decades." },
-              { num: "02", title: "Most lenders just quote a rate", body: "Getting pre-approved is not a strategy. Most lenders focus on closing the loan — not on whether that loan is the right financial decision for your life." },
-              { num: "03", title: "The guidance stops at closing", body: "Most lenders close your loan and move on. Your financial situation keeps changing — and you deserve an advisor who stays with you." },
+              { num: "01", title: "Rates and prices keep changing", body: "The market shifts constantly. Without a clear strategy, it's easy to make a decision you'll regret -and pay for it for decades." },
+              { num: "02", title: "Most lenders just quote a rate", body: "Getting pre-approved is not a strategy. Most lenders focus on closing the loan -not on whether that loan is the right financial decision for your life." },
+              { num: "03", title: "The guidance stops at closing", body: "Most lenders close your loan and move on. Your financial situation keeps changing -and you deserve an advisor who stays with you." },
             ].map((card) => (
               <div key={card.num} className="reveal" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "1.75rem" }}>
                 <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "0.75rem" }}>Problem {card.num}</div>
@@ -340,7 +340,7 @@ export default function Home() {
             <div className="reveal" style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/5", background: "#dde3ea" }}>
               <img
                 src={a.headshot}
-                alt={`${a.name} — ${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
+                alt={`${a.name} -${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
               />
             </div>
@@ -391,12 +391,12 @@ export default function Home() {
                 num: "02",
                 icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
                 title: "Get Your Custom Mortgage Strategy",
-                body: "Receive a personalized plan built around your income, goals, and timeline — not just the lowest rate available today.",
+                body: "Receive a personalized plan built around your income, goals, and timeline -not just the lowest rate available today.",
               },
               {
                 num: "03",
                 icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z"/></svg>,
-                title: "Close with Confidence — and Beyond",
+                title: "Close with Confidence -and Beyond",
                 body: "We handle the details so you can focus on moving in. And after closing, we stay with you to make sure your mortgage keeps working for you.",
               },
             ].map((step, idx) => (
@@ -421,7 +421,7 @@ export default function Home() {
               We Are Not Loan Officers.<br />We Are Mortgage Advisors.
             </h2>
             <p style={{ fontSize: "0.95rem", color: "#a8c4d8", lineHeight: 1.8 }}>
-              At NEO, a mortgage is not a transaction — it's the foundation of a long-term financial strategy. Our Mortgages Under Management system means we stay actively engaged in your financial life long after closing day.
+              At NEO, a mortgage is not a transaction -it's the foundation of a long-term financial strategy. Our Mortgages Under Management system means we stay actively engaged in your financial life long after closing day.
             </p>
           </div>
 
@@ -432,7 +432,7 @@ export default function Home() {
               { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: "Financial Planning", body: "Align your mortgage with your broader financial goals, income, and long-term wealth plan." },
               { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>, title: "Generational Wealth", body: "Build equity and leverage your home as a vehicle for lasting family wealth." },
               { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>, title: "Real Estate Planning", body: "Strategic guidance on buying, selling, and investing in real estate at every stage of life." },
-              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>, title: "Debt Management", body: "Optimize your full financial picture — not just your mortgage — to reduce costs and accelerate wealth." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>, title: "Debt Management", body: "Optimize your full financial picture -not just your mortgage -to reduce costs and accelerate wealth." },
             ].map((pillar) => (
               <div key={pillar.title} style={{ background: "rgba(255,255,255,0.03)", padding: "1.75rem 1.25rem", textAlign: "center" }}>
                 <div style={{ width: 44, height: 44, background: "rgba(91,203,245,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>{pillar.icon}</div>
@@ -447,7 +447,7 @@ export default function Home() {
             {[
               { title: "Monthly Real Estate Digests", body: "Stay informed with monthly updates on your equity position, interest paid to date, and proactive refinance opportunity alerts." },
               { title: "Annual Financial Reviews", body: "Every year, we review your mortgage alongside your full financial picture and provide a personalized plan to keep you on track." },
-              { title: "The Perfect Mortgage Promise", body: "We proactively monitor the market after closing and alert you when refinancing makes financial sense — so you never miss an opportunity." },
+              { title: "The Perfect Mortgage Promise", body: "We proactively monitor the market after closing and alert you when refinancing makes financial sense -so you never miss an opportunity." },
               { title: "Global Debt Management", body: "We look beyond your mortgage to help you manage all household debt strategically, accelerating your path to financial freedom." },
             ].map((card) => (
               <div key={card.title} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(91,203,245,0.12)", borderRadius: 8, padding: "1.75rem" }}>
@@ -470,7 +470,7 @@ export default function Home() {
               Specialized Home Loans for Healthcare Professionals
             </h2>
             <p style={{ fontSize: "0.95rem", color: "#555", lineHeight: 1.8 }}>
-              Healthcare professionals often have unique financial situations that most lenders don't understand — high student loan debt, non-traditional income, and employment start dates that don't fit standard guidelines. We do.
+              Healthcare professionals often have unique financial situations that most lenders don't understand -high student loan debt, non-traditional income, and employment start dates that don't fit standard guidelines. We do.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }} className="reveal">
@@ -564,7 +564,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* ── FINAL CTA — FORM + CALENDAR ── */}
+      {/* ── FINAL CTA -FORM + CALENDAR ── */}
       <section id="contact" style={{ background: "#0A2540", padding: "5rem 0" }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
           <div style={{ textAlign: "center", maxWidth: 620, margin: "0 auto 3.5rem" }} className="reveal">
@@ -572,7 +572,7 @@ export default function Home() {
             <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, margin: "0 auto 1.5rem" }} />
             <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", fontWeight: 800, color: "#fff", lineHeight: 1.2, marginBottom: "1rem" }}>Ready to Take the Next Step?</h2>
             <p style={{ fontSize: "0.95rem", color: "#a8c4d8", lineHeight: 1.8 }}>
-              Schedule a free consultation or fill out the form below. There's no pressure — just expert guidance tailored to your goals.
+              Schedule a free consultation or fill out the form below. There's no pressure -just expert guidance tailored to your goals.
             </p>
           </div>
 
@@ -607,7 +607,7 @@ export default function Home() {
                     ))}
                   </select>
                 </div>
-                {/* Hidden tracking fields — update per advisor */}
+                {/* Hidden tracking fields -update per advisor */}
                 <input type="hidden" name="added_source" value={a.bnTouchSource} />
                 <input type="hidden" name="RETURNURL" value="" />
                 <input type="hidden" name="USERID" value={a.bnTouchUserId} />

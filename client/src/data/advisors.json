@@ -19,7 +19,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-mike.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -43,6 +43,13 @@
       "aboutWhyChoose": ["20+ Years of Mortgage Experience", "Personalized Mortgage Strategies", "Expert CRNA Loan Knowledge", "Fast Closing (15 days avg)", "Top 1% Originator", "Proven Track Record"],
       "footerDescription": "Mortgage Advisor with 20+ years experience serving medical professionals and CRNAs across Utah and nationwide.",
       "specialties": ["Medical Professionals", "CRNAs", "VA Loans", "Refinancing"],
+      "uniqueStrengths": [
+        "CRNA & Medical Professional Specialist - 20+ years dedicated to healthcare professionals",
+        "VA Loan Expert - Deep knowledge of VA loan programs and requirements",
+        "Fast Closings - Average of 15 days from contract to close",
+        "Easiest Process - Clients consistently report this was their best mortgage experience ever",
+        "Experienced Team - Closes over $800M+ in loans annually"
+      ],
       "testimonials": [
         {
           "quote": "I was referred Mike Jones with NEO Home Loans by my sister. She told me I was in good hands with Mike and she was right. I have bought houses in the past and this was by far the best and easiest experience I have ever had.",
@@ -80,7 +87,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-david.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -104,6 +111,13 @@
       "aboutWhyChoose": ["18+ Years of Mortgage Experience", "First-Time Buyer Specialist", "Clear Communication", "Flexible & Responsive", "Medical Student Friendly", "Consultative Approach"],
       "footerDescription": "Mortgage Advisor specializing in first-time buyers and medical professionals across Utah and the western states.",
       "specialties": ["First Time Buyers", "Medical Professionals", "Medical Students", "HELOC"],
+      "uniqueStrengths": [
+        "Medical Student & Resident Specialist - Understood the unique challenges of medical training",
+        "Flexible Scheduling - Worked around demanding medical school/residency schedules via email & online",
+        "Clear Communication - Provided financial information in easy-to-understand language",
+        "Quick Response - Answered millions of emails and questions promptly",
+        "Financial Education - Sent personalized financial info to help clients understand the process"
+      ],
       "testimonials": [
         {
           "quote": "I have nothing but good things to say about David Nelson and his team. They were good communicators and provided answers to my many questions as a first time homebuyer.",
@@ -141,7 +155,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-skyler.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -165,6 +179,13 @@
       "aboutWhyChoose": ["12+ Years of Mortgage Experience", "Multi-State Licensed", "Fast Closing Times", "High Volume Producer", "Family-Focused", "All Loan Types"],
       "footerDescription": "Mortgage Advisor with expertise in multi-state lending and all loan types serving families nationwide.",
       "specialties": ["Physicians", "First Time Buyers", "Multi-State Lending", "All Loan Types"],
+      "uniqueStrengths": [
+        "Multi-State Lending Expert - Serves physicians and families across the entire nation",
+        "Remote-Friendly - Handles entire process via email and online documents",
+        "Fast Turnaround - Quick approvals even for out-of-state clients",
+        "High-Volume Producer - Part of team serving 1,500+ clients annually",
+        "All Loan Types - Flexible with VA loans, jumbo loans, and complex situations"
+      ],
       "testimonials": [
         {
           "quote": "Our experience was fantastic! We always received prompt responses to our questions and even though we had some difficulty, they went out of their way to help us.",
@@ -202,7 +223,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-ben.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -263,7 +284,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-scott.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -287,6 +308,13 @@
       "aboutWhyChoose": ["18+ Years of Mortgage Experience", "15-Day Average Closing", "Physician Loan Specialist", "Quick Response Times", "Personal Attention", "Family-First Approach"],
       "footerDescription": "Mortgage Advisor with 18+ years experience and specialty in fast closings and personalized physician service.",
       "specialties": ["Physician Loans", "Fast Closing", "Resident Physicians", "First Time Buyers"],
+      "uniqueStrengths": [
+        "Fast Closing Specialist - 15 day average from contract to close",
+        "Resident Physician Expert - Understands physician loan programs deeply",
+        "Patient & Professional - Answered even the most annoying questions with patience",
+        "1,000+ Families Served - Proven track record of successful closings",
+        "Warm & Personal - Treats every client like family, not just a transaction"
+      ],
       "testimonials": [
         {
           "quote": "Scott Breen and his team were fantastic to work with. We had prompt communication and they were always willing to answer all of our questions!",
@@ -324,7 +352,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-matt.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -348,6 +376,13 @@
       "aboutWhyChoose": ["15+ Years of Mortgage Experience", "First-Time Buyer Expert", "Complex Loan Solutions", "Medical Professional Specialist", "Creative Financing", "Proven Track Record"],
       "footerDescription": "Mortgage advisor specializing in first-time buyers and medical professionals with creative financing solutions.",
       "specialties": ["Medical Professionals", "First Time Buyers", "Complex Situations", "Physician Loans"],
+      "uniqueStrengths": [
+        "Complex Situation Solver - Overcomes serious hurdles other lenders reject",
+        "First-Time Buyer Expert - Over 1,000 families successfully guided through their first purchase",
+        "Always Available - Clients consistently mention his availability and responsiveness",
+        "Creative Financing - Finds solutions when standard loans don't work",
+        "Quick Approval - Streamlined process that other lenders can't match"
+      ],
       "testimonials": [
         {
           "quote": "We were so happy with NEO Home Loans, and especially Matt Smith. They were able to overcome some serious hurdles that other lenders couldn't. Matt was always available.",
@@ -385,7 +420,7 @@
       "headshot": "https://mettlehq.com/wp-content/uploads/2025/11/Image-30.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -409,6 +444,13 @@
       "aboutWhyChoose": ["12+ Years of Mortgage Experience", "Entrepreneur Loan Expert", "Multi-State Licensed", "Family-Focused Approach", "Clear Strategy", "Genuine Guidance"],
       "footerDescription": "Mortgage advisor specializing in entrepreneurial and medical professional financing with multi-state experience.",
       "specialties": ["Medical Professionals", "Entrepreneurs", "Multi-State Lending", "Investment Properties"],
+      "uniqueStrengths": [
+        "Entrepreneur & Medical Pro Specialist - Understands unique financing for business owners and healthcare professionals",
+        "CRNA Loan Expert - Multiple testimonials from CRNAs praising his expertise",
+        "Informative & Transparent - Clients praise his honesty and clear explanations",
+        "Multi-State Experience - Serves clients across Utah, Pennsylvania, Arizona, Florida, and Idaho",
+        "Quick Communication - Always prompt with responses and updates"
+      ],
       "testimonials": [
         {
           "quote": "Working with Ross from NEO Home Loans was a fantastic experience. He was informative, honest, cordial and always prompt with his replies. We would highly recommend Ross!",
@@ -446,7 +488,7 @@
       "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-drake.jpg",
       "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
       "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
-      "heroTestimonialAlt": "Client testimonial — NEO Home Loans",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
       "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
       "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
       "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
@@ -462,7 +504,7 @@
       "reviewsSectionHeading": "See Why Homebuyers Trust Drake",
       "reviewsSectionSubhead": "Real stories from real clients across Utah and the western US",
       "aboutBio": [
-        "A mortgage is more than paperwork and interest rates — it's a financial decision that can shape your future.",
+        "A mortgage is more than paperwork and interest rates -it's a financial decision that can shape your future.",
         "For over 16 years, Drake has helped families navigate the mortgage process with honest advice, clear communication, and personalized financing strategies.",
         "Born and raised in Salt Lake City, Drake understands the local market while helping clients purchase and refinance homes throughout Utah and the western US."
       ],
@@ -470,6 +512,13 @@
       "aboutWhyChoose": ["16+ Years of Mortgage Experience", "Personalized Mortgage Strategies", "Clear Communication", "CRNA Loan Specialist", "Local Expertise", "Multi-State Experience"],
       "footerDescription": "Mortgage Advisor serving Salt Lake City and clients across Utah, Arizona, Idaho, California, Texas, Oregon, and Washington.",
       "specialties": ["Medical Professionals", "CRNAs", "First-Time Buyers", "Multi-State Lending"],
+      "uniqueStrengths": [
+        "CRNA Loan Specialist - Multiple CRNA clients praise his expertise and knowledge",
+        "One in a Million - Clients describe him as exceptional and going above and beyond",
+        "Kind & Patient - Consistently praised for personality and bedside manner",
+        "Smooth Process - Clients amazed at how smoothly the entire process went",
+        "Medical Professional Network - Deep relationships with healthcare providers across western US"
+      ],
       "testimonials": [
         {
           "quote": "Our experience with NEO Home Loans was truly unexpected. I have never heard of anyone going through the process of getting a mortgage loan and have everything go so smoothly!",
