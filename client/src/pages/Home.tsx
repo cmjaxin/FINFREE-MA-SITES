@@ -26,7 +26,11 @@ export default function Home() {
   const revealRef = useRef<HTMLDivElement>(null);
   const [showThankYou, setShowThankYou] = useState(false);
   const [advisor, setAdvisor] = useState(getCurrentAdvisor());
-  const a = advisor;
+  const a = advisor || getCurrentAdvisor();
+
+  useEffect(() => {
+    setAdvisor(getCurrentAdvisor());
+  }, []);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
