@@ -45,20 +45,6 @@ export default function Home() {
     setShowThankYou(true);
   };
 
-  // Inject the reviews widget script programmatically so custom attributes are preserved
-  useEffect(() => {
-    const existing = document.getElementById("ss-custom-reviews-widget-script");
-    if (existing) existing.remove(); // remove stale script if re-mounting
-    const script = document.createElement("script");
-    script.id = "ss-custom-reviews-widget-script";
-    script.src = "https://widget.experience.com/custom_reviews_widget_script.js";
-    script.setAttribute("ss-custom-reviews-widget-api-key", a.reviewsApiKey);
-    script.setAttribute("widget-key", a.reviewsWidgetKey);
-    script.type = "text/javascript";
-    document.body.appendChild(script);
-    return () => { script.remove(); };
-  }, [a.reviewsApiKey, a.reviewsWidgetKey]);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -148,26 +134,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── REVIEWS WIDGET ── */}
-      <section style={{ background: "#FAFAFA", padding: "4rem 0" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
-          <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 2.5rem" }} className="reveal">
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Client Stories</div>
-            <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, margin: "0 auto 1.5rem" }} />
-            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 800, color: "#0A2540", lineHeight: 1.2 }}>
-              {a.reviewsSectionHeading}
-            </h2>
-            <p style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "#6a8fa8", lineHeight: 1.7 }}>
-              {a.reviewsSectionSubhead}
-            </p>
-          </div>
-          <div style={{ background: "#fff", border: "1px solid #e8edf2", borderRadius: 12, padding: "2rem", boxShadow: "0 4px 24px rgba(10,37,64,0.06)" }} className="reveal">
-            <div id="ss-custom-reviews-widget-root"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS (if no reviews widget) ── */}
+      {/* ── TESTIMONIALS ── */}
       {a.testimonials && a.testimonials.length > 0 && (
         <Testimonials
           heading="See Why Homebuyers Trust"
@@ -316,11 +283,9 @@ export default function Home() {
             ))}
           </div>
 
-          {/* 6 Service Cards */}
+          {/* Service Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }} className="reveal">
             {[
-              { title: "NEO Experience App", body: "Monitor your credit score, track your home's value, manage your financial health, and stay on top of your home readiness — all in one place." },
-              { title: "Home Concierge Service", body: "Receive seasonal maintenance reminders, home improvement guidance, trusted service provider referrals, and appliance recall alerts." },
               { title: "Monthly Real Estate Digests", body: "Stay informed with monthly updates on your equity position, interest paid to date, and proactive refinance opportunity alerts." },
               { title: "Annual Financial Reviews", body: "Every year, we review your mortgage alongside your full financial picture and provide a personalized plan to keep you on track." },
               { title: "The Perfect Mortgage Promise", body: "We proactively monitor the market after closing and alert you when refinancing makes financial sense — so you never miss an opportunity." },
