@@ -19,11 +19,24 @@ export function getAdvisorBySlug(slug: string): Advisor {
 }
 
 /**
- * Get current advisor - returns Drake by default
- * Domain routing is handled by Vercel environment variables
+ * Get current advisor based on hostname
  */
 export function getCurrentAdvisor(): Advisor {
-  // Get advisor slug from environment variable or URL param
-  const slugFromEnv = import.meta.env.VITE_ADVISOR_SLUG || "drake-bloebaum";
-  return getAdvisorBySlug(slugFromEnv);
+  // Only run on client side
+  if (typeof window === "undefined") {
+    return advisorsData.advisors["drake-bloebaum"];
+  }
+
+  const hostname = window.location.hostname;
+  const normalizedHost = hostname.replace(/^www\./, "");
+
+  // Check domain mappings
+  const mappings = advisorsData.domainMappings as Record<string, string>;
+  if (mappings[normalizedHost]) {
+    const slug = mappings[normalizedHost];
+    return getAdvisorBySlug(slug);
+  }
+
+  // Default to Drake
+  return advisorsData.advisors["drake-bloebaum"];
 }
