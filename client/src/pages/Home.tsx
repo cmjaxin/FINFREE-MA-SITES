@@ -302,6 +302,33 @@ export default function Home() {
         />
       )}
 
+      {/* ── UNIQUE STRENGTHS ── */}
+      {a.uniqueStrengths && a.uniqueStrengths.length > 0 && (
+        <section style={{ background: "#F0F4F8", padding: "5rem 0" }}>
+          <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ textAlign: "center", maxWidth: 620, margin: "0 auto 3rem" }} className="reveal">
+              <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>What Sets {a.firstName} Apart</div>
+              <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, margin: "0 auto 1.5rem" }} />
+              <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, color: "#0A2540", lineHeight: 1.2 }}>
+                {a.firstName}'s Unique Strengths
+              </h2>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
+              {a.uniqueStrengths.map((strength, idx) => (
+                <div key={idx} className="reveal" style={{ background: "#fff", border: "1px solid #dde3ea", borderRadius: 8, padding: "1.75rem" }}>
+                  <div style={{ display: "flex", gap: "0.75rem" }}>
+                    <div style={{ width: 24, height: 24, background: "#5BCBF5", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0A2540" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 600, color: "#0A2540", lineHeight: 1.5 }}>{strength}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── THE PROBLEM ── */}
       <section style={{ background: "#0A2540", padding: "5rem 0" }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
