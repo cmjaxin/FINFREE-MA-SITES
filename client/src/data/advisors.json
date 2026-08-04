@@ -1,0 +1,374 @@
+{
+  "advisors": {
+    "michael-jones": {
+      "name": "Michael Jones",
+      "firstName": "Michael",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "33323",
+      "yearsExperience": "20+",
+      "phone": "(801) 403-3190",
+      "phoneTel": "8014033190",
+      "email": "mike.jones@neohomeloans.com",
+      "address": "2063 E 3900 South, Salt Lake City, Utah, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130314",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-mike.jpg",
+      "heroHeadline": ["Building Wealth Through", "Smart Mortgage Planning"],
+      "heroSubhead": "With over 20 years of experience and $800+ million in loans closed, Mike delivers the personalized strategies that turn homeownership dreams into reality.",
+      "heroBio": "With over 20 years' experience as a mortgage loan originator and branch manager, Mike has personally served over 3,000 families, closing over $800 million in mortgage loans while consistently ranking in the top 1% of originators.",
+      "specialties": ["Medical Professionals", "CRNAs", "VA Loans", "Home Purchase", "Refinancing"],
+      "trustBarHeading": "Helping CRNAs and Medical Professionals Achieve Homeownership",
+      "trustBarFootnote": "Specialized experience serving CRNAs, medical professionals, and families across Utah and the western US",
+      "aboutBio": [
+        "Getting a mortgage should be straightforward, not overwhelming. Mike has made it his mission to guide families through this crucial financial decision with clarity and confidence.",
+        "For over 20 years, Mike has helped families navigate the mortgage process with honest advice, personalized strategies, and a team that closes loans in an average of just 15 days from contract to close. We've closed over $800 million and rank in the top 1% of originators in the country.",
+        "Mike is happily married to his wife Alisa for over 25 years with four wonderful adult children, two rescue dogs, and a cat. When not helping clients, Mike loves anything sweet and values the relationships built through helping families achieve their dreams."
+      ],
+      "testimonials": [
+        {
+          "quote": "I was referred Mike Jones with NEO Home Loans by my sister. She told me I was in good hands with Mike and she was right. I have bought houses in the past and this was by far the best and easiest experience I have ever had with getting a mortgage. Mike communicated with me through the entire process so I knew what was happening the whole time. I loved NEO Home Loans and Mike so much that I decided to refinance my loan when interest rates went down.",
+          "author": "DDS Kelley Ryals",
+          "location": "Santa Fe, NM"
+        },
+        {
+          "quote": "Mike Jones at NEO Home Loans was exceptional! The process was extremely easy and we closed our VA refinance within a couple of weeks. Mike Jones was very knowledgeable about our VA loan and answered any questions we had right away. We are so happy with our process and if we ever refinance in the future, Mike Jones at NEO Home Loans will be the first person we call!",
+          "author": "Kristin and Michael Tillman, CRNA",
+          "location": "Navarre, Florida"
+        },
+        {
+          "quote": "We recently became first-time homeowners thanks to Mike Jones and his team at NEO Home Loans. After having a frustrating experience with Bank of America, then another roadblock with Security National, Mike sent us a video comparison so we could see our loan options spelled out. He was readily available for all of our questions. He gave us a step by step process so we knew what was happening the whole time.",
+          "author": "Dr. Chase Brown, Resident Physician",
+          "location": "Springville, Utah"
+        }
+      ]
+    },
+    "david-nelson": {
+      "name": "David Nelson",
+      "firstName": "David",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "223291",
+      "yearsExperience": "18+",
+      "phone": "(801) 699-9148",
+      "phoneTel": "8016999148",
+      "email": "david.nelson@neohomeloans.com",
+      "address": "2063 E 3900 S, Salt Lake City, UT, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130357",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-david.jpg",
+      "heroHeadline": ["Your Mortgage Should Be About", "Building Relationships"],
+      "heroSubhead": "David believes a mortgage is about more than transactions—it's about helping you achieve your goals with integrity and personalized strategies.",
+      "heroBio": "Since 2007, David has helped families navigate mortgages with honest advice, clear communication, and customized financing strategies. His mission: get you the RIGHT loan, not just any loan.",
+      "specialties": ["Medical Professionals", "Entrepreneurs", "First Time Homebuyers", "HELOC"],
+      "trustBarHeading": "Serving Homebuyers Across Utah and Beyond",
+      "trustBarFootnote": "Specializing in physician loans, entrepreneurs, and first-time buyers across Salt Lake, Utah, and Davis Counties",
+      "aboutBio": [
+        "A mortgage is more than paperwork and interest rates—it's a financial decision that shapes your future. David understands this deeply.",
+        "Since 2007, David has helped families navigate the mortgage process with honest advice, clear communication, and personalized financing strategies that truly fit their goals, not just a standard template.",
+        "David's consultative approach means he listens first, then builds a strategy tailored to your situation. In his free time, David enjoys spending time with his wife Shonte and their two dogs, Scooter and Bentley, while being a huge Utah Jazz fan."
+      ],
+      "testimonials": [
+        {
+          "quote": "I have nothing but good things to say about David Nelson and his team. They were good communicators throughout the process, and provided me with answers to my many questions as a first time homebuyer. As a medical student, it was hard for me to take time off of work for phone calls. David and his team were very flexible about this, and the majority of the process was done via email and online document signing. Very efficient. Very professional.",
+          "author": "Dr. Daniel Johnson and Family",
+          "location": "University of Texas Health Science"
+        },
+        {
+          "quote": "Smooth process for my first mortgage! Couldn't be more thankful for David Nelson's quick response time to my millions of emails and his help throughout the process.",
+          "author": "Dr. Hannah Wolsiefer-Leak",
+          "location": "University of New Mexico, Albuquerque"
+        },
+        {
+          "quote": "We had a great experience with David Nelson and team. Emails were answered promptly and everything went very smoothly. The final cost came in under the estimate as well, which was a nice surprise. I would recommend them to others.",
+          "author": "Dr. Mark Rowan, Pediatrician",
+          "location": "Alpine Pediatrics"
+        }
+      ]
+    },
+    "skyler-ford": {
+      "name": "Skyler Ford",
+      "firstName": "Skyler",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "1972555",
+      "yearsExperience": "12+",
+      "phone": "(385) 377-7550",
+      "phoneTel": "3853777550",
+      "email": "skyler.ford@neohomeloans.com",
+      "address": "2063 E 3900 S, Salt Lake City, UT, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130396",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-skyler.jpg",
+      "heroHeadline": ["Fast. Flexible.", "Family-Focused Mortgages"],
+      "heroSubhead": "Skyler and his production team serve over 1,500 clients annually with specialized expertise in off-market properties and physician loans.",
+      "heroBio": "As part of a high-producing team serving over 1,500 clients annually, Skyler brings strong expertise in helping clients acquire off-market properties and navigate complex physician loans.",
+      "specialties": ["Physicians", "First Time Buyers", "Off-Market Properties", "Multi-State Lending"],
+      "trustBarHeading": "Nationwide Mortgage Solutions for Physicians",
+      "trustBarFootnote": "Serving physicians and families across Utah, Texas, Pennsylvania, California, and Washington",
+      "aboutBio": [
+        "Buying a home is a major life decision that deserves attention to detail, speed, and care. Skyler makes sure you get all three.",
+        "As part of a production team that serves over 1,500 families annually, Skyler brings specialized expertise in helping clients find and finance their ideal homes, including off-market properties that others might miss.",
+        "Husband to Carli and father to Bowen, Finnley, & Brooks, Skyler believes that family values and professional excellence go hand in hand. An avid sports fan, he brings energy and enthusiasm to every client relationship."
+      ],
+      "testimonials": [
+        {
+          "quote": "Our experience was fantastic! We always received prompt responses to our questions and even though we had some difficulty with prompt submission of required documents and deadlines looming, they went out of their way to make sure we got everything worked out on time. We are enjoying our new home and will ever be grateful for the wonderful service we received from the team.",
+          "author": "Dr. Kyle Adams, Resident Physician",
+          "location": "Regional Health, South Dakota"
+        },
+        {
+          "quote": "We lived clear across the United States from where we were building our home and the team made the entire thing hassle free doing everything via email. This was our first home purchase and they were able to keep our minds at ease and answer all of our questions.",
+          "author": "Dr. Ryon Parker, Southern Nevada Internal Medicine",
+          "location": "Arizona"
+        },
+        {
+          "quote": "I am an incoming resident from the east coast and my financial situation only allowed about a week in Salt Lake City house-hunting. We had originally worked with another lender but ran into problems. I called and within one day they were able to pre-approve us for our loan. Josh and his staff were responsive, easy to get in touch with, and kept me up-to-date every step of the way.",
+          "author": "Dr. Christopher Williams",
+          "location": "University of Utah School of Medicine"
+        }
+      ]
+    },
+    "benjamin-kyle": {
+      "name": "Benjamin Kyle",
+      "firstName": "Benjamin",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "180036",
+      "yearsExperience": "15+",
+      "phone": "(415) 341-3393",
+      "phoneTel": "4153413393",
+      "email": "ben.kyle@neohomeloans.com",
+      "address": "2063 E 3900 S, Salt Lake City, Utah, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130329",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-ben.jpg",
+      "heroHeadline": ["Elite-Level Mortgage", "Expertise for Physicians"],
+      "heroSubhead": "A 10-time Presidents Club winner and top 1% Scotsman Guide originator, Ben brings elite experience and Certified Mortgage Planning credentials.",
+      "heroBio": "With over $350 million in loan originations and 10 Presidents Club awards, Ben combines elite expertise with genuine care for his clients' financial futures.",
+      "specialties": ["Medical Professionals", "Military/Veterans", "Multi-State Lending", "Investment Properties"],
+      "trustBarHeading": "Top 1% Originator Serving Medical Professionals & Military",
+      "trustBarFootnote": "Serving clients across New York, Utah, Colorado, South Carolina, and Maryland with specialized expertise in physician and veteran loans",
+      "aboutBio": [
+        "Your mortgage should reflect your achievements and support your long-term financial goals. Ben brings both expertise and heart to every client relationship.",
+        "With over $350 million in loan originations and 10 Presidents Club awards, Ben is a Certified Mortgage Planning Specialist and top 1% Scotsman Guide originator who truly understands the financial complexities physicians and military professionals face.",
+        "Happily married with a wonderful family, Ben balances his professional excellence with the values that matter most: integrity, responsiveness, and genuine care for each client's success."
+      ],
+      "testimonials": [
+        {
+          "quote": "We couldn't be happier with our experience with NEO Home Loans. Ross Zimmerman was great to work with and kept us informed during every step of the process. Our realtor and title company even commented on how smoothly the loan process went. Thanks again, we love our new home.",
+          "author": "Dr. Jacob Dendinger",
+          "location": "Madison, Wisconsin"
+        },
+        {
+          "quote": "My experience with Josh and his team was better than expected. It was by far the best finance process that I have encountered. The turnaround time was great. The team was very professional and knowledgeable. I will surely spread his contact information for referrals.",
+          "author": "Tineka Hardwrick",
+          "location": "Ogden Clinic"
+        },
+        {
+          "quote": "I had a great experience with Josh and his team. He understood the unique situation I was facing as a new doctor with student loans and was able to put it all together for me and my family. He was clear about what he needed from me and what he could do… and he did exactly what he said he would.",
+          "author": "Dr. Tyson Adams, Resident Physician",
+          "location": "Mercy Medical Center Redding"
+        }
+      ]
+    },
+    "scott-breen": {
+      "name": "Scott Breen",
+      "firstName": "Scott",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "290475",
+      "yearsExperience": "18+",
+      "phone": "(801) 558-5817",
+      "phoneTel": "8015585817",
+      "email": "Scott.Breen@NEOhomaloans.com",
+      "address": "2063 E 3900 S, Salt Lake City, Utah, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130200",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-scott.jpg",
+      "heroHeadline": ["15 Days to Close.", "Family-Focused Mortgages."],
+      "heroSubhead": "Scott and his team average just 15 days from contract to close while treating every client like family.",
+      "heroBio": "With over 1,000 families served and a team average of 15 days from contract to closing, Scott brings both speed and personal attention to every mortgage.",
+      "specialties": ["Family-Focused Service", "Fast Closing", "All Loan Types", "Physician Loans"],
+      "trustBarHeading": "Personalized Mortgages for Utah Families",
+      "trustBarFootnote": "Serving families throughout Utah with fast, reliable financing and genuine personal attention",
+      "aboutBio": [
+        "Your mortgage shouldn't feel transactional. Scott believes in building real relationships with every family he helps.",
+        "With over 1,000 families served in his career and a team average of just 15 days from accepted contract to closing, Scott combines speed with genuine care—you're never a number on a spreadsheet.",
+        "Husband to Paula and proud father and grandfather, Scott loves to ski, hike, and mountain bike. He brings the same dedication to family and outdoor adventures to his work helping families find their homes."
+      ],
+      "testimonials": [
+        {
+          "quote": "Scott Breen and Glenda Marchessault were fantastic to work with. We had prompt communication and they were always willing to answer our million questions! Thanks for making the home loan process such a breeze!",
+          "author": "Darrin and Sterling (Penni & Bourbon), Physician Assistant",
+          "location": "Salt Lake City, Utah"
+        },
+        {
+          "quote": "I had an excellent experience with NEO Home Loans! My agent, Mr. Scott Breen, was incredibly polite and professional. He was able to process my application in a single month! I am incredibly thankful to Mr. Breen, and everyone at NEO Home Loans, for helping me to finally own a home of my own, a dream I have had since I was 13 years of age.",
+          "author": "Dr. Neal Verma, Resident Physician",
+          "location": "Middleburg, Florida"
+        },
+        {
+          "quote": "Scott did a great job getting us a Physicians Loan! The loan process was relatively quick and easy, and they answered all of my many, many (annoying) questions :) We would highly recommend NEO Home Loans to anyone buying a house in the Salt Lake area.",
+          "author": "Dr. Dasha Kenlan, Resident",
+          "location": "University of Utah, Salt Lake City"
+        }
+      ]
+    },
+    "matthew-smith": {
+      "name": "Matthew Smith",
+      "firstName": "Matthew",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "941210",
+      "yearsExperience": "15+",
+      "phone": "(801) 815-7077",
+      "phoneTel": "8018157077",
+      "email": "matt.smith@neohomeloans.com",
+      "address": "2063 E 3900 S, Salt Lake City, UT, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130400",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-matt.jpg",
+      "heroHeadline": ["Solutions for", "First-Time Buyers & Doctors"],
+      "heroSubhead": "Matt specializes in helping first-time buyers and medical professionals overcome lending obstacles that bigger banks won't tackle.",
+      "heroBio": "With over 1,000 families served, Matt has dedicated his career to finding solutions for first-time buyers and medical professionals when other lenders say no.",
+      "specialties": ["Medical Professionals", "First Time Buyers", "Complex Situations", "Physician Loans"],
+      "trustBarHeading": "Personalized Solutions for Families & Physicians",
+      "trustBarFootnote": "Serving first-time buyers, medical professionals, and families throughout Salt Lake, Tooele, and Utah Counties",
+      "aboutBio": [
+        "When other lenders say no, families need someone who says 'let's find a way.' Matt specializes in creative solutions for complex situations.",
+        "With over 1,000 families served in his career, Matt has earned a reputation for finding financing solutions that bigger lenders overlook—especially for first-time buyers and medical professionals with unique financial situations.",
+        "Husband to Sara and father to Walker & Madison, Matt has spent over 20 years coaching youth sports, mentoring young people, and emphasizing the importance of integrity. He loves spending time with his family exploring the outdoors of Utah, Idaho, Montana, and Wyoming."
+      ],
+      "testimonials": [
+        {
+          "quote": "We were so happy with NEO Home Loans, and especially Matt Smith. They were able to overcome some serious hurdles that other lenders couldn't. Matt was always available to answer questions. The entire process was made so much easier because of their service!",
+          "author": "Dr. Lance & Emali M Mollenhauer",
+          "location": "Gilbert, Arizona"
+        },
+        {
+          "quote": "Working with Matt Smith and NEO Home Loans was an excellent experience start to finish. Matt was pleasant, professional, and provided us an excellent loan presentation. He answered all of my questions and alleviated all of my concerns. He was excellent at communicating with us every step of the way.",
+          "author": "Dr. Danielle Finch, OB/GYN Resident",
+          "location": "Baystate Medical Center"
+        },
+        {
+          "quote": "If there was an easy button for obtaining a mortgage this would be it! Matt Smith and his team at NEO Home Loans were very friendly and easy to work with. As first time home buyers they were always willing and ready to answer any questions and really helped walk us through the process.",
+          "author": "Dr. Jared Rasmussen",
+          "location": "North Cascade Eye Physicians, Mount Vernon, Washington"
+        }
+      ]
+    },
+    "ross-zimmerman": {
+      "name": "Ross Zimmerman",
+      "firstName": "Ross",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "532177",
+      "yearsExperience": "12+",
+      "phone": "(801) 502-3947",
+      "phoneTel": "8015023947",
+      "email": "ROSSZ@NEOHOMELOANS.COM",
+      "address": "2063 E 3900 S, SALT LAKE CITY, utah, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130392",
+      "headshot": "https://mettlehq.com/wp-content/uploads/2025/11/Image-30.jpg",
+      "heroHeadline": ["Homeownership Shouldn't Feel", "Overwhelming or Stressful"],
+      "heroSubhead": "Ross believes every family deserves a clear strategy and genuine guidance from application to closing.",
+      "heroBio": "Ross Zimmerman helps families move forward with clarity and confidence. As a dedicated mortgage advisor, he focuses on creating smart strategies that support your long-term financial goals.",
+      "specialties": ["Medical Professionals", "Entrepreneurs", "Multi-State Lending", "Investment Properties"],
+      "trustBarHeading": "Helping Families & Entrepreneurs Build Wealth",
+      "trustBarFootnote": "Serving entrepreneurs and medical professionals across Utah, Pennsylvania, Arizona, Florida, and Idaho",
+      "aboutBio": [
+        "Homeownership should feel exciting, not overwhelming. Behind every loan is a family, a goal, and a bigger vision for the future.",
+        "Ross believes a mortgage should be about building relationships and helping customers achieve their long-term financial goals, not just closing a transaction. He takes a consultative approach, customizing each financing solution to your specific situation.",
+        "Proud husband to Nicole and father to Kollins, Boston, Savvy, and Ross Tre, Ross loves spending time with his family and cheering on his kids as they play sports. That same commitment, consistency, and team mindset show up every day in how he serves his clients."
+      ],
+      "testimonials": [
+        {
+          "quote": "Working with Ross from NEO Home Loans was a fantastic experience. He was informative, honest, cordial and always prompt with his replies. We would recommend both Ross and NEO Home Loans to anyone looking to buy a new home!",
+          "author": "Dr. Jeremy Hunt and Crystal Hunt, HealthPartners",
+          "location": "St. Paul, Minnesota"
+        },
+        {
+          "quote": "Ross Zimmerman, Jordan Asmus, Brock Harvey and the entire team at NEO Home Loans were exceptional! We shopped around for several home loan options and found NEO Home Loans's CRNA Home Loan option to be a perfect fit for us. Ross kept us updated throughout the process—from our initial inquiries all the way to closing. Via the NEO Home Loans app, email and texts, all of our questions and concerns were addressed immediately.",
+          "author": "Mark & Deanna Doria, CRNA",
+          "location": "Katy, TX"
+        },
+        {
+          "quote": "Shortly after moving to Utah my wife and I realized that we needed to move out of our apartment and buy our first home. I contacted Ross Zimmerman and he ensured us he would do everything he could to help us find a mortgage. He was quick to respond and made sure that he had everything he needed. He and his support staff were very professional and helpful guiding us through the process.",
+          "author": "Dr. Rachel Shaw, DMD",
+          "location": "Springville Dentistry, Springville, UT"
+        }
+      ]
+    },
+    "drake-bloebaum": {
+      "name": "Drake Bloebaum",
+      "firstName": "Drake",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "225567",
+      "yearsExperience": "16+",
+      "phone": "(801) 633-1167",
+      "phoneTel": "8016331167",
+      "email": "drakeb@neohomeloans.com",
+      "address": "2063 E 3900 S U Salt Lake City, Utah, 84124",
+      "city": "Salt Lake City",
+      "state": "Utah",
+      "stateAbbr": "UT",
+      "applyUrl": "https://neohomeloans.com/start/r/130360",
+      "headshot": "https://8blocks.s3-us-west-1.amazonaws.com/neo/images/lo-drake.jpg",
+      "heroHeadline": ["Buying a Home Shouldn't Feel", "Confusing or Overwhelming"],
+      "heroSubhead": "Whether you're buying your first home, moving up, refinancing, or investing, you deserve a mortgage strategy that gives you clarity, confidence, and peace of mind.",
+      "heroBio": "For more than 16 years, Drake Bloebaum has helped individuals and families throughout Utah and across the western United States make smart mortgage decisions that support their long-term financial goals.",
+      "specialties": ["Medical Professionals", "First-Time Buyers", "Multi-State Lending", "All Loan Types"],
+      "trustBarHeading": "Helping Homebuyers Across Utah and Beyond",
+      "trustBarFootnote": "Serving clients throughout Utah, Arizona, Idaho, California, Texas, Oregon, and Washington",
+      "aboutBio": [
+        "A mortgage is more than paperwork and interest rates—it's a financial decision that can shape your future.",
+        "For over 16 years, Drake has helped families navigate the mortgage process with honest advice, clear communication, and personalized financing strategies that actually fit your goals, not just a template.",
+        "Born and raised in Salt Lake City, Drake understands the local market while helping clients purchase and refinance homes throughout the western US. When he's not helping clients, you'll find him playing with his wife and three boys, making music in his band Lake Effect, or enjoying Utah's outdoor adventures."
+      ],
+      "testimonials": [
+        {
+          "quote": "Our experience with NEO Home Loans was truly unexpected. I have never heard of anyone going through the process of getting a mortgage loan and have everything go so smoothly! Drake is absolutely one in a million and is not only extremely knowledgeable, he is kind and patient. They are thoughtful and it almost feels like you are their only client because of the level of attention you get.",
+          "author": "Dr. Luis & Barbara Mijica",
+          "location": "Houston, Texas"
+        },
+        {
+          "quote": "I loved working with Drake and NEO Home Loans. From day one they were personable and kind. They walked me through every step of my CRNA loan, offered competitive rates and I couldn't stop bragging about them to my friends and family. Drake and NEO Home Loans were there whenever I had a question via email or phone, and they never made me feel like my little questions were a bother.",
+          "author": "Rachael Skaggs, CRNA",
+          "location": "Warren, OH"
+        },
+        {
+          "quote": "Drake was fantastic, always responsive and creative with strategy. He went above and beyond to let the seller's real estate agent know that our loan was solid. In this tough housing market this made our home offer much more attractive. Drake even helped push the loan to close sooner so that we could move in sooner.",
+          "author": "Dr. Andrew Frierson, Resident Physician",
+          "location": "Redlands, CA"
+        }
+      ]
+    }
+  },
+  "domainMappings": {
+    "mikejones.neohomeloans.com": "michael-jones",
+    "davidnelson.neohomeloans.com": "david-nelson",
+    "skylerford.neohomeloans.com": "skyler-ford",
+    "benkyle.neohomeloans.com": "benjamin-kyle",
+    "scottbreen.neohomeloans.com": "scott-breen",
+    "mattsmith.neohomeloans.com": "matthew-smith",
+    "rossz.neohomeloans.com": "ross-zimmerman",
+    "drakebloebaum.neohomeloans.com": "drake-bloebaum"
+  }
+}
