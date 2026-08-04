@@ -25,28 +25,8 @@ import { Testimonials } from "@/components/Testimonials";
 export default function Home() {
   const revealRef = useRef<HTMLDivElement>(null);
   const [showThankYou, setShowThankYou] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const advisorRef = useRef<any>(null);
-
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        const adv = getCurrentAdvisor();
-        advisorRef.current = adv;
-        console.log("Loaded advisor:", adv?.name);
-        setIsLoaded(true);
-      }
-    } catch (error) {
-      console.error("Error loading advisor:", error);
-      setIsLoaded(true);
-    }
-  }, []);
-
-  if (!isLoaded || !advisorRef.current) {
-    return <div style={{ padding: "2rem", textAlign: "center" }}>Loading...</div>;
-  }
-
-  const a = advisorRef.current;
+  const advisor = getCurrentAdvisor();
+  const a = advisor;
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
