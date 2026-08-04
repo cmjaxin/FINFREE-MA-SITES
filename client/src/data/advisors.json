@@ -490,6 +490,22 @@
     }
   },
   "domainMappings": {
+    "skylerfordmortgage.com": "skyler-ford",
+    "www.skylerfordmortgage.com": "skyler-ford",
+    "drakebloebaummortgage.com": "drake-bloebaum",
+    "www.drakebloebaummortgage.com": "drake-bloebaum",
+    "matthewsmithmortgage.com": "matthew-smith",
+    "www.matthewsmithmortgage.com": "matthew-smith",
+    "mikejonesmortgage.com": "michael-jones",
+    "www.mikejonesmortgage.com": "michael-jones",
+    "benkylemortgage.com": "benjamin-kyle",
+    "www.benkylemortgage.com": "benjamin-kyle",
+    "davidnelsonmortgage.com": "david-nelson",
+    "www.davidnelsonmortgage.com": "david-nelson",
+    "rosszimmermanmortgage.com": "ross-zimmerman",
+    "www.rosszimmermanmortgage.com": "ross-zimmerman",
+    "scottbreenmortgage.com": "scott-breen",
+    "www.scottbreenmortgage.com": "scott-breen",
     "finfree-ma-sites.vercel.app": "drake-bloebaum",
     "localhost:3000": "drake-bloebaum"
   }
