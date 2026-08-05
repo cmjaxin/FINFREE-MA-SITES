@@ -256,17 +256,18 @@ export default function Home() {
       <section style={{ position: "relative", background: "#0A2540", minHeight: "88vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${a.heroBgImage}')`, backgroundSize: "cover", backgroundPosition: "center center" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.88) 50%, rgba(10,37,64,0.45) 100%)" }} />
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem)", position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "center" }}>
-          <style>{`
-            @media (min-width: 769px) {
-              .hero-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
-              .hero-image { display: flex !important; }
-            }
-            @media (max-width: 768px) {
-              .hero-image { display: none !important; }
-            }
-          `}</style>
-          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "center", width: "100%" }}>
+        <style>{`
+          .hero-container { display: grid; gap: 2rem; grid-template-columns: 1fr; align-items: center; width: 100%; }
+          @media (min-width: 769px) {
+            .hero-container { grid-template-columns: 1fr 1fr; gap: 3rem; }
+            .hero-image { display: flex !important; }
+          }
+          @media (max-width: 768px) {
+            .hero-image { display: none !important; }
+          }
+        `}</style>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem)", position: "relative", zIndex: 2, width: "100%", display: "flex", flexDirection: "column" }}>
+          <div className="hero-container">
             <div className="reveal">
               <h1 style={{ fontSize: "clamp(1.5rem, 5vw, 3.2rem)", fontWeight: 900, lineHeight: 1.1, color: "#fff", marginBottom: "1rem" }}>
                 {a.heroHeadline[0]}<br />
