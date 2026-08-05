@@ -257,24 +257,35 @@ export default function Home() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${a.heroBgImage}')`, backgroundSize: "cover", backgroundPosition: "center center" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.88) 50%, rgba(10,37,64,0.45) 100%)" }} />
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem)", position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "center" }}>
-          <div className="reveal">
-            <h1 style={{ fontSize: "clamp(1.5rem, 5vw, 3.2rem)", fontWeight: 900, lineHeight: 1.1, color: "#fff", marginBottom: "1rem" }}>
-              {a.heroHeadline[0]}<br />
-              <span style={{ color: "#5BCBF5" }}>{a.heroHeadline[1]}</span>
-            </h1>
-            <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "0.75rem" }}>{a.heroSubhead}</p>
-            <p style={{ fontSize: "clamp(0.8rem, 2.2vw, 0.9rem)", color: "#6a8fa8", lineHeight: 1.8, marginBottom: "1.5rem" }}>{a.heroBio}</p>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.7rem, 2vw, 0.82rem)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", flexWrap: "wrap" }}>
-              Schedule Free Session
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-          <div style={{ display: "none", alignItems: "center", justifyContent: "flex-end" }} className="reveal">
-            <img
-              src={a.heroTestimonialImage}
-              alt={a.heroTestimonialAlt}
-              style={{ maxWidth: "100%", width: 460, borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
-            />
+          <style>{`
+            @media (min-width: 769px) {
+              .hero-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+              .hero-image { display: flex !important; }
+            }
+            @media (max-width: 768px) {
+              .hero-image { display: none !important; }
+            }
+          `}</style>
+          <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "center", width: "100%" }}>
+            <div className="reveal">
+              <h1 style={{ fontSize: "clamp(1.5rem, 5vw, 3.2rem)", fontWeight: 900, lineHeight: 1.1, color: "#fff", marginBottom: "1rem" }}>
+                {a.heroHeadline[0]}<br />
+                <span style={{ color: "#5BCBF5" }}>{a.heroHeadline[1]}</span>
+              </h1>
+              <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "0.75rem" }}>{a.heroSubhead}</p>
+              <p style={{ fontSize: "clamp(0.8rem, 2.2vw, 0.9rem)", color: "#6a8fa8", lineHeight: 1.8, marginBottom: "1.5rem" }}>{a.heroBio}</p>
+              <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.7rem, 2vw, 0.82rem)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", flexWrap: "wrap" }}>
+                Schedule Free Session
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div className="hero-image" style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+              <img
+                src={a.heroTestimonialImage}
+                alt={a.heroTestimonialAlt}
+                style={{ maxWidth: "100%", width: "clamp(200px, 90vw, 460px)", borderRadius: 12, boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
+              />
+            </div>
           </div>
         </div>
       </section>
