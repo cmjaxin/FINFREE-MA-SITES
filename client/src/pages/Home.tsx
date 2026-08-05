@@ -219,27 +219,35 @@ export default function Home() {
 
   return (
     <div ref={revealRef} style={{ fontFamily: "'Montserrat', sans-serif", color: "#373A3C", background: "#FAFAFA" }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-links-hide { display: none !important; }
+          .reveal { opacity: 1 !important; }
+        }
+        @media (min-width: 769px) {
+          .nav-links-hide { display: flex !important; }
+        }
+      `}</style>
 
       {/* ── TOP BAR ── */}
-      <div style={{ background: "#0A2540", color: "#6a8fa8", fontSize: "0.75rem", fontWeight: 500, padding: "0.55rem 0", textAlign: "center", letterSpacing: "0.03em" }}>
-        {a.name} &nbsp;·&nbsp; {a.title} &nbsp;·&nbsp; {a.city}, {a.state} &nbsp;·&nbsp; NMLS #{a.nmls} &nbsp;|&nbsp;
-        <a href={`tel:${a.phoneTel}`} style={{ color: "#5BCBF5" }}>{a.phone}</a>
-        &nbsp;|&nbsp; {a.company}
+      <div style={{ background: "#0A2540", color: "#6a8fa8", fontSize: "clamp(0.65rem, 2vw, 0.75rem)", fontWeight: 500, padding: "0.5rem 1rem", textAlign: "center", letterSpacing: "0.03em", overflowWrap: "break-word", wordBreak: "break-word" }}>
+        <span style={{ display: "block", marginBottom: "0.25rem" }}>{a.name} - {a.title} - {a.city}, {a.state}</span>
+        <span style={{ display: "block" }}>NMLS #{a.nmls} | <a href={`tel:${a.phoneTel}`} style={{ color: "#5BCBF5", textDecoration: "none" }}>{a.phone}</a> | {a.company}</span>
       </div>
 
       {/* ── NAV ── */}
       <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #e8edf2", boxShadow: "0 1px 8px rgba(10,37,64,0.06)" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 1rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "auto", minHeight: 60, flexWrap: "wrap", gap: "1rem" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={a.logoUrl} alt="NEO Home Loans" style={{ height: 44, width: "auto", display: "block" }} />
+            <img src={a.logoUrl} alt="NEO Home Loans" style={{ height: "clamp(32px, 8vw, 44px)", width: "auto", display: "block" }} />
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "2.25rem" }} className="nav-links-hide">
-            {([["#process", "Our Process"], ["#about", `About ${a.firstName}`], ["#experience", "NEO Experience"], ["#contact", "Contact"]] as [string, string][]).map(([href, label]) => (
-              <a key={href} href={href} style={{ fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: "#555", textDecoration: "none" }}>{label}</a>
+          <div style={{ display: "none", alignItems: "center", gap: "1rem" }} className="nav-links-hide">
+            {([["#process", "Process"], ["#about", `About`], ["#experience", "Experience"], ["#contact", "Contact"]] as [string, string][]).map(([href, label]) => (
+              <a key={href} href={href} style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.02em", textTransform: "uppercase", color: "#555", textDecoration: "none" }}>{label}</a>
             ))}
           </div>
-          <a href={a.applyUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none" }}>
-            Apply Now
+          <a href={a.applyUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.65rem, 2vw, 0.78rem)", fontWeight: 700, letterSpacing: "0.02em", textTransform: "uppercase", padding: "0.6rem 1rem", borderRadius: 4, textDecoration: "none", whiteSpace: "nowrap" }}>
+            Apply
           </a>
         </div>
       </nav>
@@ -248,20 +256,20 @@ export default function Home() {
       <section style={{ position: "relative", background: "#0A2540", minHeight: "88vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${a.heroBgImage}')`, backgroundSize: "cover", backgroundPosition: "center center" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.88) 50%, rgba(10,37,64,0.45) 100%)" }} />
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "5rem 2rem", position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem)", position: "relative", zIndex: 2, width: "100%", display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "center" }}>
           <div className="reveal">
-            <h1 style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)", fontWeight: 900, lineHeight: 1.1, color: "#fff", marginBottom: "1.25rem" }}>
+            <h1 style={{ fontSize: "clamp(1.5rem, 5vw, 3.2rem)", fontWeight: 900, lineHeight: 1.1, color: "#fff", marginBottom: "1rem" }}>
               {a.heroHeadline[0]}<br />
               <span style={{ color: "#5BCBF5" }}>{a.heroHeadline[1]}</span>
             </h1>
-            <p style={{ fontSize: "1rem", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "1rem" }}>{a.heroSubhead}</p>
-            <p style={{ fontSize: "0.9rem", color: "#6a8fa8", lineHeight: 1.8, marginBottom: "2.25rem" }}>{a.heroBio}</p>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", padding: "0.9rem 2rem", borderRadius: 4, textDecoration: "none" }}>
-              Schedule Your Free Mortgage Strategy Session
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "0.75rem" }}>{a.heroSubhead}</p>
+            <p style={{ fontSize: "clamp(0.8rem, 2.2vw, 0.9rem)", color: "#6a8fa8", lineHeight: 1.8, marginBottom: "1.5rem" }}>{a.heroBio}</p>
+            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.7rem, 2vw, 0.82rem)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", flexWrap: "wrap" }}>
+              Schedule Free Session
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }} className="reveal">
+          <div style={{ display: "none", alignItems: "center", justifyContent: "flex-end" }} className="reveal">
             <img
               src={a.heroTestimonialImage}
               alt={a.heroTestimonialAlt}
@@ -344,7 +352,7 @@ export default function Home() {
               Between changing interest rates, rising home prices, and countless financing options, it's easy to wonder if you're making the right decision. You deserve someone who will explain your options, answer your questions, and help you choose a mortgage that fits your goals -not just today, but for years to come.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem" }}>
             {[
               { num: "01", title: "Rates and prices keep changing", body: "The market shifts constantly. Without a clear strategy, it's easy to make a decision you'll regret -and pay for it for decades." },
               { num: "02", title: "Most lenders just quote a rate", body: "Getting pre-approved is not a strategy. Most lenders focus on closing the loan -not on whether that loan is the right financial decision for your life." },
@@ -361,9 +369,9 @@ export default function Home() {
       </section>
 
       {/* ── MEET YOUR GUIDE ── */}
-      <section id="about" style={{ background: "#FAFAFA", padding: "5rem 0" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
+      <section id="about" style={{ background: "#FAFAFA", padding: "clamp(2rem, 5vw, 5rem) 0" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "start" }}>
             <div className="reveal" style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/5", background: "#dde3ea" }}>
               <img
                 src={a.headshot}
