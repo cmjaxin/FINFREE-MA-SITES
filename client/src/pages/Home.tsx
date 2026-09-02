@@ -385,8 +385,8 @@ export default function Home() {
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "start" }}>
             {/* Left Column - Headshot & Contact */}
-            <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: "0", background: "#fff", border: "1px solid #dde3ea", borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 8px rgba(10, 37, 64, 0.06)" }}>
-              <div style={{ borderRadius: 0, overflow: "hidden", aspectRatio: "3/4", background: "#dde3ea" }}>
+            <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: "0", background: "#fff", border: "1px solid #dde3ea", borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 8px rgba(10, 37, 64, 0.06)", maxWidth: "260px" }}>
+              <div style={{ borderRadius: 0, overflow: "hidden", aspectRatio: "3/4", background: "#dde3ea", width: "100%" }}>
                 <img
                   src={a.headshot}
                   alt={`${a.name} -${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
@@ -762,7 +762,7 @@ export default function Home() {
           .nav-links-hide { display: none !important; }
         }
         @media (min-width: 769px) {
-          #about > div > div { grid-template-columns: 340px 1fr; gap: 3rem; align-items: stretch; }
+          #about > div > div { grid-template-columns: 260px 1fr; gap: 3rem; align-items: stretch; }
         }
         .reveal { opacity: 1; transform: none; }
         @media (prefers-reduced-motion: no-preference) {
