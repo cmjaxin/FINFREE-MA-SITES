@@ -383,33 +383,49 @@ export default function Home() {
       {/* ── MEET YOUR MORTGAGE ADVISOR ── */}
       <section id="about" style={{ background: "#FAFAFA", padding: "clamp(2rem, 5vw, 5rem) 0" }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "start" }}>
-            <div className="reveal" style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/5", background: "#dde3ea", maxWidth: "320px", justifySelf: "center" }}>
-              <img
-                src={a.headshot}
-                alt={`${a.name} -${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
-              />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem", alignItems: "start" }}>
+            {/* Left Column - Headshot & Contact */}
+            <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <div style={{ borderRadius: 12, overflow: "hidden", aspectRatio: "3/4", background: "#dde3ea", maxWidth: "300px", boxShadow: "0 4px 16px rgba(10, 37, 64, 0.1)" }}>
+                <img
+                  src={a.headshot}
+                  alt={`${a.name} -${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
+                />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#8ba8c4", marginBottom: "0.4rem", letterSpacing: "0.05em" }}>Phone</div>
+                  <a href={`tel:${a.phoneTel}`} style={{ fontSize: "1rem", fontWeight: 600, color: "#0A2540", textDecoration: "none" }}>{a.phone}</a>
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#8ba8c4", marginBottom: "0.4rem", letterSpacing: "0.05em" }}>Email</div>
+                  <a href={`mailto:${a.email}`} style={{ fontSize: "0.95rem", color: "#0A2540", textDecoration: "none", wordBreak: "break-all" }}>{a.email}</a>
+                </div>
+                <div style={{ paddingTop: "1rem", borderTop: "1px solid #dde3ea" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                    {a.aboutTags.map((tag) => (
+                      <div key={tag} style={{ background: "#fff", border: "1px solid #dde3ea", borderRadius: 4, padding: "0.35rem 0.65rem", fontSize: "0.7rem", fontWeight: 600, color: "#0A2540" }}>{tag}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
+            {/* Right Column - Bio & Info */}
             <div className="reveal">
               <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Meet your mortgage advisor</div>
               <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, marginBottom: "1.5rem" }} />
-              <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 900, color: "#0A2540", marginBottom: "0.25rem" }}>{a.name}</h2>
-              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#5BCBF5", marginBottom: "1.5rem" }}>{a.title} &middot; {a.company} &middot; {a.city}, {a.stateAbbr}</div>
+              <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", fontWeight: 900, color: "#0A2540", marginBottom: "0.5rem", lineHeight: 1.1 }}>{a.name}</h2>
+              <div style={{ fontSize: "0.9rem", fontWeight: 600, color: "#5BCBF5", marginBottom: "2rem" }}>{a.title} &middot; {a.company}</div>
               {a.aboutBio.map((para, i) => (
-                <p key={i} style={{ fontSize: i === 0 ? "0.95rem" : "0.92rem", color: "#555", lineHeight: 1.8, marginBottom: "1rem", fontWeight: i === 0 ? 600 : 400 }}>{para}</p>
+                <p key={i} style={{ fontSize: i === 0 ? "1rem" : "0.95rem", color: "#555", lineHeight: 1.8, marginBottom: "1.25rem", fontWeight: i === 0 ? 600 : 400 }}>{para}</p>
               ))}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2rem" }}>
-                {a.aboutTags.map((tag) => (
-                  <div key={tag} style={{ background: "#F0F4F8", border: "1px solid #dde3ea", borderRadius: 3, padding: "0.3rem 0.75rem", fontSize: "0.75rem", fontWeight: 600, color: "#0A2540" }}>{tag}</div>
-                ))}
-              </div>
-              <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8ba8c4", marginBottom: "0.85rem" }}>Why Clients Choose {a.firstName}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
+              <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8ba8c4", marginBottom: "1.25rem" }}>Why Clients Choose {a.firstName}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
                 {a.aboutWhyChoose.map((item) => (
-                  <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", padding: "0.75rem", background: "#F0F4F8", borderRadius: 6 }}>
-                    <div style={{ width: 8, height: 8, background: "#5BCBF5", borderRadius: "50%", marginTop: "0.3rem", flexShrink: 0 }} />
-                    <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#0A2540", lineHeight: 1.4 }}>{item}</div>
+                  <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", padding: "1rem", background: "#fff", border: "1px solid #dde3ea", borderRadius: 8 }}>
+                    <div style={{ width: 6, height: 6, background: "#5BCBF5", borderRadius: "50%", marginTop: "0.4rem", flexShrink: 0 }} />
+                    <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#0A2540", lineHeight: 1.5 }}>{item}</div>
                   </div>
                 ))}
               </div>
@@ -745,7 +761,7 @@ export default function Home() {
           .nav-links-hide { display: none !important; }
         }
         @media (min-width: 769px) {
-          #about > div > div { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
+          #about > div > div { grid-template-columns: 350px 1fr; gap: 4rem; align-items: flex-start; }
         }
         .reveal { opacity: 1; transform: none; }
         @media (prefers-reduced-motion: no-preference) {
