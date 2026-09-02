@@ -405,7 +405,7 @@ export default function Home() {
                 ))}
               </div>
               <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8ba8c4", marginBottom: "0.85rem" }}>Why Clients Choose {a.firstName}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "0.6rem" }}>
                 {a.aboutWhyChoose.map((item) => (
                   <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", padding: "0.75rem", background: "#F0F4F8", borderRadius: 6 }}>
                     <div style={{ width: 8, height: 8, background: "#5BCBF5", borderRadius: "50%", marginTop: "0.3rem", flexShrink: 0 }} />
@@ -426,7 +426,7 @@ export default function Home() {
             <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, margin: "0 auto 1.5rem" }} />
             <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 800, color: "#0A2540", lineHeight: 1.2 }}>Three Simple Steps</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0, border: "1px solid #dde3ea", borderRadius: 8, overflow: "hidden" }} className="reveal">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 0, border: "1px solid #dde3ea", borderRadius: 8, overflow: "hidden" }} className="reveal">
             {[
               {
                 num: "01",
@@ -473,7 +473,7 @@ export default function Home() {
           </div>
 
           {/* 5 Pillars */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "1px", background: "rgba(255,255,255,0.08)", borderRadius: 8, overflow: "hidden", marginBottom: "3rem" }} className="reveal">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1px", background: "rgba(255,255,255,0.08)", borderRadius: 8, overflow: "hidden", marginBottom: "3rem" }} className="reveal">
             {[
               { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, title: "Protection", body: "Safeguard your home and family with the right coverage and risk management strategies." },
               { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: "Financial Planning", body: "Align your mortgage with your broader financial goals, income, and long-term wealth plan." },
@@ -490,7 +490,7 @@ export default function Home() {
           </div>
 
           {/* Service Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }} className="reveal">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }} className="reveal">
             {[
               { title: "Monthly Real Estate Digests", body: "Stay informed with monthly updates on your equity position, interest paid to date, and proactive refinance opportunity alerts." },
               { title: "Annual Financial Reviews", body: "Every year, we review your mortgage alongside your full financial picture and provide a personalized plan to keep you on track." },
@@ -520,7 +520,7 @@ export default function Home() {
               Healthcare professionals often have unique financial situations that most lenders don't understand -high student loan debt, non-traditional income, and employment start dates that don't fit standard guidelines. We do.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }} className="reveal">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "start" }} className="reveal">
             <div style={{ background: "#fff", border: "1px solid #dde3ea", borderRadius: 10, padding: "2rem" }}>
               <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1.25rem" }}>Program Highlights</div>
               {[
@@ -542,7 +542,7 @@ export default function Home() {
             </div>
             <div>
               <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1.25rem" }}>Eligible Designations</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "2rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
                 {["MD", "DC", "DDS", "DMD", "DO", "OD", "PharmD", "DPT", "DPM", "DVM", "CRNA", "NP", "PA"].map((deg) => (
                   <div key={deg} style={{ background: "#fff", border: "1px solid #dde3ea", borderRadius: 6, padding: "0.65rem 1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <div style={{ width: 7, height: 7, background: "#5BCBF5", borderRadius: "50%", flexShrink: 0 }} />
@@ -569,7 +569,7 @@ export default function Home() {
               Mortgage Solutions for Every Stage of Homeownership
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.25rem" }}>
             {[
               { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z"/></svg>, title: "First-Time Homebuyers", body: "We'll walk you through every step with clarity and confidence." },
               { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5BCBF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>, title: "Growing Families", body: "Financing that fits your family's goals today and tomorrow." },
@@ -623,12 +623,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "start" }} className="reveal">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "3rem", alignItems: "start" }} className="reveal">
             {/* BNTouch Lead Form */}
             <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(91,203,245,0.2)", borderRadius: 10, padding: "2.5rem" }}>
               <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "0.5rem" }}>Get in Touch</div>
               <h3 style={{ fontSize: "1.2rem", fontWeight: 800, color: "#fff", marginBottom: "1.75rem" }}>Tell Us About Your Goals</h3>
-              <form name="bntWebForm" method="post" action="https://www.bntouchmortgage.net/api/webform/" onSubmit={handleFormSubmit} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+              <form name="bntWebForm" method="post" action="https://www.bntouchmortgage.net/api/webform/" onSubmit={handleFormSubmit} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                   <label htmlFor="name_1" style={{ fontSize: "0.75rem", fontWeight: 700, color: "#a8c4d8", letterSpacing: "0.05em" }}>First Name</label>
                   <input id="name_1" name="name_1" type="text" required placeholder="First name" style={{ height: 44, padding: "0 0.9rem", borderRadius: 6, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.07)", color: "#fff", fontSize: "0.88rem", fontFamily: "'Montserrat', sans-serif", outline: "none" }} />
