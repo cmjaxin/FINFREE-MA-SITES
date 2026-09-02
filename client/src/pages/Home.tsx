@@ -380,11 +380,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── MEET YOUR GUIDE ── */}
+      {/* ── MEET YOUR MORTGAGE ADVISOR ── */}
       <section id="about" style={{ background: "#FAFAFA", padding: "clamp(2rem, 5vw, 5rem) 0" }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", alignItems: "start" }}>
-            <div className="reveal" style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/5", background: "#dde3ea" }}>
+            <div className="reveal" style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/5", background: "#dde3ea", maxWidth: "320px", justifySelf: "center" }}>
               <img
                 src={a.headshot}
                 alt={`${a.name} -${a.title}, ${a.company}, ${a.city} ${a.stateAbbr}`}
@@ -392,7 +392,7 @@ export default function Home() {
               />
             </div>
             <div className="reveal">
-              <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Meet Your Guide</div>
+              <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Meet your mortgage advisor</div>
               <div style={{ width: "3rem", height: 3, background: "#5BCBF5", borderRadius: 2, marginBottom: "1.5rem" }} />
               <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 900, color: "#0A2540", marginBottom: "0.25rem" }}>{a.name}</h2>
               <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#5BCBF5", marginBottom: "1.5rem" }}>{a.title} &middot; {a.company} &middot; {a.city}, {a.stateAbbr}</div>
@@ -743,6 +743,9 @@ export default function Home() {
       <style>{`
         @media (max-width: 900px) {
           .nav-links-hide { display: none !important; }
+        }
+        @media (min-width: 769px) {
+          #about > div > div { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
         }
         .reveal { opacity: 1; transform: none; }
         @media (prefers-reduced-motion: no-preference) {
