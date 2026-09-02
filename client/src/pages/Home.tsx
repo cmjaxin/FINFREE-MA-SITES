@@ -758,12 +758,37 @@ export default function Home() {
       </footer>
 
       <style>{`
-        @media (max-width: 900px) {
+        * { box-sizing: border-box; }
+
+        /* Mobile First - Stack Everything */
+        @media (max-width: 768px) {
           .nav-links-hide { display: none !important; }
+
+          /* About/Advisor Section */
+          #about > div > div { grid-template-columns: 1fr !important; }
+          #about > div > div > div { max-width: 100% !important; }
+
+          /* Process Section */
+          #process [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+          /* Experience Section */
+          #experience [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+          /* Contact Section */
+          #contact [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+          /* Ensure text doesn't overflow */
+          body { overflow-x: hidden; }
+
+          /* Reduce padding on mobile */
+          section { padding: clamp(1.5rem, 4vw, 3rem) 0 !important; }
         }
+
+        /* Tablet & Desktop */
         @media (min-width: 769px) {
           #about > div > div { grid-template-columns: 260px 1fr; gap: 3rem; align-items: stretch; }
         }
+
         .reveal { opacity: 1; transform: none; }
         @media (prefers-reduced-motion: no-preference) {
           .reveal:not(.revealed) { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
