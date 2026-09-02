@@ -276,7 +276,7 @@ export default function Home() {
               <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#a8c4d8", lineHeight: 1.8, marginBottom: "0.75rem" }}>{a.heroSubhead}</p>
               <p style={{ fontSize: "clamp(0.8rem, 2.2vw, 0.9rem)", color: "#6a8fa8", lineHeight: 1.8, marginBottom: "1.5rem" }}>{a.heroBio}</p>
               <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.7rem, 2vw, 0.82rem)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", flexWrap: "wrap" }}>
-                Schedule Free Session
+                Schedule a free call
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </div>
