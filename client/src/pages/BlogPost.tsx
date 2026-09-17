@@ -67,8 +67,134 @@ export default function BlogPost() {
     );
   }
 
+  const contentStyles = `
+    .blog-content h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #0A2540;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .blog-content h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0A2540;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-content p {
+      margin-bottom: 1.2rem;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .blog-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 2rem 0;
+      display: block;
+    }
+
+    .blog-content ul, .blog-content ol {
+      margin: 1.5rem 0 1.5rem 2rem;
+      line-height: 1.8;
+    }
+
+    .blog-content li {
+      margin-bottom: 0.75rem;
+      color: #444;
+    }
+
+    .blog-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .blog-content table th,
+    .blog-content table td {
+      padding: 12px 16px !important;
+      text-align: center;
+    }
+
+    .blog-content table th {
+      background: #0A2540 !important;
+      color: white !important;
+      font-weight: 800 !important;
+    }
+
+    .blog-content table tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+
+    .blog-content table tr:hover {
+      background: #f0f4f8;
+    }
+
+    .blog-content details {
+      background: #fff;
+      border: 1px solid #E4EAF0;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .blog-content summary {
+      cursor: pointer;
+      padding: 16px 20px;
+      font-weight: 700;
+      color: #0A2540;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .blog-content summary:hover {
+      background: #f0f4f8;
+    }
+
+    .blog-content details[open] > summary {
+      background: #e8f4fb;
+      border-bottom: 1px solid #E4EAF0;
+    }
+
+    .blog-content details > div {
+      padding: 16px 20px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .blog-content a {
+      color: #5BCBF5;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .blog-content a:hover {
+      text-decoration: underline;
+    }
+
+    .blog-content strong {
+      font-weight: 700;
+      color: #0A2540;
+    }
+
+    .blog-content em {
+      font-style: italic;
+      color: #555;
+    }
+  `;
+
   return (
     <div style={{ background: "#FAFAFA", minHeight: "100vh", padding: "3rem 2rem" }}>
+      <style>{contentStyles}</style>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         {/* Header */}
         <div style={{ marginBottom: "3rem", paddingBottom: "2rem", borderBottom: "1px solid #dde3ea" }}>
@@ -83,9 +209,9 @@ export default function BlogPost() {
         </div>
 
         {/* Content */}
-        <div style={{ background: "#fff", padding: "2rem", borderRadius: 8, lineHeight: 1.8 }}>
+        <div style={{ background: "#fff", padding: "2rem", borderRadius: 8 }}>
           <div
-            style={{ color: "#444", fontSize: "1rem" }}
+            className="blog-content"
             dangerouslySetInnerHTML={{
               __html: blog.content,
             }}
