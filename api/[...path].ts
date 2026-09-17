@@ -4,7 +4,9 @@ import { join } from "path";
 
 const isProduction = process.env.NODE_ENV === "production";
 const projectRoot = isProduction ? "/var/task" : process.cwd();
-const sourceFilePath = join(projectRoot, "client/src/data/blogs.json");
+const sourceFilePath = isProduction
+  ? join(projectRoot, "dist/public/blogs.json")
+  : join(projectRoot, "client/src/data/blogs.json");
 const tmpPath = "/tmp/blogs.json";
 
 function getBlogs() {
