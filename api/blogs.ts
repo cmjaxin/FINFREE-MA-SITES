@@ -2,29 +2,61 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
-// Use a persistent tmp directory for Vercel
-const blogsPath = "/tmp/blogs.json";
+// In Vercel production: /var/task is the project root
+// In local dev: process.cwd() is the project root
+const isProduction = process.env.NODE_ENV === "production";
+const projectRoot = isProduction ? "/var/task" : process.cwd();
 
-// Initialize blogs file
+// Primary: source file in git (persistent)
+const sourceFilePath = join(projectRoot, "client/src/data/blogs.json");
+// Fallback: temp storage (session-only)
+const tmpPath = "/tmp/blogs.json";
+
+let blogsPath = sourceFilePath;
+
+// Initialize and check paths
 function initBlogs() {
   try {
-    const dir = blogsPath.substring(0, blogsPath.lastIndexOf("/"));
+    // Try source file first
+    if (existsSync(sourceFilePath)) {
+      blogsPath = sourceFilePath;
+      return;
+    }
+  } catch (e) {
+    console.warn("Source file not accessible:", sourceFilePath);
+  }
+
+  // Fall back to tmp
+  try {
+    const dir = tmpPath.substring(0, tmpPath.lastIndexOf("/"));
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true });
     }
-    if (!existsSync(blogsPath)) {
-      writeFileSync(blogsPath, JSON.stringify({ blogs: [] }, null, 2));
+    if (!existsSync(tmpPath)) {
+      writeFileSync(tmpPath, JSON.stringify({ blogs: [] }, null, 2));
     }
+    blogsPath = tmpPath;
+    console.log("Using temporary storage:", tmpPath);
   } catch (e) {
-    console.error("Init error:", e);
+    console.error("Failed to initialize temp storage:", e);
   }
 }
 
-// Get blogs
+// Get blogs from source file (always read from git-tracked file if available)
 function getBlogs() {
   try {
-    initBlogs();
-    const data = readFileSync(blogsPath, "utf-8");
+    // Always try source file first (most recent committed version)
+    if (existsSync(sourceFilePath)) {
+      const data = readFileSync(sourceFilePath, "utf-8");
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.warn("Could not read source file, falling back to tmp:", e);
+  }
+
+  // Fallback to tmp if source unavailable
+  try {
+    const data = readFileSync(tmpPath, "utf-8");
     return JSON.parse(data);
   } catch (e) {
     console.error("Read error:", e);
@@ -32,17 +64,38 @@ function getBlogs() {
   }
 }
 
-// Save blogs
+// Save blogs to both locations if possible
 function saveBlogs(blogsData: any) {
+  let savedToSource = false;
+  let savedToTmp = false;
+
+  // Try to save to source file (persistent in git)
   try {
-    initBlogs();
-    writeFileSync(blogsPath, JSON.stringify(blogsData, null, 2));
-    return true;
+    writeFileSync(sourceFilePath, JSON.stringify(blogsData, null, 2));
+    savedToSource = true;
+    console.log("Saved to source file:", sourceFilePath);
   } catch (e) {
-    console.error("Write error:", e);
-    return false;
+    console.warn("Could not save to source file:", e);
   }
+
+  // Always try to save to tmp as well
+  try {
+    const tmpDir = tmpPath.substring(0, tmpPath.lastIndexOf("/"));
+    if (!existsSync(tmpDir)) {
+      mkdirSync(tmpDir, { recursive: true });
+    }
+    writeFileSync(tmpPath, JSON.stringify(blogsData, null, 2));
+    savedToTmp = true;
+    console.log("Saved to tmp:", tmpPath);
+  } catch (e) {
+    console.warn("Could not save to tmp:", e);
+  }
+
+  return savedToSource || savedToTmp;
 }
+
+// Initialize on load
+initBlogs();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
