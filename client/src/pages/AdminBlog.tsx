@@ -229,7 +229,33 @@ export default function AdminBlog() {
         {/* List View */}
         {mode === "list" && (
           <div style={{ background: "#fff", padding: "2rem", borderRadius: 8, boxShadow: "0 2px 8px rgba(10, 37, 64, 0.1)" }}>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0A2540", marginBottom: "1.5rem" }}>All Blog Posts</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0A2540" }}>All Blog Posts</h2>
+              <button
+                onClick={() => {
+                  const jsonData = JSON.stringify({ blogs }, null, 2);
+                  const blob = new Blob([jsonData], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "blogs.json";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                style={{
+                  padding: "0.5rem 1rem",
+                  fontSize: "0.85rem",
+                  background: "#5BCBF5",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 4,
+                  cursor: "pointer",
+                  fontWeight: 600,
+                }}
+              >
+                ⬇️ Export blogs.json
+              </button>
+            </div>
             {blogs.length === 0 ? (
               <p style={{ color: "#666" }}>No blogs yet. Create one to get started!</p>
             ) : (
