@@ -166,15 +166,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "DELETE") {
-    const { id } = req.query;
+    // Extract ID from URL path: /api/blogs/[id]
+    const pathParts = req.url?.split("/").filter(Boolean) || [];
+    const id = pathParts[pathParts.length - 1];
+
+    if (!id) {
+      return res.status(400).json({ error: "Missing blog ID" });
+    }
 
     let blogsData = getBlogs();
+    const originalCount = blogsData.blogs.length;
     blogsData.blogs = blogsData.blogs.filter((b: any) => b.id !== id);
 
-    if (saveBlogs(blogsData)) {
-      return res.status(200).json({ success: true });
+    if (blogsData.blogs.length < originalCount) {
+      // Blog was found and removed
+      if (saveBlogs(blogsData)) {
+        return res.status(200).json({ success: true });
+      } else {
+        return res.status(500).json({ error: "Failed to save after deletion" });
+      }
     } else {
-      return res.status(500).json({ error: "Failed to delete blog" });
+      // Blog not found
+      return res.status(404).json({ error: "Blog not found" });
     }
   }
 
