@@ -8,21 +8,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const isProduction = process.env.NODE_ENV === "production";
-const STORAGE_PATH = isProduction
+const GIT_SOURCE_PATH = isProduction
   ? "/var/task/client/src/data/blogs.json"
   : "client/src/data/blogs.json";
+const TMP_PATH = "/tmp/blogs.json";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REPO = "cmjaxin/FINFREE-MA-SITES";
 const BRANCH = "main";
 
 function getBlogs() {
+  // Try /tmp first (current session cache)
   try {
-    if (existsSync(STORAGE_PATH)) {
-      const data = readFileSync(STORAGE_PATH, "utf-8");
+    if (existsSync(TMP_PATH)) {
+      const data = readFileSync(TMP_PATH, "utf-8");
       return JSON.parse(data);
     }
   } catch (e) {
-    console.error("Error reading blogs:", e);
+    console.error("Error reading /tmp:", e);
+  }
+
+  // Try git source (persisted from previous deploy)
+  try {
+    if (existsSync(GIT_SOURCE_PATH)) {
+      const data = readFileSync(GIT_SOURCE_PATH, "utf-8");
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.error("Error reading git source:", e);
   }
 
   // Default fallback
@@ -46,11 +58,21 @@ function getBlogs() {
 
 function saveBlogs(data: any) {
   try {
-    const dir = path.dirname(STORAGE_PATH);
-    if (!existsSync(dir)) {
-      mkdirSync(dir, { recursive: true });
+    // Try git source first (read-write in dev, might be read-only in prod)
+    try {
+      const dir = path.dirname(GIT_SOURCE_PATH);
+      if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+      }
+      writeFileSync(GIT_SOURCE_PATH, JSON.stringify(data, null, 2));
+      return true;
+    } catch (e) {
+      console.warn("Could not write to git source, trying /tmp:", e);
     }
-    writeFileSync(STORAGE_PATH, JSON.stringify(data, null, 2));
+
+    // Fallback to /tmp
+    mkdirSync("/tmp", { recursive: true });
+    writeFileSync(TMP_PATH, JSON.stringify(data, null, 2));
     return true;
   } catch (e) {
     console.error("Error saving blogs:", e);
