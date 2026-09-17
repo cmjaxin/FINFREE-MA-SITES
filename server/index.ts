@@ -18,11 +18,8 @@ async function startServer() {
   // API routes
   app.use("/api/blogs", blogsRouter);
 
-  // Serve static files from dist/public in production
-  const staticPath =
-    process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+  // Serve static files from dist/public
+  const staticPath = path.resolve(__dirname, "..", "dist", "public");
 
   app.use(express.static(staticPath));
 
