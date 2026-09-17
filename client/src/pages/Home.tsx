@@ -242,7 +242,7 @@ export default function Home() {
             <img src={a.logoUrl} alt="NEO Home Loans" style={{ height: "clamp(32px, 8vw, 44px)", width: "auto", display: "block" }} />
           </div>
           <div style={{ display: "none", alignItems: "center", gap: "1rem" }} className="nav-links-hide">
-            {([["#process", "Process"], ["#about", `About`], ["#experience", "Experience"], ["#contact", "Contact"]] as [string, string][]).map(([href, label]) => (
+            {([["#process", "Process"], ["#about", `About`], ["/blog", "Mortgage Advice"], ["#experience", "Experience"], ["#contact", "Contact"]] as [string, string][]).map(([href, label]) => (
               <a key={href} href={href} style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.02em", textTransform: "uppercase", color: "#555", textDecoration: "none" }}>{label}</a>
             ))}
           </div>
