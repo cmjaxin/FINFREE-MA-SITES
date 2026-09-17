@@ -158,24 +158,35 @@ app.post("/api/blogs", async (req: any, res: any) => {
 
 // DELETE /api/blogs/:id
 app.delete("/api/blogs/:id", async (req: any, res: any) => {
-  const { id } = req.params;
-  let blogsData = getBlogs();
-  const originalCount = blogsData.blogs.length;
-  const deletedBlog = blogsData.blogs.find((b: any) => b.id === id);
-  blogsData.blogs = blogsData.blogs.filter((b: any) => b.id !== id);
+  try {
+    const { id } = req.params;
+    console.log("Deleting blog:", id);
 
-  if (blogsData.blogs.length < originalCount) {
-    if (saveBlogs(blogsData)) {
-      // Commit to GitHub
-      if (deletedBlog) {
-        await commitToGitHub(blogsData, `Delete blog: ${deletedBlog.title}`);
+    let blogsData = getBlogs();
+    const originalCount = blogsData.blogs.length;
+    const deletedBlog = blogsData.blogs.find((b: any) => b.id === id);
+    blogsData.blogs = blogsData.blogs.filter((b: any) => b.id !== id);
+
+    if (blogsData.blogs.length < originalCount) {
+      const saved = saveBlogs(blogsData);
+      console.log("Save result:", saved);
+
+      if (saved) {
+        // Commit to GitHub
+        if (deletedBlog) {
+          const committed = await commitToGitHub(blogsData, `Delete blog: ${deletedBlog.title}`);
+          console.log("Commit result:", committed);
+        }
+        res.json({ success: true });
+      } else {
+        res.status(500).json({ error: "Failed to save blogs" });
       }
-      res.json({ success: true });
     } else {
-      res.status(500).json({ error: "Failed to delete" });
+      res.status(404).json({ error: "Blog not found" });
     }
-  } else {
-    res.status(404).json({ error: "Blog not found" });
+  } catch (e) {
+    console.error("Delete error:", e);
+    res.status(500).json({ error: String(e) });
   }
 });
 
