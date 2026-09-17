@@ -1,0 +1,15 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "slug": "first-time-homebuyer-guide",
+      "title": "First-Time Homebuyer Guide: Everything You Need to Know",
+      "excerpt": "Buying your first home can feel overwhelming. Here's a comprehensive guide to help you navigate the process.",
+      "thumbnail": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
+      "content": "Buying your first home is one of the biggest financial decisions you'll make. This guide covers everything from saving for a down payment to closing day.\n\n## Getting Started\n\nBefore you start looking at homes, make sure you're financially prepared. This means:\n\n- Checking your credit score\n- Saving for a down payment\n- Getting pre-approved for a mortgage\n- Understanding your budget\n\n## The Mortgage Process\n\nOnce you find your home, here's what happens next:\n\n1. Make an offer\n2. Get a home inspection\n3. Finalize your mortgage\n4. Close on the property\n\n## Common First-Time Buyer Mistakes\n\nAvoid these pitfalls:\n\n- Making large purchases before closing\n- Not getting a home inspection\n- Not understanding all loan options\n- Overextending your budget\n\nRemember, buying a home is a marathon, not a sprint. Take your time and ask questions!",
+      "author": "Blog Team",
+      "date": "2026-09-15",
+      "category": "First-Time Buyers"
+    }
+  ]
+}

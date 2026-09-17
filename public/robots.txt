@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /blog
+
+# Prevent indexing of blog content across all domains
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /blog
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /blog
