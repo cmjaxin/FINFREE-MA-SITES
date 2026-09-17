@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 
 interface Blog {
@@ -14,7 +14,7 @@ interface Blog {
 }
 
 export default function BlogPost() {
-  const [params] = useParams();
+  const [match, params] = useRoute("/blog/:slug");
   const [, setLocation] = useLocation();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ export default function BlogPost() {
     fetchBlogs();
   }, []);
 
-  const blog = blogs.find((b) => b.slug === params?.slug);
+  const blog = match && params?.slug ? blogs.find((b) => b.slug === params.slug) : null;
 
   useEffect(() => {
     // Add noindex meta tag to prevent indexing
