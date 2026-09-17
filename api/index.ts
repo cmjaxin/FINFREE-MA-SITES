@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const blogsPath = "/tmp/blogs.json";
-const blogsSourcePath = process.env.NODE_ENV === "production"
+const isProduction = process.env.NODE_ENV === "production";
+const STORAGE_PATH = isProduction
   ? "/var/task/client/src/data/blogs.json"
   : "client/src/data/blogs.json";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -16,36 +16,14 @@ const REPO = "cmjaxin/FINFREE-MA-SITES";
 const BRANCH = "main";
 
 function getBlogs() {
-  console.log("getBlogs called");
-  console.log("blogsPath:", blogsPath, "exists:", existsSync(blogsPath));
-  console.log("blogsSourcePath:", blogsSourcePath, "exists:", existsSync(blogsSourcePath));
-
-  // Try to read from /tmp first (current session)
   try {
-    if (existsSync(blogsPath)) {
-      const data = readFileSync(blogsPath, "utf-8");
-      console.log("Loaded from /tmp:", data.substring(0, 100));
+    if (existsSync(STORAGE_PATH)) {
+      const data = readFileSync(STORAGE_PATH, "utf-8");
       return JSON.parse(data);
     }
   } catch (e) {
-    console.error("Error reading /tmp blogs:", e);
+    console.error("Error reading blogs:", e);
   }
-
-  // Try to read from git source (persisted from previous deploy)
-  try {
-    if (existsSync(blogsSourcePath)) {
-      const data = readFileSync(blogsSourcePath, "utf-8");
-      console.log("Loaded from git source:", data.substring(0, 100));
-      const parsed = JSON.parse(data);
-      // Cache it in /tmp for this session
-      saveBlogs(parsed);
-      return parsed;
-    }
-  } catch (e) {
-    console.error("Error reading source blogs:", e);
-  }
-
-  console.log("Using default blogs");
 
   // Default fallback
   return {
@@ -68,11 +46,11 @@ function getBlogs() {
 
 function saveBlogs(data: any) {
   try {
-    const dir = path.dirname(blogsPath);
+    const dir = path.dirname(STORAGE_PATH);
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true });
     }
-    writeFileSync(blogsPath, JSON.stringify(data, null, 2));
+    writeFileSync(STORAGE_PATH, JSON.stringify(data, null, 2));
     return true;
   } catch (e) {
     console.error("Error saving blogs:", e);
