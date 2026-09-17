@@ -16,10 +16,15 @@ const REPO = "cmjaxin/FINFREE-MA-SITES";
 const BRANCH = "main";
 
 function getBlogs() {
+  console.log("getBlogs called");
+  console.log("blogsPath:", blogsPath, "exists:", existsSync(blogsPath));
+  console.log("blogsSourcePath:", blogsSourcePath, "exists:", existsSync(blogsSourcePath));
+
   // Try to read from /tmp first (current session)
   try {
     if (existsSync(blogsPath)) {
       const data = readFileSync(blogsPath, "utf-8");
+      console.log("Loaded from /tmp:", data.substring(0, 100));
       return JSON.parse(data);
     }
   } catch (e) {
@@ -30,6 +35,7 @@ function getBlogs() {
   try {
     if (existsSync(blogsSourcePath)) {
       const data = readFileSync(blogsSourcePath, "utf-8");
+      console.log("Loaded from git source:", data.substring(0, 100));
       const parsed = JSON.parse(data);
       // Cache it in /tmp for this session
       saveBlogs(parsed);
@@ -38,6 +44,8 @@ function getBlogs() {
   } catch (e) {
     console.error("Error reading source blogs:", e);
   }
+
+  console.log("Using default blogs");
 
   // Default fallback
   return {
