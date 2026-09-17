@@ -19,7 +19,13 @@ const blogsData = blogsDataRaw as { blogs: Blog[] };
 export default function AdminBlog() {
   const [, setLocation] = useLocation();
   const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check localStorage for saved auth on component mount
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("adminAuth") === "true";
+    }
+    return false;
+  });
   const [mode, setMode] = useState<"list" | "create" | "edit">("list");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<Blog[]>(blogsData.blogs);
@@ -37,9 +43,15 @@ export default function AdminBlog() {
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
+      localStorage.setItem("adminAuth", "true");
     } else {
       alert("Invalid password");
     }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("adminAuth");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -170,7 +182,7 @@ export default function AdminBlog() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
           <h1 style={{ fontSize: "2rem", fontWeight: 900, color: "#0A2540" }}>Blog Admin</h1>
           <button
-            onClick={() => setIsAuthenticated(false)}
+            onClick={handleLogout}
             style={{
               padding: "0.5rem 1rem",
               fontSize: "0.85rem",
