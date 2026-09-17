@@ -60,26 +60,7 @@ export default function BlogPost() {
           <div
             style={{ color: "#444", fontSize: "1rem" }}
             dangerouslySetInnerHTML={{
-              __html: blog.content
-                .split("\n\n")
-                .map((para) => {
-                  if (para.startsWith("##")) {
-                    return `<h2 style="font-size: 1.5rem; font-weight: 800; color: #0A2540; margin: 1.5rem 0 1rem; line-height: 1.3;">${para.replace(/^## /, "")}</h2>`;
-                  }
-                  if (para.startsWith("###")) {
-                    return `<h3 style="font-size: 1.2rem; font-weight: 700; color: #0A2540; margin: 1.25rem 0 0.75rem; line-height: 1.3;">${para.replace(/^### /, "")}</h3>`;
-                  }
-                  if (para.match(/^\d+\./)) {
-                    const items = para.split("\n").map((item) => `<li style="margin-left: 1.5rem; margin-bottom: 0.5rem;">${item.replace(/^\d+\. /, "")}</li>`).join("");
-                    return `<ol style="margin: 1rem 0;">${items}</ol>`;
-                  }
-                  if (para.startsWith("-")) {
-                    const items = para.split("\n").map((item) => `<li style="margin-left: 1.5rem; margin-bottom: 0.5rem;">${item.replace(/^- /, "")}</li>`).join("");
-                    return `<ul style="margin: 1rem 0;">${items}</ul>`;
-                  }
-                  return `<p style="margin-bottom: 1rem;">${para}</p>`;
-                })
-                .join(""),
+              __html: blog.content,
             }}
           />
         </div>

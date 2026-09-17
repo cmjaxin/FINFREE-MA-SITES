@@ -452,13 +452,13 @@ export default function AdminBlog() {
             {/* Content */}
             <div style={{ marginBottom: "1.5rem" }}>
               <label style={{ display: "block", fontSize: "0.9rem", fontWeight: 600, color: "#0A2540", marginBottom: "0.5rem" }}>
-                Blog Content (Markdown) *
+                Blog Content (HTML) *
               </label>
               <textarea
                 name="content"
                 value={formData.content}
                 onChange={handleInputChange}
-                placeholder="Write your blog content here. Use ## for headings, - for bullet points, 1. for numbered lists"
+                placeholder="Paste your HTML content here - directly from WordPress or formatted HTML"
                 required
                 rows={12}
                 style={{
@@ -472,7 +472,7 @@ export default function AdminBlog() {
                 }}
               />
               <p style={{ fontSize: "0.8rem", color: "#8ba8c4", marginTop: "0.5rem" }}>
-                Use ## for headings, ### for subheadings, - for bullet points, and 1. for numbered lists
+                Paste your HTML content directly. You can copy and paste styled content from WordPress or any HTML source.
               </p>
             </div>
 
