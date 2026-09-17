@@ -8,7 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const blogsPath = "/tmp/blogs.json";
-const blogsSourcePath = "client/src/data/blogs.json";
+const blogsSourcePath = process.env.NODE_ENV === "production"
+  ? "/var/task/client/src/data/blogs.json"
+  : "client/src/data/blogs.json";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REPO = "cmjaxin/FINFREE-MA-SITES";
 const BRANCH = "main";
