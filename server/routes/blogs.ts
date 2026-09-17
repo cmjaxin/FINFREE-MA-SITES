@@ -1,22 +1,39 @@
 import express from "express";
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 
 const router = express.Router();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
-// Try multiple possible paths for blogs.json
-const possiblePaths = [
-  join(process.cwd(), "client/src/data/blogs.json"),
-  join(process.cwd(), "../client/src/data/blogs.json"),
-  join(__dirname, "../../client/src/data/blogs.json"),
-];
-let blogsPath = possiblePaths[0];
-for (const path of possiblePaths) {
-  if (existsSync(path)) {
-    blogsPath = path;
-    break;
+
+// Determine blogs.json path based on environment
+const isProduction = process.env.NODE_ENV === "production";
+let blogsPath: string;
+
+if (isProduction) {
+  // In Vercel production, use /tmp for persistence (session-based)
+  const tmpDir = "/tmp/neo-ma-sites";
+  mkdirSync(tmpDir, { recursive: true });
+  blogsPath = join(tmpDir, "blogs.json");
+} else {
+  // In local dev, use source file
+  const possiblePaths = [
+    join(process.cwd(), "client/src/data/blogs.json"),
+    join(process.cwd(), "../client/src/data/blogs.json"),
+    join(__dirname, "../../client/src/data/blogs.json"),
+  ];
+  blogsPath = possiblePaths[0];
+  for (const path of possiblePaths) {
+    if (existsSync(path)) {
+      blogsPath = path;
+      break;
+    }
   }
+}
+
+// Initialize blogs.json if it doesn't exist
+if (!existsSync(blogsPath)) {
+  writeFileSync(blogsPath, JSON.stringify({ blogs: [] }, null, 2));
 }
 
 // GET all blogs
