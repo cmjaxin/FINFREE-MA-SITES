@@ -6,25 +6,18 @@ import { fileURLToPath } from "url";
 const router = express.Router();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
+// GitHub API configuration
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPO = "cmjaxin/FINFREE-MA-SITES";
+const BLOGS_FILE_PATH = "client/src/data/blogs.json";
+
 // Check if we're in production (Vercel) or local
 const isProduction = process.env.NODE_ENV === "production";
-const useKV = isProduction && process.env.KV_REST_API_URL;
-
-// Lazy load KV (async import)
-let kvModule: any = null;
-async function initKV() {
-  if (useKV && !kvModule) {
-    try {
-      kvModule = await import("@vercel/kv");
-    } catch (e) {
-      console.error("Failed to initialize KV:", e);
-    }
-  }
-}
+const useGitHub = isProduction && GITHUB_TOKEN;
 
 // Fallback: use local file in dev mode
 let blogsPath: string;
-if (!useKV) {
+if (!useGitHub) {
   const possiblePaths = [
     join(process.cwd(), "client/src/data/blogs.json"),
     join(process.cwd(), "../client/src/data/blogs.json"),
@@ -39,19 +32,85 @@ if (!useKV) {
   }
 }
 
+// Helper to get blogs from GitHub
+async function getBlogsFromGitHub() {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          Accept: "application/vnd.github.v3.raw",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error("GitHub fetch failed:", response.status);
+      return { blogs: [] };
+    }
+
+    const data = await response.text();
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("GitHub read error:", error);
+    return { blogs: [] };
+  }
+}
+
+// Helper to save blogs to GitHub
+async function saveBlogsToGitHub(blogsData: any) {
+  try {
+    // First, get the current file SHA for update
+    const getResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    );
+
+    const getResult: any = await getResponse.json();
+    const sha = getResult.sha;
+
+    // Update the file
+    const content = Buffer.from(JSON.stringify(blogsData, null, 2)).toString(
+      "base64"
+    );
+
+    const updateResponse = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: "Update blogs via admin panel",
+          content: content,
+          sha: sha,
+        }),
+      }
+    );
+
+    if (!updateResponse.ok) {
+      console.error("GitHub update failed:", updateResponse.status);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("GitHub write error:", error);
+    return false;
+  }
+}
+
 // Helper to get blogs
 async function getBlogs() {
-  if (useKV) {
-    await initKV();
-    if (kvModule?.kv) {
-      try {
-        const data = await kvModule.kv.get("blogs");
-        return data ? JSON.parse(data as string) : { blogs: [] };
-      } catch (error) {
-        console.error("KV read error:", error);
-        return { blogs: [] };
-      }
-    }
+  if (useGitHub) {
+    return await getBlogsFromGitHub();
   }
 
   // Fallback to file
@@ -65,16 +124,8 @@ async function getBlogs() {
 
 // Helper to save blogs
 async function saveBlogs(blogsData: any) {
-  if (useKV) {
-    await initKV();
-    if (kvModule?.kv) {
-      try {
-        await kvModule.kv.set("blogs", JSON.stringify(blogsData));
-        return;
-      } catch (error) {
-        console.error("KV write error:", error);
-      }
-    }
+  if (useGitHub) {
+    return await saveBlogsToGitHub(blogsData);
   }
 }
 
