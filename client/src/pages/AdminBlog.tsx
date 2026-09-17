@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 
 export default function AdminBlog() {
-  const [, navigate] = useNavigate();
+  const [, setLocation] = useLocation();
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
@@ -269,7 +269,7 @@ export default function AdminBlog() {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/")}
+              onClick={() => setLocation("/")}
               style={{
                 padding: "0.75rem 2rem",
                 fontSize: "0.95rem",

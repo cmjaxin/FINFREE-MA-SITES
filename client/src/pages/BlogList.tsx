@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import blogsDataRaw from "@/data/blogs.json";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 
@@ -18,7 +18,7 @@ const blogsData = blogsDataRaw as {
 };
 
 export default function BlogList() {
-  const [, navigate] = useNavigate();
+  const [, setLocation] = useLocation();
   const advisor = getCurrentAdvisor();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function BlogList() {
             {blogsData.blogs.map((blog) => (
               <div
                 key={blog.id}
-                onClick={() => navigate(`/blog/${blog.slug}`)}
+                onClick={() => setLocation(`/blog/${blog.slug}`)}
                 style={{
                   background: "#fff",
                   borderRadius: 12,
@@ -101,7 +101,7 @@ export default function BlogList() {
         {/* CTA */}
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => setLocation("/")}
             style={{
               padding: "0.75rem 1.5rem",
               fontSize: "0.95rem",

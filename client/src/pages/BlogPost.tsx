@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "wouter";
+import { useParams, useLocation } from "wouter";
 import blogsDataRaw from "@/data/blogs.json";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 
@@ -7,7 +7,7 @@ const blogsData = blogsDataRaw as { blogs: Array<{ id: string; slug: string; tit
 
 export default function BlogPost() {
   const [params] = useParams();
-  const [, navigate] = useNavigate();
+  const [, setLocation] = useLocation();
   const advisor = getCurrentAdvisor();
 
   const blog = blogsData.blogs.find((b) => b.slug === params?.slug);
@@ -33,7 +33,7 @@ export default function BlogPost() {
     return (
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "3rem 2rem", textAlign: "center" }}>
         <h1>Blog post not found</h1>
-        <button onClick={() => navigate("/blog")} style={{ padding: "0.75rem 1.5rem", fontSize: "1rem", background: "#5BCBF5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}>
+        <button onClick={() => setLocation("/blog")} style={{ padding: "0.75rem 1.5rem", fontSize: "1rem", background: "#5BCBF5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}>
           Back to Blog
         </button>
       </div>
@@ -89,7 +89,7 @@ export default function BlogPost() {
           <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "1rem" }}>
             Posted by <strong>{advisor.name}</strong> at {advisor.company}
           </div>
-          <button onClick={() => navigate("/")} style={{ padding: "0.75rem 1.5rem", fontSize: "0.95rem", background: "#5BCBF5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}>
+          <button onClick={() => setLocation("/")} style={{ padding: "0.75rem 1.5rem", fontSize: "0.95rem", background: "#5BCBF5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}>
             Back to Home
           </button>
         </div>
