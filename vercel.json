@@ -3,7 +3,10 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "dist/public",
-  "rewrites": [
-    { "source": "/:path*", "destination": "/index.html" }
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/index.ts" },
+    { "src": "/blog(.*)", "dest": "/index.html" },
+    { "src": "/admin(.*)", "dest": "/index.html" },
+    { "src": "/(?!assets/|_next/|api/|public/)(.*)", "dest": "/index.html" }
   ]
 }
