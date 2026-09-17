@@ -56,8 +56,7 @@ export default function BlogList() {
       <div style={{ maxWidth: 1140, margin: "0 auto" }}>
         {/* Header */}
         <div style={{ marginBottom: "3rem", textAlign: "center" }}>
-          <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#5BCBF5", marginBottom: "0.5rem", textTransform: "uppercase" }}>Insights & Resources</div>
-          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 900, color: "#0A2540", marginBottom: "1rem", lineHeight: 1.2 }}>Blog & Resources</h1>
+          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 900, color: "#0A2540", marginBottom: "1rem", lineHeight: 1.2 }}>Mortgage Advice</h1>
           <p style={{ fontSize: "1.05rem", color: "#666", maxWidth: 600, margin: "0 auto" }}>
             Expert insights and resources to help you make smart mortgage decisions
           </p>
