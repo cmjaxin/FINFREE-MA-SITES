@@ -1,25 +1,41 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import blogsDataRaw from "@/data/blogs.json";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 
-const blogsData = blogsDataRaw as {
-  blogs: Array<{
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    thumbnail: string;
-    content: string;
-    author: string;
-    date: string;
-    category: string;
-  }>;
-};
+interface Blog {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  thumbnail: string;
+  content: string;
+  author: string;
+  date: string;
+  category: string;
+}
 
 export default function BlogList() {
   const [, setLocation] = useLocation();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
   const advisor = getCurrentAdvisor();
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("/api/blogs");
+        const data = await response.json();
+        setBlogs(data.blogs || []);
+      } catch (error) {
+        console.error("Failed to load blogs:", error);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     // Add noindex meta tag to prevent indexing
@@ -48,9 +64,9 @@ export default function BlogList() {
         </div>
 
         {/* Blog Grid */}
-        {blogsData.blogs.length > 0 ? (
+        {blogs.length > 0 ? (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "2rem", marginBottom: "3rem" }}>
-            {blogsData.blogs.map((blog) => (
+            {blogs.map((blog) => (
               <div
                 key={blog.id}
                 onClick={() => setLocation(`/blog/${blog.slug}`)}

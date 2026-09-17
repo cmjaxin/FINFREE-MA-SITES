@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import blogsDataRaw from "@/data/blogs.json";
 
 interface Blog {
   id: string;
@@ -14,8 +13,6 @@ interface Blog {
   category: string;
 }
 
-const blogsData = blogsDataRaw as { blogs: Blog[] };
-
 export default function AdminBlog() {
   const [, setLocation] = useLocation();
   const [password, setPassword] = useState("");
@@ -28,7 +25,9 @@ export default function AdminBlog() {
   });
   const [mode, setMode] = useState<"list" | "create" | "edit">("list");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [blogs, setBlogs] = useState<Blog[]>(blogsData.blogs);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
@@ -37,6 +36,24 @@ export default function AdminBlog() {
     category: "General",
     date: new Date().toISOString().split("T")[0],
   });
+
+  // Load blogs from API on mount
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("/api/blogs");
+        const data = await response.json();
+        setBlogs(data.blogs || []);
+      } catch (err) {
+        console.error("Failed to load blogs:", err);
+        setError("Failed to load blogs. Using local data.");
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchBlogs();
+    }
+  }, [isAuthenticated]);
 
   const ADMIN_PASSWORD = "neobuilder2026";
 
@@ -87,14 +104,28 @@ export default function AdminBlog() {
     setMode("edit");
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this blog post? This cannot be undone.")) {
-      setBlogs((prev) => prev.filter((blog) => blog.id !== id));
-      alert("Blog deleted successfully! (Note: In production, this would update the database)");
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/blogs/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) throw new Error("Delete failed");
+
+        setBlogs((prev) => prev.filter((blog) => blog.id !== id));
+        alert("Blog deleted successfully!");
+      } catch (err) {
+        alert("Failed to delete blog. Please try again.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.title || !formData.excerpt || !formData.content || !formData.thumbnail) {
@@ -102,34 +133,47 @@ export default function AdminBlog() {
       return;
     }
 
-    if (editingId) {
-      // Edit existing blog
-      setBlogs((prev) =>
-        prev.map((blog) =>
-          blog.id === editingId
-            ? {
-                ...blog,
-                ...formData,
-                slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
-              }
-            : blog
-        )
-      );
-      alert("Blog updated successfully!");
-    } else {
-      // Create new blog
-      const newBlog: Blog = {
-        id: Date.now().toString(),
-        slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
-        ...formData,
-        author: "Blog Team",
-      };
-      setBlogs((prev) => [newBlog, ...prev]);
-      alert("Blog created successfully!");
-    }
+    try {
+      setLoading(true);
+      setError("");
 
-    resetForm();
-    setMode("list");
+      const payload = {
+        id: editingId,
+        ...formData,
+        slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
+      };
+
+      const response = await fetch("/api/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("Save failed");
+
+      const { blog } = await response.json();
+
+      if (editingId) {
+        // Update existing blog in state
+        setBlogs((prev) =>
+          prev.map((b) => (b.id === editingId ? (blog as Blog) : b))
+        );
+        alert("Blog updated successfully!");
+      } else {
+        // Add new blog to state
+        setBlogs((prev) => [blog as Blog, ...prev]);
+        alert("Blog published successfully!");
+      }
+
+      resetForm();
+      setMode("list");
+    } catch (err) {
+      setError("Failed to save blog. Please try again.");
+      alert("Failed to save blog. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -241,32 +285,13 @@ export default function AdminBlog() {
         {/* List View */}
         {mode === "list" && (
           <div style={{ background: "#fff", padding: "2rem", borderRadius: 8, boxShadow: "0 2px 8px rgba(10, 37, 64, 0.1)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
               <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0A2540" }}>All Blog Posts</h2>
-              <button
-                onClick={() => {
-                  const jsonData = JSON.stringify({ blogs }, null, 2);
-                  const blob = new Blob([jsonData], { type: "application/json" });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement("a");
-                  a.href = url;
-                  a.download = "blogs.json";
-                  a.click();
-                  URL.revokeObjectURL(url);
-                }}
-                style={{
-                  padding: "0.5rem 1rem",
-                  fontSize: "0.85rem",
-                  background: "#5BCBF5",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 4,
-                  cursor: "pointer",
-                  fontWeight: 600,
-                }}
-              >
-                ⬇️ Export blogs.json
-              </button>
+              {error && (
+                <div style={{ marginTop: "1rem", padding: "0.75rem", background: "#ffe8e8", color: "#c00", borderRadius: 4, fontSize: "0.9rem" }}>
+                  {error}
+                </div>
+              )}
             </div>
             {blogs.length === 0 ? (
               <p style={{ color: "#666" }}>No blogs yet. Create one to get started!</p>
@@ -500,18 +525,20 @@ export default function AdminBlog() {
             <div style={{ display: "flex", gap: "1rem" }}>
               <button
                 type="submit"
+                disabled={loading}
                 style={{
                   padding: "0.75rem 2rem",
                   fontSize: "0.95rem",
-                  background: "#5BCBF5",
+                  background: loading ? "#ccc" : "#5BCBF5",
                   color: "#fff",
                   border: "none",
                   borderRadius: 6,
-                  cursor: "pointer",
+                  cursor: loading ? "not-allowed" : "pointer",
                   fontWeight: 600,
+                  opacity: loading ? 0.6 : 1,
                 }}
               >
-                {editingId ? "Update Blog" : "Publish Blog"}
+                {loading ? "Saving..." : editingId ? "Update Blog" : "Publish Blog"}
               </button>
               <button
                 type="button"

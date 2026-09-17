@@ -1,16 +1,43 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
-import blogsDataRaw from "@/data/blogs.json";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 
-const blogsData = blogsDataRaw as { blogs: Array<{ id: string; slug: string; title: string; excerpt: string; content: string; author: string; date: string; category: string }> };
+interface Blog {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  date: string;
+  category: string;
+}
 
 export default function BlogPost() {
   const [params] = useParams();
   const [, setLocation] = useLocation();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
   const advisor = getCurrentAdvisor();
 
-  const blog = blogsData.blogs.find((b) => b.slug === params?.slug);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("/api/blogs");
+        const data = await response.json();
+        setBlogs(data.blogs || []);
+      } catch (error) {
+        console.error("Failed to load blogs:", error);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const blog = blogs.find((b) => b.slug === params?.slug);
 
   useEffect(() => {
     // Add noindex meta tag to prevent indexing

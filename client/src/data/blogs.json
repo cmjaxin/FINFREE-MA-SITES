@@ -1,3 +1,15 @@
 {
-  "blogs": []
+  "blogs": [
+    {
+      "id": "1789674689474",
+      "slug": "first-time-home-buyer-tips",
+      "title": "First Time Home Buyer Tips",
+      "excerpt": "Learn the essential steps to buying your first home and make confident decisions with our expert guidance.",
+      "content": "<h2>Getting Started as a First-Time Homebuyer</h2><p>Buying your first home is an exciting milestone. Here are the key steps to help you succeed:</p><h3>Step 1: Get Pre-Approved</h3><p>Before house hunting, get mortgage pre-approval to understand your budget and show sellers you're serious.</p><h3>Step 2: Find the Right Property</h3><p>Work with a real estate agent to find homes that fit your needs and budget.</p><h3>Step 3: Make an Offer</h3><p>Once you find the right home, submit an offer. Negotiations may follow.</p><p>Contact our team for expert guidance throughout your home buying journey!</p>",
+      "thumbnail": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+      "author": "Blog Team",
+      "date": "2026-09-17",
+      "category": "First-Time Buyers"
+    }
+  ]
 }
