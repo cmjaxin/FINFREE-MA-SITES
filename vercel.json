@@ -3,24 +3,7 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "dist/public",
+  "framework": "vite",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/blog",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/admin/blog",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/:advisor",
-      "destination": "/index.html"
-    }
-  ]
+  "trailingSlash": false
 }
