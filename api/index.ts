@@ -14,14 +14,27 @@ const REPO = "cmjaxin/FINFREE-MA-SITES";
 const BRANCH = "main";
 
 function getBlogs() {
-  // Try to read from source file first (in production, this is from previous deployment)
+  // Try to read from /tmp first (current session)
   try {
     if (existsSync(blogsPath)) {
       const data = readFileSync(blogsPath, "utf-8");
       return JSON.parse(data);
     }
   } catch (e) {
-    console.error("Error reading blogs:", e);
+    console.error("Error reading /tmp blogs:", e);
+  }
+
+  // Try to read from git source (persisted from previous deploy)
+  try {
+    if (existsSync(blogsSourcePath)) {
+      const data = readFileSync(blogsSourcePath, "utf-8");
+      const parsed = JSON.parse(data);
+      // Cache it in /tmp for this session
+      saveBlogs(parsed);
+      return parsed;
+    }
+  } catch (e) {
+    console.error("Error reading source blogs:", e);
   }
 
   // Default fallback
