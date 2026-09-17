@@ -1,22 +1,30 @@
 import express from "express";
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 
 const router = express.Router();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-// Determine blogs.json path based on environment
+// Check if we're in production (Vercel) or local
 const isProduction = process.env.NODE_ENV === "production";
-let blogsPath: string;
+const useKV = isProduction && process.env.KV_REST_API_URL;
 
-if (isProduction) {
-  // In Vercel production, use /tmp for persistence (session-based)
-  const tmpDir = "/tmp/neo-ma-sites";
-  mkdirSync(tmpDir, { recursive: true });
-  blogsPath = join(tmpDir, "blogs.json");
-} else {
-  // In local dev, use source file
+// Lazy load KV (async import)
+let kvModule: any = null;
+async function initKV() {
+  if (useKV && !kvModule) {
+    try {
+      kvModule = await import("@vercel/kv");
+    } catch (e) {
+      console.error("Failed to initialize KV:", e);
+    }
+  }
+}
+
+// Fallback: use local file in dev mode
+let blogsPath: string;
+if (!useKV) {
   const possiblePaths = [
     join(process.cwd(), "client/src/data/blogs.json"),
     join(process.cwd(), "../client/src/data/blogs.json"),
@@ -31,23 +39,58 @@ if (isProduction) {
   }
 }
 
-// Initialize blogs.json if it doesn't exist
-if (!existsSync(blogsPath)) {
-  writeFileSync(blogsPath, JSON.stringify({ blogs: [] }, null, 2));
+// Helper to get blogs
+async function getBlogs() {
+  if (useKV) {
+    await initKV();
+    if (kvModule?.kv) {
+      try {
+        const data = await kvModule.kv.get("blogs");
+        return data ? JSON.parse(data as string) : { blogs: [] };
+      } catch (error) {
+        console.error("KV read error:", error);
+        return { blogs: [] };
+      }
+    }
+  }
+
+  // Fallback to file
+  try {
+    const data = readFileSync(blogsPath, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return { blogs: [] };
+  }
+}
+
+// Helper to save blogs
+async function saveBlogs(blogsData: any) {
+  if (useKV) {
+    await initKV();
+    if (kvModule?.kv) {
+      try {
+        await kvModule.kv.set("blogs", JSON.stringify(blogsData));
+        return;
+      } catch (error) {
+        console.error("KV write error:", error);
+      }
+    }
+  }
 }
 
 // GET all blogs
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const data = readFileSync(blogsPath, "utf-8");
-    res.json(JSON.parse(data));
+    const blogsData = await getBlogs();
+    res.json(blogsData);
   } catch (error) {
+    console.error("Failed to read blogs:", error);
     res.status(500).json({ error: "Failed to read blogs" });
   }
 });
 
 // POST create/update blog
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { id, slug, title, excerpt, content, thumbnail, category, date } = req.body;
 
@@ -57,12 +100,7 @@ router.post("/", (req, res) => {
     }
 
     // Read current blogs
-    let blogsData = { blogs: [] };
-    try {
-      blogsData = JSON.parse(readFileSync(blogsPath, "utf-8"));
-    } catch {
-      blogsData = { blogs: [] };
-    }
+    let blogsData = await getBlogs();
 
     const newBlog = {
       id: id || Date.now().toString(),
@@ -84,8 +122,8 @@ router.post("/", (req, res) => {
       blogsData.blogs.unshift(newBlog);
     }
 
-    // Save to file
-    writeFileSync(blogsPath, JSON.stringify(blogsData, null, 2));
+    // Save blogs
+    await saveBlogs(blogsData);
 
     res.json({ success: true, blog: newBlog });
   } catch (error) {
@@ -95,17 +133,18 @@ router.post("/", (req, res) => {
 });
 
 // DELETE blog
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    let blogsData = JSON.parse(readFileSync(blogsPath, "utf-8"));
+    let blogsData = await getBlogs();
     blogsData.blogs = blogsData.blogs.filter((b: any) => b.id !== id);
 
-    writeFileSync(blogsPath, JSON.stringify(blogsData, null, 2));
+    await saveBlogs(blogsData);
 
     res.json({ success: true });
   } catch (error) {
+    console.error("Blog delete error:", error);
     res.status(500).json({ error: "Failed to delete blog" });
   }
 });
