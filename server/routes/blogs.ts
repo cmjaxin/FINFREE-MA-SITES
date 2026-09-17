@@ -1,28 +1,42 @@
 import express from "express";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 
 const router = express.Router();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-// GitHub API configuration
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_REPO = "cmjaxin/FINFREE-MA-SITES";
-const BLOGS_FILE_PATH = "client/src/data/blogs.json";
-
-// Check if we're in production (Vercel) or local
+// Determine blogs storage location
 const isProduction = process.env.NODE_ENV === "production";
-const useGitHub = isProduction && GITHUB_TOKEN;
-
-// Fallback: use local file in dev mode
 let blogsPath: string;
-if (!useGitHub) {
+
+if (isProduction) {
+  // In production, try multiple locations
+  const possiblePaths = [
+    "/tmp/blogs.json",
+    join("/var/tmp", "blogs.json"),
+    join(process.cwd(), "blogs.json"),
+    join(process.cwd(), "client/src/data/blogs.json"),
+  ];
+
+  blogsPath = possiblePaths[0]; // Default to /tmp
+
+  // Try to find existing file
+  for (const path of possiblePaths) {
+    if (existsSync(path)) {
+      blogsPath = path;
+      console.log(`Found blogs at: ${blogsPath}`);
+      break;
+    }
+  }
+} else {
+  // In development, use source file
   const possiblePaths = [
     join(process.cwd(), "client/src/data/blogs.json"),
     join(process.cwd(), "../client/src/data/blogs.json"),
     join(__dirname, "../../client/src/data/blogs.json"),
   ];
+
   blogsPath = possiblePaths[0];
   for (const path of possiblePaths) {
     if (existsSync(path)) {
@@ -32,100 +46,43 @@ if (!useGitHub) {
   }
 }
 
-// Helper to get blogs from GitHub
-async function getBlogsFromGitHub() {
+// Ensure directory exists and file is initialized
+function initializeBlogsFile() {
   try {
-    const response = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
-      {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3.raw",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      console.error("GitHub fetch failed:", response.status);
-      return { blogs: [] };
+    const dir = blogsPath.substring(0, blogsPath.lastIndexOf("/"));
+    if (dir && !existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
     }
 
-    const data = await response.text();
-    return JSON.parse(data);
+    if (!existsSync(blogsPath)) {
+      writeFileSync(blogsPath, JSON.stringify({ blogs: [] }, null, 2));
+    }
   } catch (error) {
-    console.error("GitHub read error:", error);
-    return { blogs: [] };
+    console.error("Failed to initialize blogs file:", error);
   }
 }
 
-// Helper to save blogs to GitHub
-async function saveBlogsToGitHub(blogsData: any) {
-  try {
-    // First, get the current file SHA for update
-    const getResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
-      {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-        },
-      }
-    );
-
-    const getResult: any = await getResponse.json();
-    const sha = getResult.sha;
-
-    // Update the file
-    const content = Buffer.from(JSON.stringify(blogsData, null, 2)).toString(
-      "base64"
-    );
-
-    const updateResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${BLOGS_FILE_PATH}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: "Update blogs via admin panel",
-          content: content,
-          sha: sha,
-        }),
-      }
-    );
-
-    if (!updateResponse.ok) {
-      console.error("GitHub update failed:", updateResponse.status);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error("GitHub write error:", error);
-    return false;
-  }
-}
+initializeBlogsFile();
 
 // Helper to get blogs
 async function getBlogs() {
-  if (useGitHub) {
-    return await getBlogsFromGitHub();
-  }
-
-  // Fallback to file
   try {
     const data = readFileSync(blogsPath, "utf-8");
     return JSON.parse(data);
-  } catch {
+  } catch (error) {
+    console.error("Failed to read blogs:", error);
     return { blogs: [] };
   }
 }
 
 // Helper to save blogs
 async function saveBlogs(blogsData: any) {
-  if (useGitHub) {
-    return await saveBlogsToGitHub(blogsData);
+  try {
+    writeFileSync(blogsPath, JSON.stringify(blogsData, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Failed to save blogs:", error);
+    return false;
   }
 }
 
