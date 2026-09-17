@@ -73,9 +73,9 @@ function saveBlogs(blogsData: any) {
   try {
     writeFileSync(sourceFilePath, JSON.stringify(blogsData, null, 2));
     savedToSource = true;
-    console.log("Saved to source file:", sourceFilePath);
-  } catch (e) {
-    console.warn("Could not save to source file:", e);
+    console.log("✓ Saved to source file:", sourceFilePath);
+  } catch (e: any) {
+    console.warn("⚠ Could not save to source file (read-only in production):", e?.message);
   }
 
   // Always try to save to tmp as well
@@ -86,12 +86,19 @@ function saveBlogs(blogsData: any) {
     }
     writeFileSync(tmpPath, JSON.stringify(blogsData, null, 2));
     savedToTmp = true;
-    console.log("Saved to tmp:", tmpPath);
-  } catch (e) {
-    console.warn("Could not save to tmp:", e);
+    console.log("✓ Saved to tmp:", tmpPath);
+  } catch (e: any) {
+    console.error("✗ Could not save to tmp:", e?.message);
   }
 
-  return savedToSource || savedToTmp;
+  // Success if saved to at least one location
+  if (savedToSource || savedToTmp) {
+    console.log(`✓ Blog save successful (source: ${savedToSource}, tmp: ${savedToTmp})`);
+    return true;
+  }
+
+  console.error("✗ Failed to save to any location");
+  return false;
 }
 
 // Initialize on load
