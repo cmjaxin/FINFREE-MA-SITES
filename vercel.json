@@ -1,5 +1,9 @@
 {
-  "buildCommand": "pnpm run build",
+  "buildCommand": "pnpm run build:client",
   "devCommand": "pnpm dev",
-  "installCommand": "pnpm install --frozen-lockfile"
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": "dist/public",
+  "rewrites": [
+    { "source": "/:path*", "destination": "/index.html" }
+  ]
 }
