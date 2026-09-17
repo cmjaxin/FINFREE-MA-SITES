@@ -3,13 +3,43 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 const isProduction = process.env.NODE_ENV === "production";
-const projectRoot = isProduction ? "/var/task" : process.cwd();
 const sourceFilePath = isProduction
-  ? join(projectRoot, "dist/public/blogs.json")
-  : join(projectRoot, "client/src/data/blogs.json");
+  ? "/var/task/dist/public/blogs.json"
+  : join(process.cwd(), "client/src/data/blogs.json");
 const tmpPath = "/tmp/blogs.json";
 
+const defaultBlogs = {
+  blogs: [
+    {
+      id: "1789674689474",
+      slug: "first-time-home-buyer-tips",
+      title: "First Time Home Buyer Tips",
+      excerpt: "Essential tips and guidance for first-time home buyers to make your home purchase journey smoother.",
+      content: "<h2>Getting Started as a First-Time Home Buyer</h2><p>Buying your first home is one of the biggest financial decisions you'll make. Here are some essential tips to help guide you through the process:</p><h3>1. Get Pre-Approved for a Mortgage</h3><p>Before you start house hunting, get pre-approved for a mortgage. This will show sellers you're a serious buyer and help you understand your budget.</p><h3>2. Save for a Down Payment</h3><p>While down payment requirements vary, having a larger down payment can help you get better interest rates and avoid PMI (Private Mortgage Insurance).</p><h3>3. Check Your Credit Score</h3><p>Your credit score directly impacts the interest rate you'll receive. Take time to improve your credit before applying for a mortgage.</p><h3>4. Get Pre-Approved</h3><p>A mortgage pre-approval is stronger than a pre-qualification and shows sellers you can actually get financing.</p>",
+      thumbnail: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500&h=300&fit=crop",
+      author: "Blog Team",
+      date: "2026-09-17",
+      category: "Home Buying Tips",
+    },
+  ],
+};
+
 function getBlogs() {
+  // In production, try /tmp first (persistent within container)
+  if (isProduction) {
+    try {
+      if (existsSync(tmpPath)) {
+        const data = readFileSync(tmpPath, "utf-8");
+        return JSON.parse(data);
+      }
+    } catch (e) {
+      console.warn("Could not read /tmp/blogs.json");
+    }
+    // Fallback to default blogs
+    return defaultBlogs;
+  }
+
+  // In development, try source file first
   try {
     if (existsSync(sourceFilePath)) {
       const data = readFileSync(sourceFilePath, "utf-8");
@@ -23,7 +53,7 @@ function getBlogs() {
     const data = readFileSync(tmpPath, "utf-8");
     return JSON.parse(data);
   } catch {
-    return { blogs: [] };
+    return defaultBlogs;
   }
 }
 
