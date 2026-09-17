@@ -8,8 +8,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const blogsPath = "/tmp/blogs.json";
+const blogsSourcePath = "client/src/data/blogs.json";
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const REPO = "cmjaxin/FINFREE-MA-SITES";
+const BRANCH = "main";
 
 function getBlogs() {
+  // Try to read from source file first (in production, this is from previous deployment)
   try {
     if (existsSync(blogsPath)) {
       const data = readFileSync(blogsPath, "utf-8");
@@ -18,6 +23,8 @@ function getBlogs() {
   } catch (e) {
     console.error("Error reading blogs:", e);
   }
+
+  // Default fallback
   return {
     blogs: [
       {
@@ -50,13 +57,65 @@ function saveBlogs(data: any) {
   }
 }
 
+async function commitToGitHub(data: any, message: string) {
+  if (!GITHUB_TOKEN) {
+    console.warn("GITHUB_TOKEN not set, skipping commit");
+    return false;
+  }
+
+  try {
+    const content = Buffer.from(JSON.stringify(data, null, 2)).toString("base64");
+
+    // Get current file SHA
+    const getResponse = await fetch(`https://api.github.com/repos/${REPO}/contents/${blogsSourcePath}?ref=${BRANCH}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    let sha: string | null = null;
+    if (getResponse.ok) {
+      const fileData = await getResponse.json();
+      sha = fileData.sha;
+    }
+
+    // Commit the change
+    const commitResponse = await fetch(`https://api.github.com/repos/${REPO}/contents/${blogsSourcePath}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message,
+        content,
+        branch: BRANCH,
+        sha,
+      }),
+    });
+
+    if (!commitResponse.ok) {
+      console.error("GitHub commit failed:", await commitResponse.text());
+      return false;
+    }
+
+    console.log("Successfully committed to GitHub");
+    return true;
+  } catch (e) {
+    console.error("Error committing to GitHub:", e);
+    return false;
+  }
+}
+
 // GET /api/blogs
 app.get("/api/blogs", (req: any, res: any) => {
   res.json(getBlogs());
 });
 
 // POST /api/blogs
-app.post("/api/blogs", (req: any, res: any) => {
+app.post("/api/blogs", async (req: any, res: any) => {
   const { id, slug, title, excerpt, content, thumbnail, category, date } = req.body;
 
   if (!title || !excerpt || !content || !thumbnail) {
@@ -77,13 +136,19 @@ app.post("/api/blogs", (req: any, res: any) => {
   };
 
   const existingIndex = blogsData.blogs.findIndex((b: any) => b.id === newBlog.id);
-  if (existingIndex >= 0) {
+  const isUpdate = existingIndex >= 0;
+
+  if (isUpdate) {
     blogsData.blogs[existingIndex] = newBlog;
   } else {
     blogsData.blogs.unshift(newBlog);
   }
 
   if (saveBlogs(blogsData)) {
+    // Commit to GitHub
+    const commitMessage = isUpdate ? `Update blog: ${title}` : `Add blog: ${title}`;
+    await commitToGitHub(blogsData, commitMessage);
+
     res.json({ success: true, blog: newBlog });
   } else {
     res.status(500).json({ error: "Failed to save blog" });
@@ -91,14 +156,19 @@ app.post("/api/blogs", (req: any, res: any) => {
 });
 
 // DELETE /api/blogs/:id
-app.delete("/api/blogs/:id", (req: any, res: any) => {
+app.delete("/api/blogs/:id", async (req: any, res: any) => {
   const { id } = req.params;
   let blogsData = getBlogs();
   const originalCount = blogsData.blogs.length;
+  const deletedBlog = blogsData.blogs.find((b: any) => b.id === id);
   blogsData.blogs = blogsData.blogs.filter((b: any) => b.id !== id);
 
   if (blogsData.blogs.length < originalCount) {
     if (saveBlogs(blogsData)) {
+      // Commit to GitHub
+      if (deletedBlog) {
+        await commitToGitHub(blogsData, `Delete blog: ${deletedBlog.title}`);
+      }
       res.json({ success: true });
     } else {
       res.status(500).json({ error: "Failed to delete" });
