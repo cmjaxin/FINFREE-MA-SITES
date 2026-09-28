@@ -302,6 +302,8 @@ export default function FreedomCalculator({
 
 // Step components (simplified for now)
 function StepMoney({ plan, result, updatePlan }: any) {
+  const person = plan.people[0];
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
@@ -309,22 +311,238 @@ function StepMoney({ plan, result, updatePlan }: any) {
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>My Money</h2>
       <p style={{ color: '#666', marginBottom: '2rem' }}>2026 Tax Year</p>
-      <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-        <p>Income setup form goes here...</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem', marginBottom: '2rem' }}>
+        {/* Forms */}
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              Name
+            </label>
+            <input
+              type="text"
+              value={person.name}
+              onChange={(e) => {
+                const updated = { ...plan, people: [...plan.people] };
+                updated.people[0] = { ...person, name: e.target.value };
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="Your name"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              Age
+            </label>
+            <input
+              type="number"
+              value={person.age}
+              onChange={(e) => {
+                const updated = { ...plan, people: [...plan.people] };
+                updated.people[0] = { ...person, age: Number(e.target.value) };
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="Age"
+              min="0"
+              max="120"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              W-2 Income
+            </label>
+            <input
+              type="number"
+              value={person.incomes.w2}
+              onChange={(e) => {
+                const updated = { ...plan, people: [...plan.people] };
+                updated.people[0] = { ...person, incomes: { ...person.incomes, w2: Number(e.target.value) } };
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              1099 / Self-Employment
+            </label>
+            <input
+              type="number"
+              value={person.incomes.socialSecurity1099}
+              onChange={(e) => {
+                const updated = { ...plan, people: [...plan.people] };
+                updated.people[0] = { ...person, incomes: { ...person.incomes, socialSecurity1099: Number(e.target.value) } };
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              Filing Status
+            </label>
+            <select
+              value={plan.filingStatus}
+              onChange={(e) => updatePlan({ filingStatus: e.target.value })}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+            >
+              <option value="single">Single</option>
+              <option value="married_jointly">Married Filing Jointly</option>
+              <option value="married_separately">Married Filing Separately</option>
+              <option value="head_of_household">Head of Household</option>
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
+              State Tax Rate (%)
+            </label>
+            <input
+              type="number"
+              value={(plan.stateTaxRate * 100).toFixed(1)}
+              onChange={(e) => updatePlan({ stateTaxRate: Number(e.target.value) / 100 })}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="5"
+              min="0"
+              max="50"
+              step="0.1"
+            />
+          </div>
+        </div>
+
+        {/* Results */}
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
+            Income Summary
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Income</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.totalIncome)}</div>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>After Tax</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#006786' }}>{cur(result.afterTaxIncome)}</div>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Effective Rate</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>{result.effectiveRate.toFixed(1)}%</div>
+          </div>
+          <div style={{ fontSize: '11px', color: '#666', lineHeight: 1.6 }}>
+            Federal: {cur(result.federalTax)}<br/>
+            State: {cur(result.stateTax)}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 function StepExpenses({ plan, result, updatePlan }: any) {
+  const expenseCategories = [
+    { key: 'housing', name: 'Housing' },
+    { key: 'food', name: 'Food' },
+    { key: 'auto', name: 'Auto' },
+    { key: 'medicalDental', name: 'Medical/Dental' },
+    { key: 'entertainment', name: 'Entertainment' },
+    { key: 'personal', name: 'Personal' },
+  ];
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         STEP 2 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>My Expenses</h2>
-      <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-        <p>Expense tracking goes here...</p>
+      <p style={{ color: '#666', marginBottom: '1.5rem' }}>Today vs. Tomorrow: What you spend now and what you expect to spend in retirement</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem' }}>
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
+          {expenseCategories.map((cat) => (
+            <div key={cat.key} style={{ marginBottom: '2rem', paddingBottom: '2rem', borderBottom: '1px solid #e0ddd9' }}>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: '#0A2540', marginBottom: '1rem' }}>
+                {cat.name}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#666', marginBottom: '0.3rem' }}>
+                    Today
+                  </label>
+                  <input
+                    type="number"
+                    value={plan.expenses[cat.key] && Object.values(plan.expenses[cat.key])[0]?.today || 0}
+                    onChange={(e) => {
+                      const updated = { ...plan, expenses: { ...plan.expenses } };
+                      const items = Object.keys(plan.expenses[cat.key]);
+                      if (items.length > 0) {
+                        updated.expenses[cat.key] = { ...plan.expenses[cat.key] };
+                        updated.expenses[cat.key][items[0]] = {
+                          ...updated.expenses[cat.key][items[0]],
+                          today: Number(e.target.value)
+                        };
+                      }
+                      updatePlan(updated);
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                    placeholder="$0"
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: '#666', marginBottom: '0.3rem' }}>
+                    Tomorrow
+                  </label>
+                  <input
+                    type="number"
+                    value={plan.expenses[cat.key] && Object.values(plan.expenses[cat.key])[0]?.tomorrow || 0}
+                    onChange={(e) => {
+                      const updated = { ...plan, expenses: { ...plan.expenses } };
+                      const items = Object.keys(plan.expenses[cat.key]);
+                      if (items.length > 0) {
+                        updated.expenses[cat.key] = { ...plan.expenses[cat.key] };
+                        updated.expenses[cat.key][items[0]] = {
+                          ...updated.expenses[cat.key][items[0]],
+                          tomorrow: Number(e.target.value)
+                        };
+                      }
+                      updatePlan(updated);
+                    }}
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                    placeholder="$0"
+                    min="0"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
+            Expense Summary
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Today</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.monthlyExpensesToday)}</div>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Tomorrow</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.monthlyExpensesTomorrow)}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Surplus</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#006786' }}>{cur(result.surplus / 12)}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -337,8 +555,96 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
         STEP 3 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Net Worth</h2>
-      <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-        <p>Net worth tracking goes here...</p>
+      <p style={{ color: '#666', marginBottom: '1.5rem' }}>Assets, debts, and everything in between — the real picture</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem' }}>
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
+          <div style={{ marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Cash Accounts</h3>
+            <input
+              type="number"
+              value={plan.cashAccounts[0]?.balance || 0}
+              onChange={(e) => {
+                const updated = { ...plan, cashAccounts: [...plan.cashAccounts] };
+                if (!updated.cashAccounts[0]) updated.cashAccounts[0] = { id: 'cash-1', bank: 'Bank', balance: 0 };
+                updated.cashAccounts[0].balance = Number(e.target.value);
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Investments</h3>
+            <input
+              type="number"
+              value={plan.investments[0]?.marketValue || 0}
+              onChange={(e) => {
+                const updated = { ...plan, investments: [...plan.investments] };
+                if (!updated.investments[0]) updated.investments[0] = { id: 'inv-1', description: '', assets: '', marketValue: 0, pledged: false, taxStatus: 'taxable' };
+                updated.investments[0].marketValue = Number(e.target.value);
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+
+          <div style={{ marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Debts</h3>
+            <input
+              type="number"
+              value={plan.debts[0]?.unpaidBalance || 0}
+              onChange={(e) => {
+                const updated = { ...plan, debts: [...plan.debts] };
+                if (!updated.debts[0]) updated.debts[0] = { id: 'debt-1', whoYouOwe: '', collateral: 0, type: '', creditLine: 0, originalAmount: 0, unpaidBalance: 0, monthlyPayment: 0, payOffAtRetirement: false };
+                updated.debts[0].unpaidBalance = Number(e.target.value);
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+
+          <div>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Real Estate Value</h3>
+            <input
+              type="number"
+              value={plan.realEstate[0]?.marketValue || 0}
+              onChange={(e) => {
+                const updated = { ...plan, realEstate: [...plan.realEstate] };
+                if (!updated.realEstate[0]) updated.realEstate[0] = { id: 're-1', description: '', title: '', type: 'personal', dateAcquired: '', cost: 0, marketValue: 0, originalLoan: 0, unpaidBalance: 0, monthlyPayment: 0 };
+                updated.realEstate[0].marketValue = Number(e.target.value);
+                updatePlan(updated);
+              }}
+              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              placeholder="$0"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
+            Net Worth
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Assets</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>{cur(result.totalAssets)}</div>
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Liabilities</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#d6006c' }}>{cur(result.totalLiabilities)}</div>
+          </div>
+          <div style={{ paddingTop: '1rem', borderTop: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Net Worth</div>
+            <div style={{ fontSize: '22px', fontWeight: 700, color: '#0088b0' }}>{cur(result.netWorth)}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -351,8 +657,78 @@ function StepPIN({ plan, result }: any) {
         STEP 4 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Personal Balance Sheet</h2>
-      <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-        <p>Personal balance sheet goes here...</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', marginBottom: '2rem' }}>
+        {/* Assets */}
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#0088b0', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+            Assets
+          </h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
+            <span>Cash on Hand</span>
+            <span style={{ fontWeight: 600 }}>{cur(plan.cashAccounts[0]?.balance || 0)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
+            <span>Investments</span>
+            <span style={{ fontWeight: 600 }}>{cur(plan.investments[0]?.marketValue || 0)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
+            <span>Real Estate</span>
+            <span style={{ fontWeight: 600 }}>{cur(plan.realEstate[0]?.marketValue || 0)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 700, color: '#0088b0', paddingTop: '1rem', borderTop: '2px solid #0088b0' }}>
+            <span>Total Assets</span>
+            <span>{cur(result.totalAssets)}</span>
+          </div>
+        </div>
+
+        {/* Liabilities */}
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#d6006c', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+            Liabilities
+          </h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
+            <span>Debts</span>
+            <span style={{ fontWeight: 600 }}>{cur(plan.debts[0]?.unpaidBalance || 0)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 700, color: '#d6006c', paddingTop: '1rem', borderTop: '2px solid #d6006c' }}>
+            <span>Total Liabilities</span>
+            <span>{cur(result.totalLiabilities)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px', fontWeight: 800, color: '#0088b0', marginTop: '2rem', paddingTop: '1rem', borderTop: '2px solid #0088b0' }}>
+            <span>NET WORTH</span>
+            <span>{cur(result.netWorth)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+              Lifetime Wealth Saved
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
+              {result.lifetimeWealthPercent.toFixed(1)}%
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+              Monthly Cash Flow
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
+              {cur(result.monthlyCashFlow)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+              Months Covered
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
+              {result.monthsCovered.toFixed(1)}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -365,8 +741,205 @@ function StepFIN({ plan, result, updatePlan }: any) {
         STEP 5 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Financial Independence Number</h2>
-      <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-        <p>FIN calculation inputs go here...</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Desired Monthly Retirement Income
+          </label>
+          <input
+            type="number"
+            value={plan.desiredMonthlyRetirementIncome}
+            onChange={(e) => updatePlan({ desiredMonthlyRetirementIncome: Number(e.target.value) })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="$0"
+            min="0"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>What you want to spend monthly</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Expected Retirement Income
+          </label>
+          <input
+            type="number"
+            value={plan.monthlyRetirementIncome}
+            onChange={(e) => updatePlan({ monthlyRetirementIncome: Number(e.target.value) })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="$0"
+            min="0"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Pension, part-time work, etc.</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Social Security Monthly
+          </label>
+          <input
+            type="number"
+            value={plan.socialSecurityMonthly}
+            onChange={(e) => updatePlan({ socialSecurityMonthly: Number(e.target.value) })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="$0"
+            min="0"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Expected monthly benefit</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Retirement Age
+          </label>
+          <input
+            type="number"
+            value={plan.retirementAge}
+            onChange={(e) => updatePlan({ retirementAge: Number(e.target.value) })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="65"
+            min="50"
+            max="100"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Age you plan to retire</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Life Expectancy
+          </label>
+          <input
+            type="number"
+            value={plan.deathAge}
+            onChange={(e) => updatePlan({ deathAge: Number(e.target.value) })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="90"
+            min="60"
+            max="110"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Plan conservatively</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Inflation Rate (%)
+          </label>
+          <input
+            type="number"
+            value={(plan.inflationRate * 100).toFixed(2)}
+            onChange={(e) => updatePlan({ inflationRate: Number(e.target.value) / 100 })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="3.5"
+            min="0"
+            max="10"
+            step="0.1"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Historical: 2.5-3.5%</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Withdrawal Rate (%)
+          </label>
+          <input
+            type="number"
+            value={(plan.withdrawalRate * 100).toFixed(1)}
+            onChange={(e) => updatePlan({ withdrawalRate: Number(e.target.value) / 100 })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="4"
+            min="1"
+            max="8"
+            step="0.1"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Conservative to aggressive</div>
+        </div>
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
+          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            Projected Growth Rate (%)
+          </label>
+          <input
+            type="number"
+            value={(plan.projectedGrowthRate * 100).toFixed(2)}
+            onChange={(e) => updatePlan({ projectedGrowthRate: Number(e.target.value) / 100 })}
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
+            placeholder="5"
+            min="-10"
+            max="20"
+            step="0.1"
+          />
+          <div style={{ fontSize: '11px', color: '#999' }}>Typical: 5-8%</div>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div style={{ background: '#e9f8ff', padding: '2rem', borderRadius: '8px' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
+            Your Financial Independence Number
+          </div>
+          <div style={{ fontSize: 'clamp(44px, 7vw, 72px)', fontWeight: 700, color: '#0088b0', marginBottom: '0.5rem', fontVariantNumeric: 'tabular-nums' }}>
+            {cur(result.futureSavingsNeeded)}
+          </div>
+          <div style={{ fontSize: '14px', color: '#666', marginBottom: '1rem' }}>
+            The total nest egg you need to retire on your terms
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+              Need from Savings (Monthly)
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0' }}>
+              {cur(result.needFromSavings)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+              Inflation-Adjusted
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0' }}>
+              {cur(result.inflationAdjustedNeed / 12)}/mo
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+              Current Liquid Savings
+            </div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
+              {cur(result.currentLiquidSavings)}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+              Projected Savings
+            </div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
+              {cur(result.projectedSavings)}
+            </div>
+          </div>
+        </div>
+
+        {result.shortfall > 0 ? (
+          <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#d6006c', marginBottom: '0.5rem' }}>
+              ⚠ Shortfall: {cur(result.shortfall)}
+            </div>
+            <div style={{ fontSize: '12px', color: '#666' }}>
+              Additional monthly savings needed: <strong>{cur(result.extraMonthlySavings)}/mo</strong>
+            </div>
+          </div>
+        ) : (
+          <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0088b0' }}>
+              ✓ You're on track for financial freedom!
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
