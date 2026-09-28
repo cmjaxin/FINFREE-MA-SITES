@@ -8,12 +8,14 @@ import Home from "./pages/Home";
 import BlogList from "./pages/BlogList";
 import BlogPost from "./pages/BlogPost";
 import AdminBlog from "./pages/AdminBlog";
+import Calculator from "./pages/Calculator";
 
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/calculator"} component={Calculator} />
       <Route path={"/blog"} component={BlogList} />
       <Route path={"/blog/:slug"} component={BlogPost} />
       <Route path={"/admin/blog"} component={AdminBlog} />
