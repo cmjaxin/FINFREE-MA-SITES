@@ -137,7 +137,41 @@ export default function FreedomCalculator({
   };
 
   if (!currentPlan || !result) {
-    const sampleResult = compute(blank('Sample Plan'));
+    const samplePlan = blank('Sample Plan');
+    // Populate with realistic sample data
+    samplePlan.people[0] = {
+      name: 'You',
+      age: 42,
+      lifetimeMoneyEarned: 2400000,
+      incomes: { w2: 120000, socialSecurity1099: 0, bonusCommissions: 15000, k1ScheduleE: 8000, taxFreeIncome: 0 }
+    };
+    samplePlan.hoursWorkedWeekly = 45;
+    samplePlan.filingStatus = 'married_jointly';
+    samplePlan.stateTaxRate = 0.05;
+    samplePlan.expenses = {
+      housing: { mortgage: { today: 2800, tomorrow: 2800 }, realEstateTaxes: { today: 400, tomorrow: 400 }, electric: { today: 150, tomorrow: 150 }, other: { today: 0, tomorrow: 0 }, gas: { today: 80, tomorrow: 80 }, waterSewer: { today: 60, tomorrow: 60 }, phoneInternet: { today: 120, tomorrow: 120 }, cableSatellite: { today: 0, tomorrow: 0 }, trash: { today: 30, tomorrow: 30 }, homeRepairs: { today: 200, tomorrow: 200 }, yardWork: { today: 100, tomorrow: 100 }, mortgage2: { today: 0, tomorrow: 0 }, mortgage3: { today: 0, tomorrow: 0 } },
+      auto: { carLoan: { today: 450, tomorrow: 450 }, gasoline: { today: 300, tomorrow: 300 }, parking: { today: 0, tomorrow: 0 }, licenseTabs: { today: 30, tomorrow: 30 }, repairs: { today: 100, tomorrow: 100 } },
+      otherTransportation: { bus: { today: 0, tomorrow: 0 }, train: { today: 0, tomorrow: 0 } },
+      food: { groceries: { today: 900, tomorrow: 900 }, eatingOut: { today: 400, tomorrow: 400 }, schoolLunches: { today: 50, tomorrow: 50 } },
+      clothes: { adults: { today: 100, tomorrow: 100 }, kids: { today: 80, tomorrow: 80 } },
+      entertainment: { movies: { today: 80, tomorrow: 100 }, recreationTravel: { today: 300, tomorrow: 500 }, recreationalVehicles: { today: 0, tomorrow: 0 }, other: { today: 50, tomorrow: 50 } },
+      kidsActivities: { school: { today: 200, tomorrow: 200 }, lessons: { today: 100, tomorrow: 100 }, camp: { today: 0, tomorrow: 0 }, sports: { today: 150, tomorrow: 150 }, friends: { today: 50, tomorrow: 50 } },
+      charity: { donations: { today: 200, tomorrow: 200 }, church: { today: 0, tomorrow: 0 } },
+      medicalDental: { premiums: { today: 400, tomorrow: 400 }, copays: { today: 100, tomorrow: 100 }, prescriptions: { today: 50, tomorrow: 50 }, vitamins: { today: 30, tomorrow: 30 } },
+      insurance: { auto: { today: 100, tomorrow: 100 }, life: { today: 60, tomorrow: 60 }, health: { today: 200, tomorrow: 200 }, home: { today: 80, tomorrow: 80 }, disability: { today: 0, tomorrow: 0 }, ltc: { today: 0, tomorrow: 0 } },
+      allowances: { grownups: { today: 0, tomorrow: 0 }, children: { today: 100, tomorrow: 100 } },
+      personal: { haircuts: { today: 60, tomorrow: 60 }, laundry: { today: 40, tomorrow: 40 }, gifts: { today: 150, tomorrow: 150 }, subscriptions: { today: 50, tomorrow: 50 } },
+      debtPayments: { studentLoans: { today: 300, tomorrow: 0 }, homeEquity: { today: 0, tomorrow: 0 }, creditCards: { today: 200, tomorrow: 200 }, otherLoans: { today: 0, tomorrow: 0 } },
+      other: { other: { today: 100, tomorrow: 100 } }
+    };
+    samplePlan.cashAccounts = [{ id: 'cash-1', bank: 'Savings', balance: 85000 }];
+    samplePlan.investments = [{ id: 'inv-1', description: 'Brokerage', marketValue: 450000, taxStatus: 'taxable', pledged: false, assets: '' }];
+    samplePlan.debts = [{ id: 'debt-1', whoYouOwe: 'Bank', type: 'Auto', creditLine: 0, originalAmount: 35000, unpaidBalance: 18000, monthlyPayment: 450, payOffAtRetirement: false, collateral: 0 }];
+    samplePlan.desiredMonthlyRetirementIncome = 6000;
+    samplePlan.retirementAge = 67;
+    samplePlan.deathAge = 90;
+    samplePlan.projectedGrowthRate = 0.07;
+    const sampleResult = compute(samplePlan);
 
     return (
       <div style={{ fontFamily: 'Montserrat, sans-serif' }}>
