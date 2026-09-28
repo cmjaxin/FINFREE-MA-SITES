@@ -98,6 +98,7 @@ export interface ComputedResult {
   annualIncomeAfterTax: number;
   federalTax: number;
   stateTax: number;
+  ficaTax: number;
   afterTaxIncome: number;
   effectiveRate: number;
   jobHours: number;
@@ -310,6 +311,7 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
     annualIncomeAfterTax: afterTaxIncome,
     federalTax: fedTax,
     stateTax,
+    ficaTax,
     afterTaxIncome,
     effectiveRate: totalIncome > 0 ? ((fedTax + stateTax + ficaTax) / totalIncome) * 100 : 0,
     jobHours: totalJobHours,

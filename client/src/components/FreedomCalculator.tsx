@@ -1078,10 +1078,17 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
                     <input
                       key={`input-${item.id}-${field.key}`}
                       type={field.type || 'text'}
-                      defaultValue={item[field.key] || ''}
+                      defaultValue={field.key.includes('growth') || field.key.includes('Rate') ? ((item[field.key] || 0) * 100).toFixed(2) : (item[field.key] || '')}
                       onBlur={(e) => {
                         const val = e.target.value;
-                        updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? (val === '' ? 0 : Number(val)) : val);
+                        let finalVal = val;
+                        if (field.type === 'number') {
+                          finalVal = val === '' ? 0 : Number(val);
+                          if (field.key.includes('growth') || field.key.includes('Rate')) {
+                            finalVal = Number(finalVal) / 100;
+                          }
+                        }
+                        updateScheduleItem(scheduleKey, idx, field.key, finalVal);
                       }}
                       placeholder={field.placeholder || ''}
                       style={{ width: '100%', padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
@@ -1483,7 +1490,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
         <MetricCard label="Net Worth" value={cur(result.netWorth)} sub={`${result.lifetimeWealthPercent.toFixed(1)}% of lifetime earnings`} tone="pos" />
         <MetricCard label="Annual Expenses" value={cur(result.annualExpensesToday)} tone="ink" />
         <MetricCard label="Potential Savings" value={`${result.savingsRate.toFixed(1)}% · ${cur(result.monthlyCashFlow)}/mo`} tone="pos" />
-        <MetricCard label="Effective Tax Rate" value={`${result.effectiveRate.toFixed(1)}%`} sub={`${cur(result.federalTax + result.stateTax)} total tax`} tone="tax" />
+        <MetricCard label="Effective Tax Rate" value={`${result.effectiveRate.toFixed(1)}%`} sub={`${cur(result.federalTax + result.stateTax + result.ficaTax)} total tax`} tone="tax" />
         <MetricCard label="Monthly Cash Flow" value={cur(result.monthlyCashFlow)} sub={`${result.monthsCovered.toFixed(1)} months covered`} tone="pos" />
         <MetricCard label="FIN Number" value={cur(result.futureSavingsNeeded)} sub={result.shortfall > 0 ? `−${cur(result.shortfall)} shortfall` : `+${cur(result.projectedSavings - result.futureSavingsNeeded)} surplus`} tone={result.shortfall > 0 ? 'neg' : 'pos'} />
       </div>
