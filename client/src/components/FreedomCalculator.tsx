@@ -141,25 +141,30 @@ export default function FreedomCalculator({
     return messages[stepNum] || 'Step complete';
   };
 
-  const handleSavePlan = () => {
-    const email = window.prompt('Enter your email to save this plan:');
+  const savePlanNow = () => {
+    if (!currentPlan) {
+      showToast('No plan to save', 'error');
+      return;
+    }
+
+    const email = window.prompt('Enter your email:');
     if (!email) return;
 
-    const planName = window.prompt('Plan name:', currentPlan.name) || currentPlan.name;
+    const name = window.prompt('Plan name:', currentPlan.name) || currentPlan.name;
 
     try {
-      const plans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
-      plans.push({
+      const stored = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
+      stored.push({
         id: Math.random().toString(36).slice(2),
-        name: planName,
-        email,
+        name: name,
+        email: email,
         data: currentPlan,
         savedAt: new Date().toISOString(),
       });
-      localStorage.setItem('calculator_plans', JSON.stringify(plans));
-      showToast(`✓ Plan saved as "${planName}"`, 'success');
-    } catch (error) {
-      showToast('Error saving plan', 'error');
+      localStorage.setItem('calculator_plans', JSON.stringify(stored));
+      showToast(`✓ Saved "${name}"`, 'success');
+    } catch (err) {
+      showToast('Error saving', 'error');
     }
   };
 
@@ -1529,7 +1534,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
           📄 Export as PDF
         </button>
         <button
-          onClick={handleSavePlan}
+          onClick={savePlanNow}
           style={{
             background: '#0088b0',
             color: '#fff',
