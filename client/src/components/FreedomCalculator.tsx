@@ -1,6 +1,37 @@
 import { useState, useEffect } from 'react';
 import { blank, compute, cur, pct, Profile, ComputedResult, CATS } from '@/lib/ffic-engine';
 
+function CountUpNumber({ target, style }: any) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const duration = 1600;
+    const start = Date.now();
+
+    const animate = () => {
+      const now = Date.now();
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(target * eased));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [target]);
+
+  return (
+    <div style={style}>
+      ${count.toLocaleString()}
+    </div>
+  );
+}
+
 interface FreedomCalculatorProps {
   advisorName?: string;
   advisorPhoto?: string;
@@ -106,13 +137,85 @@ export default function FreedomCalculator({
   };
 
   if (!currentPlan || !result) {
+    const sampleResult = compute(blank('Sample Plan'));
+
     return (
-      <div style={{ minHeight: '100vh', background: '#f3f2f2', padding: '2rem' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
-          <h1 style={{ color: '#0A2540', marginBottom: '1rem' }}>Financial Freedom Independence Calculator</h1>
-          <p style={{ color: '#666', marginBottom: '2rem', fontSize: '1.1rem' }}>
-            Map your income, spending, and net worth to your freedom number.
+      <div style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        {/* Hero Section */}
+        <section style={{
+          background: 'radial-gradient(ellipse 80% 70% at 15% 10%, #16345a 0%, transparent 60%), linear-gradient(135deg, #102a4a 0%, #0b1f38 55%, #0d2644 100%)',
+          minHeight: '90vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#fff',
+          padding: 'clamp(2rem, 5vw, 5rem) clamp(1rem, 5vw, 2rem)',
+          textAlign: 'center',
+        }}>
+          <img src="https://mettlehq.com/wp-content/uploads/2023/06/NEO_LOGO_HORIZ_WHITE-1.png" alt="NEO" style={{ height: '44px', marginBottom: '2rem' }} />
+
+          <div style={{
+            display: 'inline-block',
+            background: 'rgba(94,200,245,0.08)',
+            border: '1px solid rgba(94,200,245,0.35)',
+            borderRadius: '999px',
+            padding: '7px 16px',
+            marginBottom: '2rem',
+          }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5ec8f5' }}>
+              Financial Freedom Independence Calculator
+            </span>
+          </div>
+
+          <h1 style={{
+            fontSize: 'clamp(34px, 5.4vw, 60px)',
+            fontWeight: 900,
+            lineHeight: 1.12,
+            letterSpacing: '-0.02em',
+            maxWidth: '18ch',
+            marginBottom: '1.5rem',
+          }}>
+            Find the exact number you need to <span style={{ color: '#5ec8f5' }}>walk away from work.</span>
+          </h1>
+
+          <p style={{
+            fontSize: '17px',
+            lineHeight: 1.65,
+            color: 'rgba(255,255,255,0.78)',
+            maxWidth: '56ch',
+            marginBottom: '3rem',
+          }}>
+            A guided calculator that maps your income, spending, and net worth to your freedom number — and the years it'll take to get there.
           </p>
+
+          {/* Example Card */}
+          <div style={{
+            width: 'min(100%, 420px)',
+            padding: '26px 30px',
+            borderRadius: '14px',
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            backdropFilter: 'blur(8px)',
+            marginBottom: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            alignItems: 'center',
+          }}>
+            <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5ec8f5' }}>
+              Example · A Freedom Number
+            </div>
+            <CountUpNumber target={sampleResult.futureSavingsNeeded} style={{
+              fontSize: 'clamp(38px, 5vw, 50px)',
+              fontWeight: 700,
+              fontVariantNumeric: 'tabular-nums',
+            }} />
+            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.72)' }}>
+              25 years · 10% savings rate · <span style={{ fontWeight: 600, color: '#ffb38a' }}>Needs adjustment</span>
+            </div>
+          </div>
+
           <button
             onClick={createNewPlan}
             style={{
@@ -124,11 +227,112 @@ export default function FreedomCalculator({
               fontWeight: 600,
               borderRadius: '10px',
               cursor: 'pointer',
+              transition: 'background 0.2s',
             }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#8ad8f8'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#5BCBF5'}
           >
-            Start Your Plan →
+            Start your plan →
           </button>
-        </div>
+        </section>
+
+        {/* See it Before You Build It */}
+        <section style={{ background: '#f3f2f2', padding: 'clamp(4rem, 8vw, 6rem) 2rem' }}>
+          <div style={{ maxWidth: 1140, margin: '0 auto' }}>
+            <div style={{ marginBottom: '3rem', maxWidth: '800px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0088b0', marginBottom: '1.5rem', paddingTop: '1.5rem', borderTop: '2px solid #201e1d', borderBottom: '1px solid #201e1d', paddingBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+                <span>See it before you build it</span>
+                <span style={{ color: '#666' }}>An example household</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 36px)', fontWeight: 800, color: '#0A2540', lineHeight: 1.2, marginBottom: '0.5rem' }}>
+                Here's what your plan will look like
+              </h2>
+              <p style={{ fontSize: '16px', color: '#666' }}>A two-income family of four, 25 years from retirement.</p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+              <MetricCard label="Net Worth" value={cur(sampleResult.netWorth)} sub="Assets minus liabilities" tone="pos" />
+              <MetricCard label="Savings Rate" value={`${sampleResult.savingsRate.toFixed(1)}%`} sub="Of after-tax income" tone="pos" />
+              <MetricCard label="Years to Freedom" value="25" sub="Retiring at 67" tone="ink" />
+              <MetricCard label="Shortfall" value={cur(sampleResult.shortfall)} sub="Gap to close" tone="neg" />
+            </div>
+
+            <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', marginBottom: '3rem' }}>
+              <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                <div style={{ fontSize: '64px', fontWeight: 700, color: '#0088b0' }}>76%</div>
+                <div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0088b0', marginBottom: '0.5rem' }}>
+                    Savings Projection
+                  </div>
+                  <div style={{ fontSize: '16px', color: '#666', fontWeight: 500 }}>
+                    Growth over 25 years → $2.5M
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* From Messy Numbers to Clear Plan */}
+        <section style={{ background: '#fff', padding: 'clamp(4rem, 8vw, 6rem) 2rem' }}>
+          <div style={{ maxWidth: 1140, margin: '0 auto' }}>
+            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 36px)', fontWeight: 800, color: '#0A2540', lineHeight: 1.2, marginBottom: '3rem', textAlign: 'center' }}>
+              From messy numbers to a clear plan
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+              {[
+                { num: '1', title: 'Income', body: 'Map every dollar you earn — W-2, 1099, side hustle, passive.' },
+                { num: '2', title: 'Spending', body: 'Today vs. tomorrow — categorize what leaves, what stays.' },
+                { num: '3', title: 'Net Worth', body: 'Assets, debts, and everything in between — the real picture.' },
+                { num: '4', title: 'Freedom Number', body: 'The exact savings target — and the years to reach it.' },
+              ].map((step) => (
+                <div key={step.num} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '72px', fontWeight: 600, color: '#0088b0', marginBottom: '0.5rem' }}>
+                    {step.num}
+                  </div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#666', marginBottom: '0.75rem' }}>
+                    Step {step.num}
+                  </div>
+                  <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0A2540', marginBottom: '0.75rem' }}>
+                    {step.title}
+                  </h3>
+                  <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.6 }}>
+                    {step.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+              <button
+                onClick={createNewPlan}
+                style={{
+                  background: '#5BCBF5',
+                  color: '#0b1f38',
+                  border: 'none',
+                  padding: '16px 36px',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#8ad8f8'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#5BCBF5'}
+              >
+                Start your plan →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Disclaimer */}
+        <section style={{ background: '#f3f2f2', padding: '2rem', textAlign: 'center' }}>
+          <div style={{ maxWidth: 1140, margin: '0 auto', fontSize: '12px', color: '#666' }}>
+            <strong>Disclaimer:</strong> This is not financial advice — this is intended as a worksheet for you to review with your licensed liability and financial advisors.
+          </div>
+        </section>
       </div>
     );
   }
