@@ -511,7 +511,7 @@ export default function FreedomCalculator({
         {step === 2 && <StepNetWorth plan={currentPlan} result={result} updatePlan={updatePlan} />}
         {step === 3 && <StepPIN plan={currentPlan} result={result} />}
         {step === 4 && <StepFIN plan={currentPlan} result={result} updatePlan={updatePlan} />}
-        {step === 5 && <StepDashboard plan={currentPlan} result={result} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} />}
+        {step === 5 && <StepDashboard plan={currentPlan} result={result} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} showToast={showToast} />}
 
         {/* Footer */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', gap: '1rem' }}>
@@ -1431,7 +1431,7 @@ function StepFIN({ plan, result, updatePlan }: any) {
   );
 }
 
-function StepDashboard({ plan, result, youCanBookUrl, advisorName, advisorPhone, advisorEmail }: any) {
+function StepDashboard({ plan, result, youCanBookUrl, advisorName, advisorPhone, advisorEmail, showToast }: any) {
   const downloadResults = () => {
     const data = `FINANCIAL FREEDOM CALCULATOR RESULTS
 ${new Date().toLocaleDateString()}
@@ -1499,7 +1499,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
       {/* Action buttons */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
         <button
-          onClick={() => generatePlanPDF(currentPlan.name, result, currentPlan)}
+          onClick={() => generatePlanPDF(plan.name, result, plan)}
           style={{
             background: '#f3f2f2',
             color: '#0088b0',
@@ -1520,14 +1520,14 @@ This is not financial advice. Consult with a licensed financial advisor before m
           onClick={() => {
             const email = window.prompt('Enter your email to save this plan:');
             if (!email) return;
-            const name = window.prompt('Plan name:', currentPlan.name) || currentPlan.name;
+            const name = window.prompt('Plan name:', plan.name) || plan.name;
             try {
               const plans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
               plans.push({
                 id: Math.random().toString(36).slice(2),
                 name,
                 email,
-                data: currentPlan,
+                data: plan,
                 savedAt: new Date().toISOString(),
               });
               localStorage.setItem('calculator_plans', JSON.stringify(plans));
