@@ -506,7 +506,26 @@ export default function FreedomCalculator({
 
 // Step components (simplified for now)
 function StepMoney({ plan, result, updatePlan }: any) {
-  const person = plan.people[0];
+  const updatePerson = (index: number, updates: any) => {
+    const updated = { ...plan, people: [...plan.people] };
+    updated.people[index] = { ...updated.people[index], ...updates };
+    updatePlan(updated);
+  };
+
+  const addPerson = () => {
+    const updated = { ...plan, people: [...plan.people, { name: '', age: 0, lifetimeMoneyEarned: 0, incomes: { w2: 0, socialSecurity1099: 0, bonusCommissions: 0, k1ScheduleE: 0, taxFreeIncome: 0 } }] };
+    updatePlan(updated);
+  };
+
+  const removePerson = (index: number) => {
+    const updated = { ...plan, people: plan.people.filter((_: any, i: number) => i !== index) };
+    updatePlan(updated);
+  };
+
+  const updateJobHours = (key: string, value: number) => {
+    const updated = { ...plan, jobRelatedHours: { ...plan.jobRelatedHours, [key]: value } };
+    updatePlan(updated);
+  };
 
   return (
     <div>
@@ -516,135 +535,230 @@ function StepMoney({ plan, result, updatePlan }: any) {
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>My Money</h2>
       <p style={{ color: '#666', marginBottom: '2rem' }}>2026 Tax Year</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '3rem' }}>
         {/* Forms */}
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              Name
+        <div>
+          {/* People Section */}
+          {plan.people.map((person: any, idx: number) => (
+            <div key={idx} style={{ background: '#fff', padding: '2rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid #e0ddd9' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0A2540' }}>
+                  Person {idx + 1}
+                </h3>
+                {plan.people.length > 1 && (
+                  <button
+                    onClick={() => removePerson(idx)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#d6006c',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                <input
+                  type="text"
+                  value={person.name}
+                  onChange={(e) => updatePerson(idx, { name: e.target.value })}
+                  placeholder="Name"
+                  style={{ padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                />
+                <div>
+                  <input
+                    type="number"
+                    value={person.age}
+                    onChange={(e) => updatePerson(idx, { age: Number(e.target.value) })}
+                    placeholder="Age"
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                    min="0"
+                    max="120"
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem', display: 'block' }}>
+                  Lifetime Money Earned
+                </label>
+                <input
+                  type="number"
+                  value={person.lifetimeMoneyEarned}
+                  onChange={(e) => updatePerson(idx, { lifetimeMoneyEarned: Number(e.target.value) })}
+                  placeholder="$0"
+                  style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                  min="0"
+                />
+              </div>
+
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#0A2540', marginBottom: '1rem', display: 'block', textTransform: 'uppercase', fontSize: '11px', letterSpacing: '0.05em' }}>
+                  Income Sources · Annual
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  {[
+                    ['w2', 'W-2 Income'],
+                    ['socialSecurity1099', '1099 / Social Security'],
+                    ['bonusCommissions', 'Bonus / Commissions'],
+                    ['k1ScheduleE', 'K-1 / Schedule E'],
+                    ['taxFreeIncome', 'Tax Free Income'],
+                  ].map(([key, label]) => (
+                    <div key={key}>
+                      <label style={{ fontSize: '12px', color: '#666', marginBottom: '0.3rem', display: 'block' }}>
+                        {label}
+                      </label>
+                      <input
+                        type="number"
+                        value={person.incomes[key as keyof typeof person.incomes] || 0}
+                        onChange={(e) => updatePerson(idx, { incomes: { ...person.incomes, [key]: Number(e.target.value) } })}
+                        placeholder="$0"
+                        style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                        min="0"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <button
+            onClick={addPerson}
+            style={{
+              background: 'none',
+              border: '1px solid #0088b0',
+              color: '#0088b0',
+              padding: '10px 18px',
+              fontSize: '12px',
+              fontWeight: 600,
+              borderRadius: '2px',
+              cursor: 'pointer',
+              marginBottom: '2rem',
+              textTransform: 'uppercase',
+            }}
+          >
+            + Add person
+          </button>
+
+          {/* Hours Worked Weekly */}
+          <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid #e0ddd9' }}>
+            <label style={{ fontSize: '12px', fontWeight: 600, color: '#0A2540', marginBottom: '1rem', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Hours Worked Weekly
             </label>
-            <input
-              type="text"
-              value={person.name}
-              onChange={(e) => {
-                const updated = { ...plan, people: [...plan.people] };
-                updated.people[0] = { ...person, name: e.target.value };
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="Your name"
-            />
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ fontSize: '12px', color: '#666', marginBottom: '0.3rem', display: 'block' }}>
+                Base Hours / Week
+              </label>
+              <input
+                type="number"
+                value={plan.hoursWorkedWeekly}
+                onChange={(e) => updatePlan({ hoursWorkedWeekly: Number(e.target.value) })}
+                placeholder="40"
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                min="0"
+              />
+            </div>
+
+            <div style={{ fontSize: '11px', color: '#0088b0', fontWeight: 700, textTransform: 'uppercase', marginBottom: '1rem', marginTop: '1.5rem' }}>
+              Job-Related Hours
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1rem' }}>
+              {[
+                ['commuting', 'Commuting'],
+                ['costuming', 'Costuming'],
+                ['meals', 'Meals'],
+                ['decompression', 'Decompression'],
+                ['escapeEntertainment', 'Escape Entertainment'],
+                ['vacationsAndRewards', 'Vacations and Rewards'],
+                ['jobRelatedIllness', 'Job-Related Illness'],
+                ['servants', 'Servants'],
+              ].map(([key, label]) => (
+                <div key={key}>
+                  <label style={{ fontSize: '12px', color: '#666', marginBottom: '0.3rem', display: 'block' }}>
+                    {label}
+                  </label>
+                  <input
+                    type="number"
+                    value={plan.jobRelatedHours[key] || 0}
+                    onChange={(e) => updateJobHours(key, Number(e.target.value))}
+                    placeholder="0"
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                    min="0"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              Age
+          {/* Tax Filing */}
+          <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+            <label style={{ fontSize: '12px', fontWeight: 600, color: '#0A2540', marginBottom: '1rem', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Tax Filing
             </label>
-            <input
-              type="number"
-              value={person.age}
-              onChange={(e) => {
-                const updated = { ...plan, people: [...plan.people] };
-                updated.people[0] = { ...person, age: Number(e.target.value) };
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="Age"
-              min="0"
-              max="120"
-            />
-          </div>
-
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              W-2 Income
-            </label>
-            <input
-              type="number"
-              value={person.incomes.w2}
-              onChange={(e) => {
-                const updated = { ...plan, people: [...plan.people] };
-                updated.people[0] = { ...person, incomes: { ...person.incomes, w2: Number(e.target.value) } };
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
-
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              1099 / Self-Employment
-            </label>
-            <input
-              type="number"
-              value={person.incomes.socialSecurity1099}
-              onChange={(e) => {
-                const updated = { ...plan, people: [...plan.people] };
-                updated.people[0] = { ...person, incomes: { ...person.incomes, socialSecurity1099: Number(e.target.value) } };
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
-
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              Filing Status
-            </label>
-            <select
-              value={plan.filingStatus}
-              onChange={(e) => updatePlan({ filingStatus: e.target.value })}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-            >
-              <option value="single">Single</option>
-              <option value="married_jointly">Married Filing Jointly</option>
-              <option value="married_separately">Married Filing Separately</option>
-              <option value="head_of_household">Head of Household</option>
-            </select>
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '0.5rem', color: '#0A2540' }}>
-              State Tax Rate (%)
-            </label>
-            <input
-              type="number"
-              value={(plan.stateTaxRate * 100).toFixed(1)}
-              onChange={(e) => updatePlan({ stateTaxRate: Number(e.target.value) / 100 })}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="5"
-              min="0"
-              max="50"
-              step="0.1"
-            />
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ fontSize: '12px', color: '#666', marginBottom: '0.3rem', display: 'block' }}>
+                Filing Status
+              </label>
+              <select
+                value={plan.filingStatus}
+                onChange={(e) => updatePlan({ filingStatus: e.target.value })}
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+              >
+                <option value="single">Single</option>
+                <option value="married_jointly">Married Filing Jointly</option>
+                <option value="married_separately">Married Filing Separately</option>
+                <option value="head_of_household">Head of Household</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ fontSize: '12px', color: '#666', marginBottom: '0.3rem', display: 'block' }}>
+                State Tax Rate (%)
+              </label>
+              <input
+                type="number"
+                value={(plan.stateTaxRate * 100).toFixed(1)}
+                onChange={(e) => updatePlan({ stateTaxRate: Number(e.target.value) / 100 })}
+                placeholder="5"
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
+                min="0"
+                max="50"
+                step="0.1"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Results */}
-        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
+        {/* Results Rail */}
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content', position: 'sticky', top: '20px' }}>
           <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
-            Income Summary
+            Results
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Income</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.totalIncome)}</div>
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>After Tax</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#006786' }}>{cur(result.afterTaxIncome)}</div>
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Effective Rate</div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>{result.effectiveRate.toFixed(1)}%</div>
-          </div>
-          <div style={{ fontSize: '11px', color: '#666', lineHeight: 1.6 }}>
-            Federal: {cur(result.federalTax)}<br/>
-            State: {cur(result.stateTax)}
-          </div>
+          {[
+            ['Total Income', result.totalIncome, 'ink'],
+            ['Net After-Tax', result.afterTaxIncome, 'pos'],
+            ['Federal Tax', result.federalTax, 'tax'],
+            ['State Tax', result.stateTax, 'tax'],
+            ['Effective Tax Rate', `${result.effectiveRate.toFixed(1)}%`, 'tax'],
+            ['Job Hours / Week', result.jobHours.toFixed(1), 'neg'],
+            ['Hourly Wage', cur(result.hourlyWage), 'ink'],
+            ['After-Tax Hourly', cur(result.afterTaxHourly), 'pos'],
+          ].map(([label, value, tone]) => (
+            <div key={label} style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #cbeeff' }}>
+              <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+                {label}
+              </div>
+              <div style={{ fontSize: '16px', fontWeight: 700, color: tone === 'pos' ? '#0088b0' : tone === 'neg' ? '#d6006c' : tone === 'tax' ? '#9b9797' : '#0A2540', fontVariantNumeric: 'tabular-nums' }}>
+                {value}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -652,14 +766,19 @@ function StepMoney({ plan, result, updatePlan }: any) {
 }
 
 function StepExpenses({ plan, result, updatePlan }: any) {
-  const expenseCategories = [
-    { key: 'housing', name: 'Housing' },
-    { key: 'food', name: 'Food' },
-    { key: 'auto', name: 'Auto' },
-    { key: 'medicalDental', name: 'Medical/Dental' },
-    { key: 'entertainment', name: 'Entertainment' },
-    { key: 'personal', name: 'Personal' },
-  ];
+  const updateExpense = (catKey: string, itemKey: string, field: 'today' | 'tomorrow', value: number) => {
+    const updated = { ...plan, expenses: { ...plan.expenses } };
+    updated.expenses[catKey] = { ...plan.expenses[catKey] };
+    updated.expenses[catKey][itemKey] = {
+      ...updated.expenses[catKey][itemKey],
+      [field]: value
+    };
+    updatePlan(updated);
+  };
+
+  const getCategoryTotal = (catKey: string, field: 'today' | 'tomorrow') => {
+    return Object.values(plan.expenses[catKey] || {}).reduce((sum: number, exp: any) => sum + (exp[field] || 0), 0);
+  };
 
   return (
     <div>
@@ -667,84 +786,100 @@ function StepExpenses({ plan, result, updatePlan }: any) {
         STEP 2 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>My Expenses</h2>
-      <p style={{ color: '#666', marginBottom: '1.5rem' }}>Today vs. Tomorrow: What you spend now and what you expect to spend in retirement</p>
+      <p style={{ color: '#666', marginBottom: '1.5rem' }}>
+        Standard of Living (available monthly dollars): <strong>{cur(result.standardOfLiving)}</strong> <em style={{ fontSize: '12px', color: '#999' }}>do not include savings</em>
+      </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem' }}>
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          {expenseCategories.map((cat) => (
-            <div key={cat.key} style={{ marginBottom: '2rem', paddingBottom: '2rem', borderBottom: '1px solid #e0ddd9' }}>
-              <div style={{ fontSize: '14px', fontWeight: 600, color: '#0A2540', marginBottom: '1rem' }}>
-                {cat.name}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#666', marginBottom: '0.3rem' }}>
-                    Today
-                  </label>
-                  <input
-                    type="number"
-                    value={plan.expenses[cat.key] && Object.values(plan.expenses[cat.key])[0]?.today || 0}
-                    onChange={(e) => {
-                      const updated = { ...plan, expenses: { ...plan.expenses } };
-                      const items = Object.keys(plan.expenses[cat.key]);
-                      if (items.length > 0) {
-                        updated.expenses[cat.key] = { ...plan.expenses[cat.key] };
-                        updated.expenses[cat.key][items[0]] = {
-                          ...updated.expenses[cat.key][items[0]],
-                          today: Number(e.target.value)
-                        };
-                      }
-                      updatePlan(updated);
-                    }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-                    placeholder="$0"
-                    min="0"
-                  />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '3rem' }}>
+        <div>
+          {CATS.map((category) => {
+            const catExpenses = plan.expenses[category.key] || {};
+            const todayTotal = getCategoryTotal(category.key, 'today');
+            const tomorrowTotal = getCategoryTotal(category.key, 'tomorrow');
+
+            return (
+              <div key={category.key} style={{ background: '#fff', marginBottom: '1rem', borderRadius: '8px', border: '1px solid #e0ddd9', overflow: 'hidden' }}>
+                <div style={{ padding: '1rem', background: '#f9fafb', borderBottom: '1px solid #e0ddd9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0A2540', margin: 0 }}>
+                    {category.name}
+                  </h3>
+                  <div style={{ fontSize: '12px', color: '#0088b0', fontWeight: 600 }}>
+                    {cur(todayTotal)} / {cur(tomorrowTotal)}
+                  </div>
                 </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '12px', color: '#666', marginBottom: '0.3rem' }}>
-                    Tomorrow
-                  </label>
-                  <input
-                    type="number"
-                    value={plan.expenses[cat.key] && Object.values(plan.expenses[cat.key])[0]?.tomorrow || 0}
-                    onChange={(e) => {
-                      const updated = { ...plan, expenses: { ...plan.expenses } };
-                      const items = Object.keys(plan.expenses[cat.key]);
-                      if (items.length > 0) {
-                        updated.expenses[cat.key] = { ...plan.expenses[cat.key] };
-                        updated.expenses[cat.key][items[0]] = {
-                          ...updated.expenses[cat.key][items[0]],
-                          tomorrow: Number(e.target.value)
-                        };
-                      }
-                      updatePlan(updated);
-                    }}
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-                    placeholder="$0"
-                    min="0"
-                  />
+                <div style={{ padding: '1rem' }}>
+                  {category.items.map(([itemKey, itemLabel]) => {
+                    const expense = catExpenses[itemKey] || { today: 0, tomorrow: 0 };
+                    return (
+                      <div key={itemKey} style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr', gap: '1rem', marginBottom: '0.75rem', alignItems: 'flex-end' }}>
+                        <label style={{ fontSize: '12px', color: '#666' }}>
+                          {itemLabel}
+                        </label>
+                        <input
+                          type="number"
+                          value={expense.today || 0}
+                          onChange={(e) => updateExpense(category.key, itemKey, 'today', Number(e.target.value))}
+                          placeholder="$0"
+                          style={{ padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                          min="0"
+                        />
+                        <input
+                          type="number"
+                          value={expense.tomorrow || 0}
+                          onChange={(e) => updateExpense(category.key, itemKey, 'tomorrow', Number(e.target.value))}
+                          placeholder="$0"
+                          style={{ padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                          min="0"
+                        />
+                      </div>
+                    );
+                  })}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr', gap: '1rem', paddingTop: '0.75rem', borderTop: '1px solid #e0ddd9', marginTop: '0.75rem' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#0A2540', textTransform: 'uppercase' }}>Subtotal</div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#0088b0' }}>{cur(todayTotal)}</div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#0088b0' }}>{cur(tomorrowTotal)}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
-          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
-            Expense Summary
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content', position: 'sticky', top: '20px' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1.5rem' }}>
+            Summary
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Today</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.monthlyExpensesToday)}</div>
+          <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+              Total Monthly Today
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+              {cur(result.monthlyExpensesToday)}
+            </div>
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Tomorrow</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>{cur(result.monthlyExpensesTomorrow)}</div>
+          <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+              Total Monthly Tomorrow
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+              {cur(result.monthlyExpensesTomorrow)}
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Monthly Surplus</div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#006786' }}>{cur(result.surplus / 12)}</div>
+          <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+              Annual Today
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+              {cur(result.annualExpensesToday)}
+            </div>
+          </div>
+          <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #cbeeff' }}>
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
+              Surplus / Shortfall
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 700, color: result.surplus >= 0 ? '#0088b0' : '#d6006c', fontVariantNumeric: 'tabular-nums' }}>
+              {cur(result.surplus)}
+            </div>
           </div>
         </div>
       </div>
