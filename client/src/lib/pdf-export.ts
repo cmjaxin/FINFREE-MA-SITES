@@ -7,17 +7,17 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
   }
 
   const content = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 800px;">
-      <h1 style="color: #0088b0; text-align: center;">Financial Freedom Independence Calculator</h1>
-      <p style="text-align: center; color: #666;">Generated: ${new Date().toLocaleDateString()}</p>
+    <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 800px; background: #fff; color: #000;">
+      <h1 style="color: #0088b0; text-align: center; font-size: 24px; margin: 0 0 10px 0;">Financial Freedom Independence Calculator</h1>
+      <p style="text-align: center; color: #666; margin: 0 0 20px 0; font-size: 12px;">Generated: ${new Date().toLocaleDateString()}</p>
 
-      <h2 style="color: #0088b0; border-bottom: 2px solid #0088b0; padding-bottom: 10px;">Plan: ${planName}</h2>
+      <h2 style="color: #0088b0; border-bottom: 2px solid #0088b0; padding-bottom: 10px; font-size: 18px;">Plan: ${planName}</h2>
 
-      <h3 style="color: #0088b0; margin-top: 20px;">Financial Summary</h3>
+      <h3 style="color: #0088b0; margin-top: 20px; font-size: 14px;">Financial Summary</h3>
       <table style="width: 100%; border-collapse: collapse;">
-        <tr style="background: #f0f0f0;">
-          <td style="padding: 10px; border: 1px solid #ddd;"><strong>Net Worth</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${result.netWorth.toLocaleString()}</strong></td>
+        <tr style="background: #f9f9f9;">
+          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Net Worth</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: bold;">$${result.netWorth.toLocaleString()}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Annual Expenses (Today)</td>
@@ -100,12 +100,18 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
 
   const element = document.createElement('div');
   element.innerHTML = content;
+  element.style.cssText = 'background: white; color: black; all: revert;';
 
   const options = {
     margin: 10,
     filename: `${planName}-${new Date().toISOString().slice(0, 10)}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
+    html2canvas: {
+      scale: 2,
+      allowTaint: true,
+      useCORS: false,
+      letterRendering: true
+    },
     jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
   };
 
