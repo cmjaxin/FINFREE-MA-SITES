@@ -671,10 +671,11 @@ function StepMoney({ plan, result, updatePlan }: any) {
                     type="number"
                     value={person.age || ''}
                     onChange={(e) => updatePerson(idx, { age: e.target.value === '' ? 0 : Number(e.target.value) })}
-                    placeholder="Age"
-                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-                    min="0"
+                    placeholder="Age (required)"
+                    style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', borderColor: person.age === 0 ? '#d6006c' : '#ddd' }}
+                    min="1"
                     max="120"
+                    required
                   />
                 </div>
               </div>

@@ -220,7 +220,8 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
   const taxableIncome = Math.max(0, totalIncome - std);
   const fedTax = federalTax(taxableIncome, filingStatus);
   const stateTax = totalIncome * clamp(stateTaxRate, 0, 0.5);
-  const afterTaxIncome = totalIncome - fedTax - stateTax;
+  const ficaTax = totalIncome * 0.0765; // Social Security 6.2% + Medicare 1.45%
+  const afterTaxIncome = totalIncome - fedTax - stateTax - ficaTax;
 
   // Hours & wage
   const jobRelatedTotal = sum(Object.values(jobRelatedHours), (v) => v);
@@ -295,16 +296,8 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
     const presentValue = liquidSavings * compounding;
     const futureContribution = annualContribution * (compounding - 1) / gr;
     const value = Math.max(0, presentValue + futureContribution);
-
-    // Safety check: if value exceeds $1 billion, something is likely wrong
-    if (value > 1000000000 && annualContribution > 0 && yearsToRetirement > 0) {
-      // Cap at a reasonable multiple of what's needed
-      const reasonable = futureSavingsNeeded * 10; // Allow 10x surplus max
-      projectionValues.push(Math.min(value, reasonable));
-    } else {
-      projectionValues.push(value);
-    }
     projectionYears.push(year);
+    projectionValues.push(value);
   }
 
   const projectedSavings = projectionValues[projectionValues.length - 1] || liquidSavings;
@@ -318,7 +311,7 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
     federalTax: fedTax,
     stateTax,
     afterTaxIncome,
-    effectiveRate: totalIncome > 0 ? ((fedTax + stateTax) / totalIncome) * 100 : 0,
+    effectiveRate: totalIncome > 0 ? ((fedTax + stateTax + ficaTax) / totalIncome) * 100 : 0,
     jobHours: totalJobHours,
     hourlyWage,
     afterTaxHourly,
