@@ -1066,6 +1066,7 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
             fields={[
               { key: 'description', label: 'Description', type: 'text' },
               { key: 'marketValue', label: 'Market Value $', type: 'number' },
+              { key: 'growthRate', label: 'Annual Growth %', type: 'number' },
               { key: 'taxStatus', label: 'Tax Status', type: 'select', options: ['Taxable', 'Tax Deferred', 'Tax Free'] },
             ]}
           />
@@ -1077,6 +1078,7 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
             fields={[
               { key: 'bank', label: 'Bank', type: 'text' },
               { key: 'balance', label: 'Balance $', type: 'number' },
+              { key: 'growthRate', label: 'Interest Rate %', type: 'number' },
             ]}
           />
 
@@ -1087,6 +1089,7 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
             fields={[
               { key: 'description', label: 'Description', type: 'text' },
               { key: 'marketValue', label: 'Market Value $', type: 'number' },
+              { key: 'growthRate', label: 'Annual Appreciation %', type: 'number' },
               { key: 'unpaidBalance', label: 'Unpaid Balance $', type: 'number' },
               { key: 'monthlyPayment', label: 'Mo. Payment $', type: 'number' },
             ]}

@@ -189,7 +189,7 @@ export function blank(name: string = 'My Financial Plan'): Profile {
     deathAge: 90,
     inflationRate: 0.035,
     withdrawalRate: 0.04,
-    projectedGrowthRate: 0.03,
+    projectedGrowthRate: 0.05,
     completedSteps: [],
   };
 }
@@ -269,14 +269,28 @@ export function compute(profile: Profile, { includeRE = false } = {}): ComputedR
   const withdrawalRate = clamp(profile.withdrawalRate, 0, 0.2);
   const futureSavingsNeeded = withdrawalRate > 0 ? inflationAdjustedNeed / withdrawalRate : 0;
 
-  // Projection
-  const growthRate = clamp(profile.projectedGrowthRate, -0.2, 0.5);
+  // Projection - calculate weighted growth rate from individual assets
+  const investmentValue = sum(profile.investments, (inv) => inv.marketValue) || 0;
+  const cashValue = sum(profile.cashAccounts, (c) => c.balance) || 0;
+  const realEstateValue = sum(profile.realEstate, (r) => r.marketValue) || 0;
+  const totalAssetValue = investmentValue + cashValue + realEstateValue;
+
+  let weightedGrowthRate = clamp(profile.projectedGrowthRate, -0.2, 0.5);
+  if (totalAssetValue > 0) {
+    const investmentGrowth = investmentValue > 0 ? sum(profile.investments, (inv) => (inv.marketValue || 0) * clamp(inv.growthRate || 0.07, -0.2, 0.5)) / investmentValue : 0;
+    const cashGrowth = cashValue > 0 ? sum(profile.cashAccounts, (c) => (c.balance || 0) * clamp(c.growthRate || 0.01, -0.2, 0.5)) / cashValue : 0;
+    const realEstateGrowth = realEstateValue > 0 ? sum(profile.realEstate, (r) => (r.marketValue || 0) * clamp(r.growthRate || 0.03, -0.2, 0.5)) / realEstateValue : 0;
+
+    weightedGrowthRate = (investmentValue * investmentGrowth + cashValue * cashGrowth + realEstateValue * realEstateGrowth) / totalAssetValue;
+  }
+
+  const growthRate = clamp(weightedGrowthRate, -0.2, 0.5);
   const annualContribution = Math.max(0, surplus);
   const projectionYears: number[] = [];
   const projectionValues: number[] = [];
 
   for (let year = 0; year <= yearsToRetirement; year += 1) {
-    const value = liquidSavings * Math.pow(1 + growthRate, year) + annualContribution * (Math.pow(1 + growthRate, year) - 1) / growthRate;
+    const value = liquidSavings * Math.pow(1 + growthRate, year) + annualContribution * (Math.pow(1 + growthRate, year) - 1) / (growthRate || 0.001);
     projectionYears.push(year);
     projectionValues.push(value);
   }
