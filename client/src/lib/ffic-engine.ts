@@ -290,9 +290,21 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
   const projectionValues: number[] = [];
 
   for (let year = 0; year <= yearsToRetirement; year += 1) {
-    const value = liquidSavings * Math.pow(1 + growthRate, year) + annualContribution * (Math.pow(1 + growthRate, year) - 1) / (growthRate || 0.001);
+    const gr = growthRate || 0.001;
+    const compounding = Math.pow(1 + gr, year);
+    const presentValue = liquidSavings * compounding;
+    const futureContribution = annualContribution * (compounding - 1) / gr;
+    const value = Math.max(0, presentValue + futureContribution);
+
+    // Safety check: if value exceeds $1 billion, something is likely wrong
+    if (value > 1000000000 && annualContribution > 0 && yearsToRetirement > 0) {
+      // Cap at a reasonable multiple of what's needed
+      const reasonable = futureSavingsNeeded * 10; // Allow 10x surplus max
+      projectionValues.push(Math.min(value, reasonable));
+    } else {
+      projectionValues.push(value);
+    }
     projectionYears.push(year);
-    projectionValues.push(value);
   }
 
   const projectedSavings = projectionValues[projectionValues.length - 1] || liquidSavings;
