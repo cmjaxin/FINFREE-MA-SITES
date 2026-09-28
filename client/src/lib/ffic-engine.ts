@@ -211,7 +211,7 @@ function federalTax(taxableIncome: number, status: string): number {
   return tax;
 }
 
-export function compute(profile: Profile, { includeRE = false } = {}): ComputedResult {
+export function compute(profile: Profile, { includeRE = true } = {}): ComputedResult {
   const { people, hoursWorkedWeekly, jobRelatedHours, filingStatus, stateTaxRate, expenses, debts } = profile;
 
   // Income
@@ -235,13 +235,13 @@ export function compute(profile: Profile, { includeRE = false } = {}): ComputedR
   const annualExpensesTomorrow = monthlyExpensesTomorrow * 12;
   const surplus = afterTaxIncome - annualExpensesToday;
 
-  // Net worth
+  // Net worth - INCLUDES real estate by default
   const debtPayments = sum(debts, (d) => d.monthlyPayment);
   const totalLiabilities = sum(debts, (d) => d.unpaidBalance);
   const totalAssets = sum(profile.investments, (inv) => inv.marketValue) +
     sum(profile.cashAccounts, (c) => c.balance) +
     sum(profile.lifeInsurance, (l) => l.cashValue) +
-    (includeRE ? sum(profile.realEstate, (r) => r.marketValue) : 0);
+    sum(profile.realEstate, (r) => r.marketValue);
   const netWorth = totalAssets - totalLiabilities;
   const lifetimeEarned = sum(people, (p) => p.lifetimeMoneyEarned);
   const lifetimeWealthPercent = lifetimeEarned > 0 ? (netWorth / lifetimeEarned) * 100 : 0;
