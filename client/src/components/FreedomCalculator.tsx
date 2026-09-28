@@ -888,101 +888,191 @@ function StepExpenses({ plan, result, updatePlan }: any) {
 }
 
 function StepNetWorth({ plan, result, updatePlan }: any) {
+  const addScheduleItem = (scheduleKey: string) => {
+    const updated = { ...plan, [scheduleKey]: [...(plan[scheduleKey] || [])] };
+    const uid = () => Math.random().toString(36).slice(2, 10);
+
+    if (scheduleKey === 'debts') {
+      updated.debts.push({ id: uid(), whoYouOwe: '', collateral: 0, type: '', creditLine: 0, originalAmount: 0, unpaidBalance: 0, monthlyPayment: 0, payOffAtRetirement: false });
+    } else if (scheduleKey === 'investments') {
+      updated.investments.push({ id: uid(), description: '', assets: '', marketValue: 0, pledged: false, taxStatus: 'taxable' });
+    } else if (scheduleKey === 'cashAccounts') {
+      updated.cashAccounts.push({ id: uid(), bank: '', balance: 0 });
+    } else if (scheduleKey === 'realEstate') {
+      updated.realEstate.push({ id: uid(), description: '', title: '', type: 'personal', dateAcquired: '', cost: 0, marketValue: 0, originalLoan: 0, unpaidBalance: 0, monthlyPayment: 0 });
+    }
+    updatePlan(updated);
+  };
+
+  const updateScheduleItem = (scheduleKey: string, index: number, field: string, value: any) => {
+    const updated = { ...plan, [scheduleKey]: [...plan[scheduleKey]] };
+    updated[scheduleKey][index] = { ...updated[scheduleKey][index], [field]: value };
+    updatePlan(updated);
+  };
+
+  const removeScheduleItem = (scheduleKey: string, index: number) => {
+    const updated = { ...plan, [scheduleKey]: plan[scheduleKey].filter((_: any, i: number) => i !== index) };
+    updatePlan(updated);
+  };
+
+  const ScheduleSection = ({ title, items, scheduleKey, fields }: any) => (
+    <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid #e0ddd9' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0A2540', margin: 0 }}>
+          {title}
+        </h3>
+        <button
+          onClick={() => addScheduleItem(scheduleKey)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#0088b0',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 600,
+            textDecoration: 'underline',
+          }}
+        >
+          + Add
+        </button>
+      </div>
+      {items.length === 0 ? (
+        <div style={{ fontSize: '12px', color: '#999', fontStyle: 'italic' }}>
+          No items yet
+        </div>
+      ) : (
+        items.map((item: any, idx: number) => (
+          <div key={item.id} style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: idx < items.length - 1 ? '1px solid #e0ddd9' : 'none' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#0A2540' }}>
+                {title} {idx + 1}
+              </div>
+              <button
+                onClick={() => removeScheduleItem(scheduleKey, idx)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#d6006c',
+                  cursor: 'pointer',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  textDecoration: 'underline',
+                }}
+              >
+                ✕ Remove
+              </button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
+              {fields.map((field: any) => (
+                <div key={field.key}>
+                  <label style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', display: 'block', marginBottom: '0.3rem' }}>
+                    {field.label}
+                  </label>
+                  {field.type === 'select' ? (
+                    <select
+                      value={item[field.key] || ''}
+                      onChange={(e) => updateScheduleItem(scheduleKey, idx, field.key, e.target.value)}
+                      style={{ width: '100%', padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                    >
+                      {field.options?.map((opt: string) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.type || 'text'}
+                      value={item[field.key] || 0}
+                      onChange={(e) => updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? Number(e.target.value) : e.target.value)}
+                      placeholder={field.placeholder || ''}
+                      style={{ width: '100%', padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
+                      min={field.min}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  );
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         STEP 3 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Net Worth</h2>
-      <p style={{ color: '#666', marginBottom: '1.5rem' }}>Assets, debts, and everything in between — the real picture</p>
+      <p style={{ color: '#666', marginBottom: '2rem' }}>Schedules 1–7: a complete picture of what you own and owe.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '3rem' }}>
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Cash Accounts</h3>
-            <input
-              type="number"
-              value={plan.cashAccounts[0]?.balance || 0}
-              onChange={(e) => {
-                const updated = { ...plan, cashAccounts: [...plan.cashAccounts] };
-                if (!updated.cashAccounts[0]) updated.cashAccounts[0] = { id: 'cash-1', bank: 'Bank', balance: 0 };
-                updated.cashAccounts[0].balance = Number(e.target.value);
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '3rem' }}>
+        <div>
+          <ScheduleSection
+            title="Debts / Credit Lines"
+            items={plan.debts}
+            scheduleKey="debts"
+            fields={[
+              { key: 'whoYouOwe', label: 'Who You Owe', type: 'text', placeholder: 'Bank name' },
+              { key: 'type', label: 'Type', type: 'text', placeholder: 'Auto Loan' },
+              { key: 'creditLine', label: 'Credit Line $', type: 'number' },
+              { key: 'originalAmount', label: 'Original Amt $', type: 'number' },
+              { key: 'unpaidBalance', label: 'Unpaid Bal $', type: 'number' },
+              { key: 'monthlyPayment', label: 'Mo. Payment $', type: 'number' },
+            ]}
+          />
 
-          <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Investments</h3>
-            <input
-              type="number"
-              value={plan.investments[0]?.marketValue || 0}
-              onChange={(e) => {
-                const updated = { ...plan, investments: [...plan.investments] };
-                if (!updated.investments[0]) updated.investments[0] = { id: 'inv-1', description: '', assets: '', marketValue: 0, pledged: false, taxStatus: 'taxable' };
-                updated.investments[0].marketValue = Number(e.target.value);
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
+          <ScheduleSection
+            title="Investments (Liquid)"
+            items={plan.investments}
+            scheduleKey="investments"
+            fields={[
+              { key: 'description', label: 'Description', type: 'text' },
+              { key: 'marketValue', label: 'Market Value $', type: 'number' },
+              { key: 'taxStatus', label: 'Tax Status', type: 'select', options: ['Taxable', 'Tax Deferred', 'Tax Free'] },
+            ]}
+          />
 
-          <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Debts</h3>
-            <input
-              type="number"
-              value={plan.debts[0]?.unpaidBalance || 0}
-              onChange={(e) => {
-                const updated = { ...plan, debts: [...plan.debts] };
-                if (!updated.debts[0]) updated.debts[0] = { id: 'debt-1', whoYouOwe: '', collateral: 0, type: '', creditLine: 0, originalAmount: 0, unpaidBalance: 0, monthlyPayment: 0, payOffAtRetirement: false };
-                updated.debts[0].unpaidBalance = Number(e.target.value);
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
+          <ScheduleSection
+            title="Cash Accounts"
+            items={plan.cashAccounts}
+            scheduleKey="cashAccounts"
+            fields={[
+              { key: 'bank', label: 'Bank', type: 'text' },
+              { key: 'balance', label: 'Balance $', type: 'number' },
+            ]}
+          />
 
-          <div>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '1rem', color: '#0A2540' }}>Real Estate Value</h3>
-            <input
-              type="number"
-              value={plan.realEstate[0]?.marketValue || 0}
-              onChange={(e) => {
-                const updated = { ...plan, realEstate: [...plan.realEstate] };
-                if (!updated.realEstate[0]) updated.realEstate[0] = { id: 're-1', description: '', title: '', type: 'personal', dateAcquired: '', cost: 0, marketValue: 0, originalLoan: 0, unpaidBalance: 0, monthlyPayment: 0 };
-                updated.realEstate[0].marketValue = Number(e.target.value);
-                updatePlan(updated);
-              }}
-              style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
-              placeholder="$0"
-              min="0"
-            />
-          </div>
+          <ScheduleSection
+            title="Real Estate"
+            items={plan.realEstate}
+            scheduleKey="realEstate"
+            fields={[
+              { key: 'description', label: 'Description', type: 'text' },
+              { key: 'marketValue', label: 'Market Value $', type: 'number' },
+              { key: 'unpaidBalance', label: 'Unpaid Balance $', type: 'number' },
+              { key: 'monthlyPayment', label: 'Mo. Payment $', type: 'number' },
+            ]}
+          />
         </div>
 
-        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content' }}>
-          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
-            Net Worth
+        <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px', height: 'fit-content', position: 'sticky', top: '20px' }}>
+          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1.5rem' }}>
+            Net Worth Summary
           </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Assets</div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>{cur(result.totalAssets)}</div>
-          </div>
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Total Liabilities</div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#d6006c' }}>{cur(result.totalLiabilities)}</div>
-          </div>
-          <div style={{ paddingTop: '1rem', borderTop: '1px solid #cbeeff' }}>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase' }}>Net Worth</div>
-            <div style={{ fontSize: '22px', fontWeight: 700, color: '#0088b0' }}>{cur(result.netWorth)}</div>
-          </div>
+          {[
+            ['Total Assets', result.totalAssets, 'ink'],
+            ['Total Liabilities', result.totalLiabilities, 'neg'],
+            ['Net Worth', result.netWorth, 'pos'],
+          ].map(([label, value, tone]) => (
+            <div key={label} style={{ marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: label === 'Net Worth' ? 'none' : '1px solid #cbeeff' }}>
+              <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                {label}
+              </div>
+              <div style={{ fontSize: '18px', fontWeight: 700, color: tone === 'pos' ? '#0088b0' : tone === 'neg' ? '#d6006c' : '#0A2540', fontVariantNumeric: 'tabular-nums' }}>
+                {cur(value as number)}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -990,80 +1080,79 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
 }
 
 function StepPIN({ plan, result }: any) {
+  const dotLedger = (label: string, value: number, isBold = false) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: isBold ? '14px' : '13px', color: '#0A2540', marginBottom: '0.8rem', fontWeight: isBold ? 700 : 400 }}>
+      <span>{label}</span>
+      <span style={{ flex: 1, borderBottom: `1px dotted ${isBold ? '#0A2540' : '#ccc'}`, marginLeft: '0.5rem', marginRight: '0.5rem' }} />
+      <span style={{ fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{cur(value)}</span>
+    </div>
+  );
+
+  const assetTotals = {
+    realEstate: (plan.realEstate || []).reduce((sum: number, r: any) => sum + (r.marketValue || 0), 0),
+    investments: (plan.investments || []).reduce((sum: number, i: any) => sum + (i.marketValue || 0), 0),
+    cashAccounts: (plan.cashAccounts || []).reduce((sum: number, c: any) => sum + (c.balance || 0), 0),
+    liabilities: (plan.debts || []).reduce((sum: number, d: any) => sum + (d.unpaidBalance || 0), 0),
+  };
+
+  const totalAssets = assetTotals.realEstate + assetTotals.investments + assetTotals.cashAccounts;
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         STEP 4 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Personal Balance Sheet</h2>
+      <p style={{ color: '#666', marginBottom: '2rem' }}>Your complete financial snapshot — assets and liabilities at a glance.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
         {/* Assets */}
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#0088b0', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: '#0088b0', marginBottom: '1.5rem', letterSpacing: '0.05em' }}>
             Assets
           </h3>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
-            <span>Cash on Hand</span>
-            <span style={{ fontWeight: 600 }}>{cur(plan.cashAccounts[0]?.balance || 0)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
-            <span>Investments</span>
-            <span style={{ fontWeight: 600 }}>{cur(plan.investments[0]?.marketValue || 0)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
-            <span>Real Estate</span>
-            <span style={{ fontWeight: 600 }}>{cur(plan.realEstate[0]?.marketValue || 0)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 700, color: '#0088b0', paddingTop: '1rem', borderTop: '2px solid #0088b0' }}>
-            <span>Total Assets</span>
-            <span>{cur(result.totalAssets)}</span>
+          {dotLedger('Real Estate (Market Value)', assetTotals.realEstate)}
+          {dotLedger('Investments (Liquid)', assetTotals.investments)}
+          {dotLedger('Cash & Accounts', assetTotals.cashAccounts)}
+          <div style={{ borderTop: '2px solid #0A2540', paddingTop: '1rem', marginTop: '1rem' }}>
+            {dotLedger('Total Assets', totalAssets, true)}
           </div>
         </div>
 
         {/* Liabilities */}
-        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#d6006c', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+        <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: '#d6006c', marginBottom: '1.5rem', letterSpacing: '0.05em' }}>
             Liabilities
           </h3>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #e0ddd9' }}>
-            <span>Debts</span>
-            <span style={{ fontWeight: 600 }}>{cur(plan.debts[0]?.unpaidBalance || 0)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: 700, color: '#d6006c', paddingTop: '1rem', borderTop: '2px solid #d6006c' }}>
-            <span>Total Liabilities</span>
-            <span>{cur(result.totalLiabilities)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px', fontWeight: 800, color: '#0088b0', marginTop: '2rem', paddingTop: '1rem', borderTop: '2px solid #0088b0' }}>
-            <span>NET WORTH</span>
-            <span>{cur(result.netWorth)}</span>
+          {dotLedger('Debts & Credit Lines', assetTotals.liabilities)}
+          <div style={{ borderTop: '2px solid #d6006c', paddingTop: '1rem', marginTop: '1rem' }}>
+            {dotLedger('Total Liabilities', assetTotals.liabilities, true)}
           </div>
         </div>
       </div>
 
-      <div style={{ background: '#e9f8ff', padding: '1.5rem', borderRadius: '8px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+      {/* Net Worth Summary */}
+      <div style={{ background: 'linear-gradient(135deg, #e9f8ff 0%, #f0fbff 100%)', padding: '2.5rem', borderRadius: '8px', border: '1px solid #cbeeff', textAlign: 'center' }}>
+        <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+          NET WORTH
+        </div>
+        <div style={{ fontSize: 'clamp(42px, 6vw, 60px)', fontWeight: 700, color: '#0088b0', marginBottom: '1rem', fontVariantNumeric: 'tabular-nums' }}>
+          {cur(result.netWorth)}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
           <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-              Lifetime Wealth Saved
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+              Wealth Saved
             </div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
               {result.lifetimeWealthPercent.toFixed(1)}%
             </div>
           </div>
           <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-              Monthly Cash Flow
-            </div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
-              {cur(result.monthlyCashFlow)}
-            </div>
-          </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+            <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
               Months Covered
             </div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0088b0' }}>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
               {result.monthsCovered.toFixed(1)}
             </div>
           </div>
@@ -1074,211 +1163,168 @@ function StepPIN({ plan, result }: any) {
 }
 
 function StepFIN({ plan, result, updatePlan }: any) {
+  const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint }: any) => (
+    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+      <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
+        {label}
+      </label>
+      <input
+        type="number"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        min={min}
+        max={max}
+        step={step}
+        style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem', boxSizing: 'border-box' }}
+      />
+      {hint && <div style={{ fontSize: '11px', color: '#999' }}>{hint}</div>}
+    </div>
+  );
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         STEP 5 OF 6
       </div>
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Financial Independence Number</h2>
+      <p style={{ color: '#666', marginBottom: '2rem' }}>Calculate the nest egg you need to retire on your terms.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Desired Monthly Retirement Income
-          </label>
-          <input
-            type="number"
-            value={plan.desiredMonthlyRetirementIncome}
-            onChange={(e) => updatePlan({ desiredMonthlyRetirementIncome: Number(e.target.value) })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="$0"
-            min="0"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>What you want to spend monthly</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Expected Retirement Income
-          </label>
-          <input
-            type="number"
-            value={plan.monthlyRetirementIncome}
-            onChange={(e) => updatePlan({ monthlyRetirementIncome: Number(e.target.value) })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="$0"
-            min="0"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Pension, part-time work, etc.</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Social Security Monthly
-          </label>
-          <input
-            type="number"
-            value={plan.socialSecurityMonthly}
-            onChange={(e) => updatePlan({ socialSecurityMonthly: Number(e.target.value) })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="$0"
-            min="0"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Expected monthly benefit</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Retirement Age
-          </label>
-          <input
-            type="number"
-            value={plan.retirementAge}
-            onChange={(e) => updatePlan({ retirementAge: Number(e.target.value) })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="65"
-            min="50"
-            max="100"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Age you plan to retire</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Life Expectancy
-          </label>
-          <input
-            type="number"
-            value={plan.deathAge}
-            onChange={(e) => updatePlan({ deathAge: Number(e.target.value) })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="90"
-            min="60"
-            max="110"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Plan conservatively</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Inflation Rate (%)
-          </label>
-          <input
-            type="number"
-            value={(plan.inflationRate * 100).toFixed(2)}
-            onChange={(e) => updatePlan({ inflationRate: Number(e.target.value) / 100 })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="3.5"
-            min="0"
-            max="10"
-            step="0.1"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Historical: 2.5-3.5%</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Withdrawal Rate (%)
-          </label>
-          <input
-            type="number"
-            value={(plan.withdrawalRate * 100).toFixed(1)}
-            onChange={(e) => updatePlan({ withdrawalRate: Number(e.target.value) / 100 })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="4"
-            min="1"
-            max="8"
-            step="0.1"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Conservative to aggressive</div>
-        </div>
-
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Projected Growth Rate (%)
-          </label>
-          <input
-            type="number"
-            value={(plan.projectedGrowthRate * 100).toFixed(2)}
-            onChange={(e) => updatePlan({ projectedGrowthRate: Number(e.target.value) / 100 })}
-            style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem' }}
-            placeholder="5"
-            min="-10"
-            max="20"
-            step="0.1"
-          />
-          <div style={{ fontSize: '11px', color: '#999' }}>Typical: 5-8%</div>
-        </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+        <InputCard
+          label="Desired Monthly Income"
+          value={plan.desiredMonthlyRetirementIncome}
+          onChange={(e: any) => updatePlan({ desiredMonthlyRetirementIncome: Number(e.target.value) })}
+          placeholder="$5000"
+          min="0"
+          hint="What you want to spend monthly"
+        />
+        <InputCard
+          label="Expected Other Income"
+          value={plan.monthlyRetirementIncome}
+          onChange={(e: any) => updatePlan({ monthlyRetirementIncome: Number(e.target.value) })}
+          placeholder="$1000"
+          min="0"
+          hint="Pension, part-time work, rental"
+        />
+        <InputCard
+          label="Social Security/Mo"
+          value={plan.socialSecurityMonthly}
+          onChange={(e: any) => updatePlan({ socialSecurityMonthly: Number(e.target.value) })}
+          placeholder="$2000"
+          min="0"
+          hint="Expected monthly benefit"
+        />
+        <InputCard
+          label="Retirement Age"
+          value={plan.retirementAge}
+          onChange={(e: any) => updatePlan({ retirementAge: Number(e.target.value) })}
+          placeholder="65"
+          min="50"
+          max="100"
+          hint="Age you plan to retire"
+        />
+        <InputCard
+          label="Life Expectancy"
+          value={plan.deathAge}
+          onChange={(e: any) => updatePlan({ deathAge: Number(e.target.value) })}
+          placeholder="90"
+          min="60"
+          max="110"
+          hint="Plan conservatively"
+        />
+        <InputCard
+          label="Inflation Rate (%)"
+          value={(plan.inflationRate * 100).toFixed(2)}
+          onChange={(e: any) => updatePlan({ inflationRate: Number(e.target.value) / 100 })}
+          placeholder="3.5"
+          min="0"
+          max="10"
+          step="0.1"
+          hint="Historical: 2.5-3.5%"
+        />
+        <InputCard
+          label="Withdrawal Rate (%)"
+          value={(plan.withdrawalRate * 100).toFixed(1)}
+          onChange={(e: any) => updatePlan({ withdrawalRate: Number(e.target.value) / 100 })}
+          placeholder="4"
+          min="1"
+          max="8"
+          step="0.1"
+          hint="Conservative to aggressive"
+        />
+        <InputCard
+          label="Growth Rate (%)"
+          value={(plan.projectedGrowthRate * 100).toFixed(2)}
+          onChange={(e: any) => updatePlan({ projectedGrowthRate: Number(e.target.value) / 100 })}
+          placeholder="5"
+          min="-10"
+          max="20"
+          step="0.1"
+          hint="Typical: 5-8%"
+        />
       </div>
 
-      {/* Results */}
-      <div style={{ background: '#e9f8ff', padding: '2rem', borderRadius: '8px' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem' }}>
-            Your Financial Independence Number
+      {/* FIN Number Result */}
+      <div style={{ background: 'linear-gradient(135deg, #e9f8ff 0%, #f0fbff 100%)', padding: '2.5rem', borderRadius: '8px', border: '1px solid #cbeeff', marginBottom: '2rem' }}>
+        <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', fontWeight: 700, marginBottom: '1rem', letterSpacing: '0.05em' }}>
+          Your Financial Independence Number
+        </div>
+        <div style={{ fontSize: 'clamp(44px, 7vw, 68px)', fontWeight: 700, color: '#0088b0', marginBottom: '1rem', fontVariantNumeric: 'tabular-nums' }}>
+          {cur(result.futureSavingsNeeded)}
+        </div>
+        <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>
+          The total nest egg you need to retire on your terms and sustain your lifestyle through age {plan.deathAge}.
+        </p>
+      </div>
+
+      {/* Status Banner */}
+      {result.shortfall > 0 ? (
+        <div style={{ background: '#ffe9f1', border: '1px solid #ff99bb', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#d6006c', marginBottom: '0.5rem' }}>
+            ⚠ Shortfall of {cur(result.shortfall)}
           </div>
-          <div style={{ fontSize: 'clamp(44px, 7vw, 72px)', fontWeight: 700, color: '#0088b0', marginBottom: '0.5rem', fontVariantNumeric: 'tabular-nums' }}>
-            {cur(result.futureSavingsNeeded)}
-          </div>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '1rem' }}>
-            The total nest egg you need to retire on your terms
+          <div style={{ fontSize: '13px', color: '#666' }}>
+            You need to save an additional <strong>{cur(result.extraMonthlySavings)}/month</strong> to meet your retirement goal.
           </div>
         </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-              Need from Savings (Monthly)
-            </div>
-            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0' }}>
-              {cur(result.needFromSavings)}
-            </div>
+      ) : (
+        <div style={{ background: '#e9ffe9', border: '1px solid #99ff99', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0088b0', marginBottom: '0.5rem' }}>
+            ✓ Surplus of {cur(result.projectedSavings - result.futureSavingsNeeded)}
           </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-              Inflation-Adjusted
-            </div>
-            <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0' }}>
-              {cur(result.inflationAdjustedNeed / 12)}/mo
-            </div>
+          <div style={{ fontSize: '13px', color: '#666' }}>
+            You're on track for financial freedom! You'll have {cur(result.projectedSavings - result.futureSavingsNeeded)} extra after meeting your retirement goal.
           </div>
         </div>
+      )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-              Current Liquid Savings
-            </div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
-              {cur(result.currentLiquidSavings)}
-            </div>
+      {/* Metrics Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
+            Current Liquid Savings
           </div>
-          <div>
-            <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-              Projected Savings
-            </div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0' }}>
-              {cur(result.projectedSavings)}
-            </div>
+          <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+            {cur(result.currentLiquidSavings)}
           </div>
         </div>
-
-        {result.shortfall > 0 ? (
-          <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#d6006c', marginBottom: '0.5rem' }}>
-              ⚠ Shortfall: {cur(result.shortfall)}
-            </div>
-            <div style={{ fontSize: '12px', color: '#666' }}>
-              Additional monthly savings needed: <strong>{cur(result.extraMonthlySavings)}/mo</strong>
-            </div>
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
+            Projected Savings at {plan.retirementAge}
           </div>
-        ) : (
-          <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #cbeeff' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0088b0' }}>
-              ✓ You're on track for financial freedom!
-            </div>
+          <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+            {cur(result.projectedSavings)}
           </div>
-        )}
+        </div>
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
+            Monthly Need from Savings
+          </div>
+          <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
+            {cur(result.needFromSavings)}
+          </div>
+        </div>
       </div>
     </div>
   );
