@@ -1455,25 +1455,10 @@ This is not financial advice. Consult with a licensed financial advisor before m
       {/* Action buttons */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
         <button
-          onClick={downloadResults}
-          style={{
-            background: '#f3f2f2',
-            color: '#0088b0',
-            border: '1px solid #e0ddd9',
-            padding: '12px 24px',
-            borderRadius: '6px',
-            fontWeight: 600,
-            cursor: 'pointer',
-            fontSize: '14px',
-            transition: 'background 0.2s',
+          onClick={() => {
+            console.log('Save modal clicked, opening modal');
+            setSaveModalOpen(true);
           }}
-          onMouseEnter={(e) => e.currentTarget.style.background = '#e9f8ff'}
-          onMouseLeave={(e) => e.currentTarget.style.background = '#f3f2f2'}
-        >
-          ↓ Download Results
-        </button>
-        <button
-          onClick={() => setSaveModalOpen(true)}
           style={{
             background: '#0088b0',
             color: '#fff',
