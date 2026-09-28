@@ -1294,16 +1294,6 @@ function StepFIN({ plan, result, updatePlan }: any) {
           step="0.1"
           hint="Conservative to aggressive"
         />
-        <InputCard
-          label="Growth Rate (%)"
-          value={(plan.projectedGrowthRate * 100).toFixed(2)}
-          onChange={(e: any) => updatePlan({ projectedGrowthRate: Number(e.target.value) / 100 })}
-          placeholder="5"
-          min="-10"
-          max="20"
-          step="0.1"
-          hint="Typical: 5-8%"
-        />
       </div>
 
       {/* FIN Number Result */}
