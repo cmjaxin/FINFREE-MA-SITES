@@ -1501,6 +1501,42 @@ This is not financial advice. Consult with a licensed financial advisor before m
         <button
           onClick={() => generatePlanPDF(currentPlan.name, result, currentPlan)}
           style={{
+            background: '#f3f2f2',
+            color: '#0088b0',
+            border: '1px solid #e0ddd9',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontSize: '14px',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#e9f8ff'}
+          onMouseLeave={(e) => e.currentTarget.style.background = '#f3f2f2'}
+        >
+          📄 Export as PDF
+        </button>
+        <button
+          onClick={() => {
+            const email = window.prompt('Enter your email to save this plan:');
+            if (!email) return;
+            const name = window.prompt('Plan name:', currentPlan.name) || currentPlan.name;
+            try {
+              const plans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
+              plans.push({
+                id: Math.random().toString(36).slice(2),
+                name,
+                email,
+                data: currentPlan,
+                savedAt: new Date().toISOString(),
+              });
+              localStorage.setItem('calculator_plans', JSON.stringify(plans));
+              showToast(`✓ Plan "${name}" saved`, 'success');
+            } catch (err) {
+              showToast('Error saving plan', 'error');
+            }
+          }}
+          style={{
             background: '#0088b0',
             color: '#fff',
             border: 'none',
@@ -1514,7 +1550,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
           onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
           onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
         >
-          📄 Export as PDF
+          💾 Save Plan
         </button>
       </div>
 
