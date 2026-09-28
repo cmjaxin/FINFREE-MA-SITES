@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { blank, compute, cur, pct, Profile, ComputedResult, CATS } from '@/lib/ffic-engine';
-import { SaveResumeModal } from './SaveResumeModal';
 import { generatePlanPDF } from '@/lib/pdf-export';
 
 function CountUpNumber({ target, style }: any) {
@@ -56,7 +55,6 @@ export default function FreedomCalculator({
   const [step, setStep] = useState(0);
   const [dark, setDark] = useState(false);
   const [toasts, setToasts] = useState<any[]>([]);
-  const [saveModalOpen, setSaveModalOpen] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -143,15 +141,26 @@ export default function FreedomCalculator({
     return messages[stepNum] || 'Step complete';
   };
 
-  // Handlers for save/resume modal (using local storage)
-  const handleSavePlan = async (email: string, planName: string) => {
-    // The modal handles everything via local storage
-    return Promise.resolve();
-  };
+  const handleSavePlan = () => {
+    const email = window.prompt('Enter your email to save this plan:');
+    if (!email) return;
 
-  const handleLoadPlans = async (email: string) => {
-    // The modal handles everything via local storage
-    return Promise.resolve();
+    const planName = window.prompt('Plan name:', currentPlan.name) || currentPlan.name;
+
+    try {
+      const plans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
+      plans.push({
+        id: Math.random().toString(36).slice(2),
+        name: planName,
+        email,
+        data: currentPlan,
+        savedAt: new Date().toISOString(),
+      });
+      localStorage.setItem('calculator_plans', JSON.stringify(plans));
+      showToast(`✓ Plan saved as "${planName}"`, 'success');
+    } catch (error) {
+      showToast('Error saving plan', 'error');
+    }
   };
 
   if (!currentPlan || !result) {
@@ -552,15 +561,6 @@ export default function FreedomCalculator({
           </div>
         ))}
       </div>
-
-      {/* Save/Resume Modal */}
-      <SaveResumeModal
-        isOpen={saveModalOpen}
-        onClose={() => setSaveModalOpen(false)}
-        onSave={handleSavePlan}
-        onLoad={handleLoadPlans}
-        currentPlanData={currentPlan}
-      />
     </div>
   );
 }
@@ -1474,7 +1474,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
           📄 Export as PDF
         </button>
         <button
-          onClick={() => setSaveModalOpen(true)}
+          onClick={handleSavePlan}
           style={{
             background: '#0088b0',
             color: '#fff',
