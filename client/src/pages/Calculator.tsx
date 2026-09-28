@@ -22,6 +22,8 @@ export default function CalculatorPage() {
   return (
     <FreedomCalculator
       advisorName={advisor.name}
+      advisorPhone={advisor.phone}
+      advisorEmail={advisor.email}
       advisorPhoto={advisor.headshot}
       youCanBookUrl={advisor.youCanBookUrl || '#'}
       showAdvisorBar={true}

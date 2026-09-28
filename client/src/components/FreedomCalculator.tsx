@@ -34,6 +34,8 @@ function CountUpNumber({ target, style }: any) {
 
 interface FreedomCalculatorProps {
   advisorName?: string;
+  advisorPhone?: string;
+  advisorEmail?: string;
   advisorPhoto?: string;
   youCanBookUrl?: string;
   showAdvisorBar?: boolean;
@@ -41,6 +43,8 @@ interface FreedomCalculatorProps {
 
 export default function FreedomCalculator({
   advisorName = 'Your Advisor',
+  advisorPhone = '',
+  advisorEmail = '',
   advisorPhoto,
   youCanBookUrl = '#',
   showAdvisorBar = false
@@ -450,7 +454,7 @@ export default function FreedomCalculator({
         {step === 2 && <StepNetWorth plan={currentPlan} result={result} updatePlan={updatePlan} />}
         {step === 3 && <StepPIN plan={currentPlan} result={result} />}
         {step === 4 && <StepFIN plan={currentPlan} result={result} updatePlan={updatePlan} />}
-        {step === 5 && <StepDashboard plan={currentPlan} result={result} youCanBookUrl={youCanBookUrl} advisorName={advisorName} />}
+        {step === 5 && <StepDashboard plan={currentPlan} result={result} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} />}
 
         {/* Footer */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', gap: '1rem' }}>
@@ -1361,7 +1365,7 @@ function StepFIN({ plan, result, updatePlan }: any) {
   );
 }
 
-function StepDashboard({ plan, result, youCanBookUrl, advisorName }: any) {
+function StepDashboard({ plan, result, youCanBookUrl, advisorName, advisorPhone, advisorEmail }: any) {
   const downloadResults = () => {
     const data = `FINANCIAL FREEDOM CALCULATOR RESULTS
 ${new Date().toLocaleDateString()}
@@ -1476,46 +1480,48 @@ This is not financial advice. Consult with a licensed financial advisor before m
         </a>
       </div>
 
-      {/* Schedule CTA */}
+      {/* Contact CTA */}
       <div style={{
         background: '#e9f8ff',
         border: '1px solid #99e0ff',
         borderRadius: '8px',
         padding: '2rem',
-        textAlign: 'center',
         marginBottom: '3rem',
       }}>
-        <h3 style={{ color: '#0088b0', marginBottom: '1rem' }}>Ready to talk about your plan?</h3>
-        <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-          Schedule a consultation with {advisorName} to review your results and explore next steps toward financial freedom.
+        <h3 style={{ color: '#0088b0', marginBottom: '1.5rem', textAlign: 'center' }}>Thanks for using the calculator!</h3>
+        <p style={{ color: '#666', marginBottom: '2rem', textAlign: 'center', fontSize: '15px', lineHeight: 1.6 }}>
+          Your financial plan is personalized to your situation. If you need a referral to any of our financial advisors, estate planning specialists, or other professional services, please don't hesitate to reach out.
         </p>
-        {youCanBookUrl && youCanBookUrl !== '#' ? (
-          <a
-            href={youCanBookUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              background: '#0088b0',
-              color: '#fff',
-              padding: '14px 32px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontSize: '15px',
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
-            onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
-          >
-            Schedule on YouCanBook.me →
-          </a>
-        ) : (
-          <div style={{ display: 'inline-block', background: '#ffe9f1', color: '#d6006c', padding: '14px 32px', borderRadius: '6px', fontWeight: 600, fontSize: '15px' }}>
-            Schedule link not available
+
+        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '6px', border: '1px solid #cbeeff' }}>
+          <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', marginBottom: '1.5rem' }}>
+            {advisorName}
           </div>
-        )}
+          <div style={{ display: 'grid', gap: '1.25rem' }}>
+            {advisorPhone && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span style={{ fontSize: '20px' }}>📞</span>
+                <a
+                  href={`tel:${advisorPhone.replace(/\D/g, '')}`}
+                  style={{ color: '#0088b0', textDecoration: 'none', fontWeight: 600, fontSize: '15px' }}
+                >
+                  {advisorPhone}
+                </a>
+              </div>
+            )}
+            {advisorEmail && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span style={{ fontSize: '20px' }}>✉️</span>
+                <a
+                  href={`mailto:${advisorEmail}`}
+                  style={{ color: '#0088b0', textDecoration: 'none', fontWeight: 600, fontSize: '15px' }}
+                >
+                  {advisorEmail}
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <p style={{ fontSize: '12px', color: '#666', marginTop: '2rem', textAlign: 'center' }}>
