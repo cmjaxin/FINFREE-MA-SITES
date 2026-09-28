@@ -851,16 +851,16 @@ function StepExpenses({ plan, result, updatePlan }: any) {
                         </label>
                         <input
                           type="number"
-                          value={expense.today || 0}
-                          onChange={(e) => updateExpense(category.key, itemKey, 'today', Number(e.target.value))}
+                          value={expense.today || ''}
+                          onChange={(e) => updateExpense(category.key, itemKey, 'today', e.target.value === '' ? 0 : Number(e.target.value))}
                           placeholder="$0"
                           style={{ padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
                           min="0"
                         />
                         <input
                           type="number"
-                          value={expense.tomorrow || 0}
-                          onChange={(e) => updateExpense(category.key, itemKey, 'tomorrow', Number(e.target.value))}
+                          value={expense.tomorrow || ''}
+                          onChange={(e) => updateExpense(category.key, itemKey, 'tomorrow', e.target.value === '' ? 0 : Number(e.target.value))}
                           placeholder="$0"
                           style={{ padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
                           min="0"
@@ -1014,9 +1014,8 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
                     </select>
                   ) : (
                     <input
-                      key={`${item.id}-${field.key}`}
                       type={field.type || 'text'}
-                      defaultValue={field.type === 'number' ? (item[field.key] || '') : (item[field.key] || '')}
+                      value={field.type === 'number' ? (item[field.key] || '') : (item[field.key] || '')}
                       onChange={(e) => {
                         const val = e.target.value;
                         updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? (val === '' ? 0 : Number(val)) : val);
