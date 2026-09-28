@@ -1015,8 +1015,11 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
                   ) : (
                     <input
                       type={field.type || 'text'}
-                      value={item[field.key] || 0}
-                      onChange={(e) => updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? Number(e.target.value) : e.target.value)}
+                      value={field.type === 'number' ? (item[field.key] || 0) : (item[field.key] || '')}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? (val === '' ? 0 : Number(val)) : val);
+                      }}
                       placeholder={field.placeholder || ''}
                       style={{ width: '100%', padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
                       min={field.min}
@@ -1385,7 +1388,7 @@ Projected Savings at Retirement: ${cur(result.projectedSavings)}
 Status: ${result.shortfall > 0 ? `Shortfall of ${cur(result.shortfall)}` : `Surplus of ${cur(result.projectedSavings - result.futureSavingsNeeded)}`}
 
 === INCOME & TAXES ===
-Total Annual Income: ${cur(result.totalAnnualIncome)}
+Total Annual Income: ${cur(result.totalIncome)}
 After-Tax Income: ${cur(result.annualIncomeAfterTax)}
 Federal Tax: ${cur(result.federalTax)}
 State Tax: ${cur(result.stateTax)}
