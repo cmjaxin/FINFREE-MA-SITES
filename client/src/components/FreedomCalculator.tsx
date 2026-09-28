@@ -1211,8 +1211,8 @@ function StepFIN({ plan, result, updatePlan }: any) {
       </label>
       <input
         type="number"
-        value={value}
-        onChange={onChange}
+        defaultValue={value}
+        onBlur={onChange}
         placeholder={placeholder}
         min={min}
         max={max}
