@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { blank, compute, cur, pct, Profile, ComputedResult, CATS } from '@/lib/ffic-engine';
+import { SaveResumeModal } from './SaveResumeModal';
 
 function CountUpNumber({ target, style }: any) {
   const [count, setCount] = useState(0);
@@ -54,6 +55,7 @@ export default function FreedomCalculator({
   const [step, setStep] = useState(0);
   const [dark, setDark] = useState(false);
   const [toasts, setToasts] = useState<any[]>([]);
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -138,6 +140,17 @@ export default function FreedomCalculator({
       4: 'Your financial plan is ready',
     };
     return messages[stepNum] || 'Step complete';
+  };
+
+  // Handlers for save/resume modal (using local storage)
+  const handleSavePlan = async (email: string, planName: string) => {
+    // The modal handles everything via local storage
+    return Promise.resolve();
+  };
+
+  const handleLoadPlans = async (email: string) => {
+    // The modal handles everything via local storage
+    return Promise.resolve();
   };
 
   if (!currentPlan || !result) {
@@ -538,6 +551,15 @@ export default function FreedomCalculator({
           </div>
         ))}
       </div>
+
+      {/* Save/Resume Modal */}
+      <SaveResumeModal
+        isOpen={saveModalOpen}
+        onClose={() => setSaveModalOpen(false)}
+        onSave={handleSavePlan}
+        onLoad={handleLoadPlans}
+        currentPlanData={currentPlan}
+      />
     </div>
   );
 }
@@ -1450,34 +1472,24 @@ This is not financial advice. Consult with a licensed financial advisor before m
         >
           ↓ Download Results
         </button>
-        <a
-          href={youCanBookUrl && youCanBookUrl !== '#' ? youCanBookUrl : '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => {
-            if (!youCanBookUrl || youCanBookUrl === '#') {
-              e.preventDefault();
-              alert('Schedule consultation URL not configured for this advisor.');
-            }
-          }}
+        <button
+          onClick={() => setSaveModalOpen(true)}
           style={{
-            display: 'inline-block',
             background: '#0088b0',
             color: '#fff',
+            border: 'none',
             padding: '12px 24px',
             borderRadius: '6px',
-            textDecoration: 'none',
             fontWeight: 600,
             cursor: 'pointer',
             fontSize: '14px',
-            textAlign: 'center',
             transition: 'background 0.2s',
           }}
           onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
           onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
         >
-          Schedule Consultation →
-        </a>
+          💾 Save & Resume
+        </button>
       </div>
 
       {/* Contact CTA */}
