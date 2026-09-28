@@ -1014,11 +1014,18 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
                     </select>
                   ) : (
                     <input
+                      key={`input-${item.id}-${field.key}`}
                       type={field.type || 'text'}
-                      value={field.type === 'number' ? (item[field.key] || '') : (item[field.key] || '')}
-                      onChange={(e) => {
+                      defaultValue={item[field.key] || ''}
+                      onBlur={(e) => {
                         const val = e.target.value;
                         updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? (val === '' ? 0 : Number(val)) : val);
+                      }}
+                      onChange={(e) => {
+                        if (field.type !== 'number') {
+                          const val = e.target.value;
+                          updateScheduleItem(scheduleKey, idx, field.key, val);
+                        }
                       }}
                       placeholder={field.placeholder || ''}
                       style={{ width: '100%', padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
