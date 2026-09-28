@@ -257,7 +257,11 @@ export function compute(profile: Profile, { includeRE = false } = {}): ComputedR
   // Retirement
   const person1Age = people[0]?.age || 0;
   const yearsToRetirement = Math.max(0, clamp(profile.retirementAge, 0, 120) - person1Age);
-  const needFromSavings = Math.max(0, clamp(profile.desiredMonthlyRetirementIncome, 0, Infinity) - clamp(profile.socialSecurityMonthly, 0, Infinity));
+  const needFromSavings = Math.max(0,
+    clamp(profile.desiredMonthlyRetirementIncome, 0, Infinity) -
+    clamp(profile.socialSecurityMonthly, 0, Infinity) -
+    clamp(profile.monthlyRetirementIncome, 0, Infinity)
+  );
   const inflationFactor = Math.pow(1 + clamp(profile.inflationRate, 0, 0.5), yearsToRetirement);
   const inflationAdjustedNeed = needFromSavings * 12 * inflationFactor;
   const lifeExpectancy = clamp(profile.deathAge, 0, 120);
