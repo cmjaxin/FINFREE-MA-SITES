@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { blank, compute, cur, pct, Profile, ComputedResult, CATS } from '@/lib/ffic-engine';
 import { SaveResumeModal } from './SaveResumeModal';
+import { generatePlanPDF } from '@/lib/pdf-export';
 
 function CountUpNumber({ target, style }: any) {
   const [count, setCount] = useState(0);
@@ -1455,10 +1456,25 @@ This is not financial advice. Consult with a licensed financial advisor before m
       {/* Action buttons */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
         <button
-          onClick={() => {
-            console.log('Save modal clicked, opening modal');
-            setSaveModalOpen(true);
+          onClick={() => generatePlanPDF(currentPlan.name, result, currentPlan)}
+          style={{
+            background: '#f3f2f2',
+            color: '#0088b0',
+            border: '1px solid #e0ddd9',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontSize: '14px',
+            transition: 'background 0.2s',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#e9f8ff'}
+          onMouseLeave={(e) => e.currentTarget.style.background = '#f3f2f2'}
+        >
+          📄 Export as PDF
+        </button>
+        <button
+          onClick={() => setSaveModalOpen(true)}
           style={{
             background: '#0088b0',
             color: '#fff',
@@ -1473,7 +1489,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
           onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
           onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
         >
-          💾 Save & Resume
+          💾 Save Plan
         </button>
       </div>
 
