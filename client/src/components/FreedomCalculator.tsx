@@ -608,8 +608,8 @@ function StepMoney({ plan, result, updatePlan }: any) {
                 <div>
                   <input
                     type="number"
-                    value={person.age}
-                    onChange={(e) => updatePerson(idx, { age: Number(e.target.value) })}
+                    value={person.age || ''}
+                    onChange={(e) => updatePerson(idx, { age: e.target.value === '' ? 0 : Number(e.target.value) })}
                     placeholder="Age"
                     style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
                     min="0"
@@ -624,8 +624,8 @@ function StepMoney({ plan, result, updatePlan }: any) {
                 </label>
                 <input
                   type="number"
-                  value={person.lifetimeMoneyEarned}
-                  onChange={(e) => updatePerson(idx, { lifetimeMoneyEarned: Number(e.target.value) })}
+                  value={person.lifetimeMoneyEarned || ''}
+                  onChange={(e) => updatePerson(idx, { lifetimeMoneyEarned: e.target.value === '' ? 0 : Number(e.target.value) })}
                   placeholder="$0"
                   style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
                   min="0"
@@ -650,8 +650,8 @@ function StepMoney({ plan, result, updatePlan }: any) {
                       </label>
                       <input
                         type="number"
-                        value={person.incomes[key as keyof typeof person.incomes] || 0}
-                        onChange={(e) => updatePerson(idx, { incomes: { ...person.incomes, [key]: Number(e.target.value) } })}
+                        value={person.incomes[key as keyof typeof person.incomes] || ''}
+                        onChange={(e) => updatePerson(idx, { incomes: { ...person.incomes, [key]: e.target.value === '' ? 0 : Number(e.target.value) } })}
                         placeholder="$0"
                         style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
                         min="0"
@@ -692,8 +692,8 @@ function StepMoney({ plan, result, updatePlan }: any) {
               </label>
               <input
                 type="number"
-                value={plan.hoursWorkedWeekly}
-                onChange={(e) => updatePlan({ hoursWorkedWeekly: Number(e.target.value) })}
+                value={plan.hoursWorkedWeekly || ''}
+                onChange={(e) => updatePlan({ hoursWorkedWeekly: e.target.value === '' ? 0 : Number(e.target.value) })}
                 placeholder="40"
                 style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px' }}
                 min="0"
@@ -720,8 +720,8 @@ function StepMoney({ plan, result, updatePlan }: any) {
                   </label>
                   <input
                     type="number"
-                    value={plan.jobRelatedHours[key] || 0}
-                    onChange={(e) => updateJobHours(key, Number(e.target.value))}
+                    value={plan.jobRelatedHours[key] || ''}
+                    onChange={(e) => updateJobHours(key, e.target.value === '' ? 0 : Number(e.target.value))}
                     placeholder="0"
                     style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '12px' }}
                     min="0"
@@ -1014,8 +1014,9 @@ function StepNetWorth({ plan, result, updatePlan }: any) {
                     </select>
                   ) : (
                     <input
+                      key={`${item.id}-${field.key}`}
                       type={field.type || 'text'}
-                      value={field.type === 'number' ? (item[field.key] || 0) : (item[field.key] || '')}
+                      defaultValue={field.type === 'number' ? (item[field.key] || '') : (item[field.key] || '')}
                       onChange={(e) => {
                         const val = e.target.value;
                         updateScheduleItem(scheduleKey, idx, field.key, field.type === 'number' ? (val === '' ? 0 : Number(val)) : val);
