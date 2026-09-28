@@ -1331,12 +1331,54 @@ function StepFIN({ plan, result, updatePlan }: any) {
 }
 
 function StepDashboard({ plan, result, youCanBookUrl, advisorName }: any) {
+  const downloadResults = () => {
+    const data = `FINANCIAL FREEDOM CALCULATOR RESULTS
+${new Date().toLocaleDateString()}
+
+PLAN: ${plan.name}
+
+=== SUMMARY ===
+Net Worth: ${cur(result.netWorth)}
+Annual Expenses (Today): ${cur(result.annualExpensesToday)}
+Monthly Cash Flow: ${cur(result.monthlyCashFlow)}
+Effective Tax Rate: ${result.effectiveRate.toFixed(1)}%
+Savings Rate: ${result.savingsRate.toFixed(1)}%
+
+=== FINANCIAL INDEPENDENCE NUMBER ===
+FIN Number (Retirement Nest Egg): ${cur(result.futureSavingsNeeded)}
+Current Liquid Savings: ${cur(result.currentLiquidSavings)}
+Projected Savings at Retirement: ${cur(result.projectedSavings)}
+Status: ${result.shortfall > 0 ? `Shortfall of ${cur(result.shortfall)}` : `Surplus of ${cur(result.projectedSavings - result.futureSavingsNeeded)}`}
+
+=== INCOME & TAXES ===
+Total Annual Income: ${cur(result.totalAnnualIncome)}
+After-Tax Income: ${cur(result.annualIncomeAfterTax)}
+Federal Tax: ${cur(result.federalTax)}
+State Tax: ${cur(result.stateTax)}
+
+=== WEALTH METRICS ===
+Lifetime Wealth Saved: ${result.lifetimeWealthPercent.toFixed(1)}%
+Months of Expenses Covered: ${result.monthsCovered.toFixed(1)}
+
+This is not financial advice. Consult with a licensed financial advisor before making investment decisions.`;
+
+    const blob = new Blob([data], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Financial-Freedom-Results-${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div>
       <div style={{ fontSize: '12px', color: '#0088b0', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
         STEP 6 OF 6
       </div>
-      <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '3rem', lineHeight: 1.05 }}>Your Financial Summary</h2>
+      <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Your Financial Summary</h2>
 
       {/* Key metrics */}
       <div style={{
@@ -1353,6 +1395,56 @@ function StepDashboard({ plan, result, youCanBookUrl, advisorName }: any) {
         <MetricCard label="FIN Number" value={cur(result.futureSavingsNeeded)} sub={result.shortfall > 0 ? `−${cur(result.shortfall)} shortfall` : `+${cur(result.projectedSavings - result.futureSavingsNeeded)} surplus`} tone={result.shortfall > 0 ? 'neg' : 'pos'} />
       </div>
 
+      {/* Action buttons */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
+        <button
+          onClick={downloadResults}
+          style={{
+            background: '#f3f2f2',
+            color: '#0088b0',
+            border: '1px solid #e0ddd9',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontSize: '14px',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#e9f8ff'}
+          onMouseLeave={(e) => e.currentTarget.style.background = '#f3f2f2'}
+        >
+          ↓ Download Results
+        </button>
+        <a
+          href={youCanBookUrl && youCanBookUrl !== '#' ? youCanBookUrl : '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            if (!youCanBookUrl || youCanBookUrl === '#') {
+              e.preventDefault();
+              alert('Schedule consultation URL not configured for this advisor.');
+            }
+          }}
+          style={{
+            display: 'inline-block',
+            background: '#0088b0',
+            color: '#fff',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            textDecoration: 'none',
+            fontWeight: 600,
+            cursor: 'pointer',
+            fontSize: '14px',
+            textAlign: 'center',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
+          onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
+        >
+          Schedule Consultation →
+        </a>
+      </div>
+
       {/* Schedule CTA */}
       <div style={{
         background: '#e9f8ff',
@@ -1364,29 +1456,39 @@ function StepDashboard({ plan, result, youCanBookUrl, advisorName }: any) {
       }}>
         <h3 style={{ color: '#0088b0', marginBottom: '1rem' }}>Ready to talk about your plan?</h3>
         <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-          Schedule a consultation with {advisorName} to review your results and explore next steps.
+          Schedule a consultation with {advisorName} to review your results and explore next steps toward financial freedom.
         </p>
-        <a
-          href={youCanBookUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            background: '#0088b0',
-            color: '#fff',
-            padding: '12px 24px',
-            borderRadius: '6px',
-            textDecoration: 'none',
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          Schedule a Consultation →
-        </a>
+        {youCanBookUrl && youCanBookUrl !== '#' ? (
+          <a
+            href={youCanBookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              background: '#0088b0',
+              color: '#fff',
+              padding: '14px 32px',
+              borderRadius: '6px',
+              textDecoration: 'none',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontSize: '15px',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#006786'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#0088b0'}
+          >
+            Schedule on YouCanBook.me →
+          </a>
+        ) : (
+          <div style={{ display: 'inline-block', background: '#ffe9f1', color: '#d6006c', padding: '14px 32px', borderRadius: '6px', fontWeight: 600, fontSize: '15px' }}>
+            Schedule link not available
+          </div>
+        )}
       </div>
 
       <p style={{ fontSize: '12px', color: '#666', marginTop: '2rem', textAlign: 'center' }}>
-        <strong>Disclaimer:</strong> This is not financial advice — this is intended as a worksheet for you to review with your licensed liability and financial advisors.
+        <strong>Disclaimer:</strong> This is not financial advice — this is intended as a worksheet for you to review with your licensed financial and legal advisors.
       </p>
     </div>
   );

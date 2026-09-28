@@ -95,6 +95,7 @@ export interface Profile {
 
 export interface ComputedResult {
   totalIncome: number;
+  annualIncomeAfterTax: number;
   federalTax: number;
   stateTax: number;
   afterTaxIncome: number;
@@ -283,6 +284,7 @@ export function compute(profile: Profile, { includeRE = false } = {}): ComputedR
 
   return {
     totalIncome,
+    annualIncomeAfterTax: afterTaxIncome,
     federalTax: fedTax,
     stateTax,
     afterTaxIncome,
