@@ -21,6 +21,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getCurrentAdvisor } from "@/lib/advisor-loader";
 import { Testimonials } from "@/components/Testimonials";
+import { Navigation } from "@/components/Navigation";
 
 export default function Home() {
   const revealRef = useRef<HTMLDivElement>(null);
@@ -236,21 +237,7 @@ export default function Home() {
       </div>
 
       {/* ── NAV ── */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #e8edf2", boxShadow: "0 1px 8px rgba(10,37,64,0.06)" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 1rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "auto", minHeight: 60, flexWrap: "wrap", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={a.logoUrl} alt="NEO Home Loans" style={{ height: "clamp(32px, 8vw, 44px)", width: "auto", display: "block" }} />
-          </div>
-          <div style={{ display: "none", alignItems: "center", gap: "1rem" }} className="nav-links-hide">
-            {([["#process", "Process"], ["#about", `About`], ["/blog", "Mortgage Advice"], ["#experience", "Experience"], ["#contact", "Contact"]] as [string, string][]).map(([href, label]) => (
-              <a key={href} href={href} style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.02em", textTransform: "uppercase", color: "#555", textDecoration: "none" }}>{label}</a>
-            ))}
-          </div>
-          <a href={a.applyUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "0.3rem", background: "#5BCBF5", color: "#0A2540", fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(0.65rem, 2vw, 0.78rem)", fontWeight: 700, letterSpacing: "0.02em", textTransform: "uppercase", padding: "0.6rem 1rem", borderRadius: 4, textDecoration: "none", whiteSpace: "nowrap" }}>
-            Apply
-          </a>
-        </div>
-      </nav>
+      <Navigation logoUrl={a.logoUrl} applyUrl={a.applyUrl} />
 
       {/* ── HERO ── */}
       <section style={{ position: "relative", background: "#0A2540", minHeight: "88vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
