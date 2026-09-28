@@ -303,7 +303,9 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
 
   const projectedSavings = projectionValues[projectionValues.length - 1] || liquidSavings;
   const shortfall = Math.max(0, futureSavingsNeeded - projectedSavings);
-  const extraMonthlySavings = yearsToRetirement > 0 ? shortfall / (yearsToRetirement * 12) : 0;
+  const gr = growthRate || 0.001;
+  const annuityFactor = (Math.pow(1 + gr, yearsToRetirement) - 1) / gr;
+  const extraMonthlySavings = yearsToRetirement > 0 ? (shortfall / annuityFactor) / 12 : 0;
   const progress = futureSavingsNeeded > 0 ? (projectedSavings / futureSavingsNeeded) * 100 : 100;
 
   return {
