@@ -398,6 +398,43 @@ export default function FreedomCalculator({
     );
   }
 
+  const loadSavedPlan = () => {
+    const email = window.prompt('Enter your email:');
+    if (!email) return;
+
+    try {
+      const allPlans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
+      const userPlans = allPlans.filter((p: any) => p.email === email);
+
+      if (userPlans.length === 0) {
+        alert('No saved plans found for this email.');
+        return;
+      }
+
+      if (userPlans.length === 1) {
+        setPlans([userPlans[0].data]);
+        setCurrentPlanId(userPlans[0].data.id);
+        setStep(0);
+        showToast(`✓ Loaded "${userPlans[0].name}"`, 'success');
+        return;
+      }
+
+      // Multiple plans - let user choose
+      const planList = userPlans.map((p: any, i: number) => `${i + 1}. ${p.name} (${new Date(p.savedAt).toLocaleDateString()})`).join('\n');
+      const choice = window.prompt(`Which plan to load?\n\n${planList}\n\nEnter number (1-${userPlans.length}):`);
+      const idx = parseInt(choice || '0') - 1;
+
+      if (idx >= 0 && idx < userPlans.length) {
+        setPlans([userPlans[idx].data]);
+        setCurrentPlanId(userPlans[idx].data.id);
+        setStep(0);
+        showToast(`✓ Loaded "${userPlans[idx].name}"`, 'success');
+      }
+    } catch (error) {
+      showToast('Error loading plan', 'error');
+    }
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: dark ? '#1c1b1a' : '#f3f2f2', color: dark ? '#eeeceb' : '#201e1d' }}>
       {/* Header */}
@@ -422,6 +459,24 @@ export default function FreedomCalculator({
           </div>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <button
+            onClick={loadSavedPlan}
+            style={{
+              background: '#f3f2f2',
+              color: '#0088b0',
+              border: '1px solid #e0ddd9',
+              padding: '8px 14px',
+              borderRadius: '4px',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#e9f8ff'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#f3f2f2'}
+          >
+            📂 Load Plan
+          </button>
           <span style={{ fontSize: '14px' }}>{currentPlan.name}</span>
           <span style={{ fontSize: '13px', color: '#0088b0' }}>✓ Saved</span>
           <button
