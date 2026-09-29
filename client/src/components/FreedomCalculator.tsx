@@ -554,26 +554,6 @@ export default function FreedomCalculator({
               Next Step →
             </button>
           )}
-          {step === 5 && (
-            <button
-              onClick={() => {
-                setCurrentPlanId(null);
-                setStep(0);
-              }}
-              style={{
-                background: '#5BCBF5',
-                color: '#0b1f38',
-                border: 'none',
-                padding: '10px 18px',
-                fontSize: '14px',
-                fontWeight: 600,
-                borderRadius: '2px',
-                cursor: 'pointer',
-              }}
-            >
-              Save & Return Home
-            </button>
-          )}
         </div>
       </div>
 
