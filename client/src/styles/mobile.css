@@ -1,0 +1,184 @@
+/* Mobile-friendly responsive styles for calculator */
+
+@media (max-width: 768px) {
+  /* Header - stack on mobile */
+  .calc-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .calc-header-title {
+    font-size: 16px;
+  }
+
+  .calc-header-title-sub {
+    font-size: 10px;
+  }
+
+  .calc-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Hide plan name and saved badge on mobile to save space */
+  .calc-plan-name,
+  .calc-plan-saved {
+    display: none;
+  }
+
+  /* Step indicators - reduce font and padding */
+  .calc-step-indicator {
+    padding: 0.5rem;
+    font-size: 11px;
+    min-width: 36px;
+    height: 36px;
+  }
+
+  /* Form sections - increase padding for touch */
+  .calc-form-section {
+    padding: 1rem;
+  }
+
+  /* Input cards - full width, better spacing */
+  .calc-input-card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Input labels - larger */
+  .calc-input-label {
+    font-size: 12px;
+  }
+
+  /* Input fields - larger for touch, better readability */
+  .calc-input-field {
+    padding: 12px 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 44px; /* Touch target size */
+  }
+
+  /* Buttons - minimum 44px height for touch */
+  .calc-button {
+    padding: 12px 20px;
+    min-height: 44px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .calc-button-secondary {
+    width: auto;
+    min-width: 140px;
+  }
+
+  /* Metric cards - stack vertically */
+  .calc-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .calc-metric-card {
+    padding: 1.25rem;
+  }
+
+  .calc-metric-label {
+    font-size: 11px;
+  }
+
+  .calc-metric-value {
+    font-size: 22px;
+  }
+
+  /* Step content - better readability */
+  .calc-step-content {
+    padding: 1rem;
+  }
+
+  .calc-step-title {
+    font-size: 24px;
+  }
+
+  .calc-step-subtitle {
+    font-size: 13px;
+  }
+
+  /* Tooltips - ensure readable on mobile */
+  .calc-tooltip {
+    max-width: 85vw;
+    font-size: 13px;
+  }
+
+  /* Action buttons grid */
+  .calc-action-buttons {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Contact info section */
+  .calc-contact-section {
+    padding: 1.5rem 1rem;
+  }
+
+  .calc-contact-section h3 {
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+
+  /* Advisor box */
+  .calc-advisor-box {
+    padding: 1rem;
+  }
+
+  .calc-advisor-name {
+    font-size: 15px;
+  }
+
+  .calc-advisor-info {
+    gap: 0.75rem;
+  }
+
+  .calc-advisor-link {
+    font-size: 14px;
+  }
+
+  /* Collapse header actions on very small screens */
+  @media (max-width: 480px) {
+    .calc-header-actions {
+      gap: 0.3rem;
+    }
+
+    .calc-header-actions button {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .calc-button {
+      font-size: 13px;
+      padding: 11px 16px;
+    }
+
+    .calc-input-card {
+      padding: 1rem;
+    }
+
+    .calc-form-section {
+      padding: 0.75rem;
+    }
+  }
+}
+
+/* Ensure proper input styling across devices */
+input[type="number"],
+input[type="text"],
+input[type="email"] {
+  font-size: 16px; /* Prevents zoom on iOS Safari */
+  box-sizing: border-box;
+}
+
+/* Touch-friendly hover states */
+@media (hover: none) and (pointer: coarse) {
+  button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}

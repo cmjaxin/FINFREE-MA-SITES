@@ -502,7 +502,7 @@ export default function FreedomCalculator({
   return (
     <div style={{ minHeight: '100vh', background: dark ? '#1c1b1a' : '#f3f2f2', color: dark ? '#eeeceb' : '#201e1d' }}>
       {/* Header */}
-      <div style={{
+      <div className="calc-header" style={{
         background: dark ? '#282625' : '#fff',
         borderBottom: '1px solid ' + (dark ? '#3a3835' : '#e0ddd9'),
         padding: '16px 20px',
@@ -517,12 +517,12 @@ export default function FreedomCalculator({
           }}
           style={{ cursor: 'pointer' }}
         >
-          <div style={{ fontSize: '18px', fontWeight: 600 }}>Financial Freedom</div>
-          <div style={{ fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#0088b0' }}>
+          <div className="calc-header-title" style={{ fontSize: '18px', fontWeight: 600 }}>Financial Freedom</div>
+          <div className="calc-header-title-sub" style={{ fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#0088b0' }}>
             INDEPENDENCE CALCULATOR
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div className="calc-header-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <button
             onClick={loadSavedPlan}
             style={{
@@ -541,8 +541,8 @@ export default function FreedomCalculator({
           >
             📂 Load Plan
           </button>
-          <span style={{ fontSize: '14px' }}>{currentPlan.name}</span>
-          <span style={{ fontSize: '13px', color: '#0088b0' }}>✓ Saved</span>
+          <span className="calc-plan-name" style={{ fontSize: '14px' }}>{currentPlan.name}</span>
+          <span className="calc-plan-saved" style={{ fontSize: '13px', color: '#0088b0' }}>✓ Saved</span>
           <button
             onClick={() => setDark(!dark)}
             style={{
@@ -1360,6 +1360,7 @@ const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint, 
         min={min}
         max={max}
         step={step}
+        className="calc-input-field"
         style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem', boxSizing: 'border-box' }}
       />
       {hint && <div style={{ fontSize: '11px', color: '#999' }}>{hint}</div>}
@@ -1554,7 +1555,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
       <h2 style={{ fontSize: 'clamp(32px,4.5vw,46px)', marginBottom: '1rem', lineHeight: 1.05 }}>Your Financial Summary</h2>
 
       {/* Key metrics */}
-      <div style={{
+      <div className="calc-metrics-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
         gap: '2rem',
@@ -1569,7 +1570,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
       </div>
 
       {/* Action buttons */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
+      <div className="calc-action-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
         <button
           onClick={() => generatePlanPDF(plan.name, result, plan)}
           style={{
@@ -1629,7 +1630,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
       </div>
 
       {/* Contact CTA */}
-      <div style={{
+      <div className="calc-contact-section" style={{
         background: '#e9f8ff',
         border: '1px solid #99e0ff',
         borderRadius: '8px',
@@ -1641,11 +1642,11 @@ This is not financial advice. Consult with a licensed financial advisor before m
           Your financial plan is personalized to your situation. If you need a referral to any of our financial advisors, estate planning specialists, or other professional services, please don't hesitate to reach out.
         </p>
 
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '6px', border: '1px solid #cbeeff' }}>
-          <div style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', marginBottom: '1.5rem' }}>
+        <div className="calc-advisor-box" style={{ background: '#fff', padding: '1.5rem', borderRadius: '6px', border: '1px solid #cbeeff' }}>
+          <div className="calc-advisor-name" style={{ fontSize: '16px', fontWeight: 700, color: '#0088b0', marginBottom: '1.5rem' }}>
             {advisorName}
           </div>
-          <div style={{ display: 'grid', gap: '1.25rem' }}>
+          <div className="calc-advisor-info" style={{ display: 'grid', gap: '1.25rem' }}>
             {advisorPhone && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <span style={{ fontSize: '20px' }}>📞</span>
