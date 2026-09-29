@@ -271,41 +271,48 @@ export function compute(profile: Profile, { includeRE = true } = {}): ComputedRe
   const withdrawalRate = clamp(profile.withdrawalRate, 0, 0.2);
   const futureSavingsNeeded = withdrawalRate > 0 ? inflationAdjustedNeed / withdrawalRate : 0;
 
-  // Projection - calculate weighted growth rate from individual assets
+  // Projection - grow each account type at its own rate, new savings at investment rate
   const investmentValue = sum(profile.investments, (inv) => inv.marketValue) || 0;
   const cashValue = sum(profile.cashAccounts, (c) => c.balance) || 0;
   const realEstateValue = sum(profile.realEstate, (r) => r.marketValue) || 0;
-  const totalAssetValue = investmentValue + cashValue + realEstateValue;
 
-  let weightedGrowthRate = clamp(profile.projectedGrowthRate, -0.2, 0.5);
-  if (totalAssetValue > 0) {
-    const investmentGrowth = investmentValue > 0 ? sum(profile.investments, (inv) => (inv.marketValue || 0) * clamp(inv.growthRate || 0.07, -0.2, 0.5)) / investmentValue : 0;
-    const cashGrowth = cashValue > 0 ? sum(profile.cashAccounts, (c) => (c.balance || 0) * clamp(c.growthRate || 0.01, -0.2, 0.5)) / cashValue : 0;
-    const realEstateGrowth = realEstateValue > 0 ? sum(profile.realEstate, (r) => (r.marketValue || 0) * clamp(r.growthRate || 0.03, -0.2, 0.5)) / realEstateValue : 0;
+  // Calculate per-account-type growth rates
+  const investmentGrowthRate = investmentValue > 0
+    ? sum(profile.investments, (inv) => (inv.marketValue || 0) * clamp(inv.growthRate || 0.07, -0.2, 0.5)) / investmentValue
+    : 0.07;
+  const cashGrowthRate = cashValue > 0
+    ? sum(profile.cashAccounts, (c) => (c.balance || 0) * clamp(c.growthRate || 0.01, -0.2, 0.5)) / cashValue
+    : 0.01;
+  const realEstateGrowthRate = realEstateValue > 0
+    ? sum(profile.realEstate, (r) => (r.marketValue || 0) * clamp(r.growthRate || 0.03, -0.2, 0.5)) / realEstateValue
+    : 0.03;
 
-    weightedGrowthRate = (investmentValue * investmentGrowth + cashValue * cashGrowth + realEstateValue * realEstateGrowth) / totalAssetValue;
-  }
-
-  const growthRate = clamp(weightedGrowthRate, -0.2, 0.5);
+  // New savings grow at investment rate (what most people actually do)
+  const newSavingsGrowthRate = clamp(investmentGrowthRate, -0.2, 0.5);
   const annualContribution = Math.max(0, surplus);
   const projectionYears: number[] = [];
   const projectionValues: number[] = [];
 
   for (let year = 0; year <= yearsToRetirement; year += 1) {
-    const gr = growthRate || 0.001;
-    const compounding = Math.pow(1 + gr, year);
-    const presentValue = liquidSavings * compounding;
-    const futureContribution = annualContribution * (compounding - 1) / gr;
-    const value = Math.max(0, presentValue + futureContribution);
+    // Existing balances: grow each account type at its own rate
+    const investmentFuture = investmentValue * Math.pow(1 + clamp(investmentGrowthRate, -0.2, 0.5), year);
+    const cashFuture = cashValue * Math.pow(1 + clamp(cashGrowthRate, -0.2, 0.5), year);
+    const realEstateFuture = realEstateValue * Math.pow(1 + clamp(realEstateGrowthRate, -0.2, 0.5), year);
+    const existingBalancesFuture = investmentFuture + cashFuture + realEstateFuture;
+
+    // New savings: grow at investment rate
+    const gr = newSavingsGrowthRate || 0.001;
+    const futureContribution = annualContribution > 0 ? annualContribution * (Math.pow(1 + gr, year) - 1) / gr : 0;
+    const value = Math.max(0, existingBalancesFuture + futureContribution);
     projectionYears.push(year);
     projectionValues.push(value);
   }
 
   const projectedSavings = projectionValues[projectionValues.length - 1] || liquidSavings;
   const shortfall = Math.max(0, futureSavingsNeeded - projectedSavings);
-  const gr = growthRate || 0.001;
-  const annuityFactor = (Math.pow(1 + gr, yearsToRetirement) - 1) / gr;
-  const extraMonthlySavings = yearsToRetirement > 0 ? (shortfall / annuityFactor) / 12 : 0;
+  const gr = newSavingsGrowthRate || 0.001;
+  const annuityFactor = yearsToRetirement > 0 && gr > 0 ? (Math.pow(1 + gr, yearsToRetirement) - 1) / gr : yearsToRetirement;
+  const extraMonthlySavings = yearsToRetirement > 0 && annuityFactor > 0 ? (shortfall / annuityFactor) / 12 : 0;
   const progress = futureSavingsNeeded > 0 ? (projectedSavings / futureSavingsNeeded) * 100 : 100;
 
   return {
