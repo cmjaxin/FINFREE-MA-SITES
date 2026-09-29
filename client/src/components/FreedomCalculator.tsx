@@ -33,6 +33,83 @@ function CountUpNumber({ target, style }: any) {
   );
 }
 
+function Tooltip({ children, text }: { children: React.ReactNode; text: string }) {
+  const [show, setShow] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleShow = (e: React.MouseEvent | React.FocusEvent) => {
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setPos({ top: rect.bottom + 8, left: rect.left });
+      setShow(true);
+    }
+  };
+
+  const handleClose = () => setShow(false);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => e.key === 'Escape' && handleClose();
+    const handleClickOutside = (e: MouseEvent) => {
+      if (btnRef.current && !btnRef.current.contains(e.target as Node)) handleClose();
+    };
+    if (show) {
+      document.addEventListener('keydown', handleEsc);
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+        document.removeEventListener('keydown', handleEsc);
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [show]);
+
+  return (
+    <div style={{ position: 'relative', display: 'inline' }}>
+      <button
+        ref={btnRef}
+        onClick={handleShow}
+        onFocus={handleShow}
+        onBlur={handleClose}
+        aria-label={`What is ${children}?`}
+        style={{
+          background: 'none',
+          border: 'none',
+          color: '#0088b0',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: 600,
+          padding: '0 4px',
+          lineHeight: 1,
+        }}
+      >
+        ⓘ
+      </button>
+      {show && (
+        <div
+          style={{
+            position: 'fixed',
+            top: `${pos.top}px`,
+            left: `${Math.max(8, Math.min(pos.left, window.innerWidth - 288))}px`,
+            background: '#fff',
+            border: '1px solid #0088b0',
+            borderRadius: '6px',
+            padding: '8px 12px',
+            fontSize: '13px',
+            maxWidth: '280px',
+            color: '#333',
+            zIndex: 1000,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            lineHeight: 1.5,
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {text}
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface FreedomCalculatorProps {
   advisorName?: string;
   advisorPhone?: string;
@@ -1252,7 +1329,7 @@ function StepPIN({ plan, result }: any) {
   );
 }
 
-const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint }: any) => {
+const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint, tooltip }: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -1263,8 +1340,9 @@ const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint }
 
   return (
     <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
-      <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
+      <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: 700, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
         {label}
+        {tooltip && <Tooltip text={tooltip}>{label}</Tooltip>}
       </label>
       <input
         ref={inputRef}
@@ -1343,6 +1421,7 @@ function StepFIN({ plan, result, updatePlan }: any) {
           max="10"
           step="0.1"
           hint="Historical: 2.5-3.5%"
+          tooltip="How fast prices rise each year. It's used to estimate what your desired income will cost by the time you retire."
         />
         <InputCard
           label="Withdrawal Rate (%)"
@@ -1353,6 +1432,7 @@ function StepFIN({ plan, result, updatePlan }: any) {
           max="8"
           step="0.1"
           hint="Conservative to aggressive"
+          tooltip="The share of your nest egg you'd take out each year in retirement. 4% is a common rule of thumb. A lower rate is safer but needs a bigger nest egg."
         />
       </div>
 
@@ -1393,24 +1473,18 @@ function StepFIN({ plan, result, updatePlan }: any) {
       {/* Metrics Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
         <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
-          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
-            Current Liquid Savings
-          </div>
-          <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
-            {cur(result.currentLiquidSavings)}
-          </div>
-        </div>
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
-          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
+          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
             Projected Savings at {plan.retirementAge}
+            <Tooltip text="What your current savings plus your monthly savings could grow to by retirement, at your accounts' growth rates.">Projected Savings</Tooltip>
           </div>
           <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
             {cur(result.projectedSavings)}
           </div>
         </div>
         <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
-          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600 }}>
+          <div style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', marginBottom: '0.3rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
             Monthly Need from Savings
+            <Tooltip text="Your desired monthly retirement income minus Social Security and other income. This is the part your nest egg has to cover.">Monthly Need</Tooltip>
           </div>
           <div style={{ fontSize: '18px', fontWeight: 700, color: '#0088b0', fontVariantNumeric: 'tabular-nums' }}>
             {cur(result.needFromSavings)}
@@ -1478,12 +1552,12 @@ This is not financial advice. Consult with a licensed financial advisor before m
         gap: '2rem',
         marginBottom: '3rem',
       }}>
-        <MetricCard label="Net Worth" value={cur(result.netWorth)} sub={`${result.lifetimeWealthPercent.toFixed(1)}% of lifetime earnings`} tone="pos" />
-        <MetricCard label="Annual Expenses" value={cur(result.annualExpensesToday)} tone="ink" />
-        <MetricCard label="Potential Savings" value={`${result.savingsRate.toFixed(1)}% · ${cur(result.monthlyCashFlow)}/mo`} tone="pos" />
-        <MetricCard label="Effective Tax Rate" value={`${result.effectiveRate.toFixed(1)}%`} sub={`${cur(result.federalTax + result.stateTax + result.ficaTax)} total tax`} tone="tax" />
-        <MetricCard label="Monthly Cash Flow" value={cur(result.monthlyCashFlow)} sub={`${result.monthsCovered.toFixed(1)} months covered`} tone="pos" />
-        <MetricCard label="FIN Number" value={cur(result.futureSavingsNeeded)} sub={result.shortfall > 0 ? `−${cur(result.shortfall)} shortfall` : `+${cur(result.projectedSavings - result.futureSavingsNeeded)} surplus`} tone={result.shortfall > 0 ? 'neg' : 'pos'} />
+        <MetricCard label="Net Worth" value={cur(result.netWorth)} sub={`${result.lifetimeWealthPercent.toFixed(1)}% of lifetime earnings`} tone="pos" tooltip="Everything you own minus everything you owe. Your investments, cash and real estate, minus debts." />
+        <MetricCard label="Annual Expenses" value={cur(result.annualExpensesToday)} tone="ink" tooltip="What your lifestyle costs per year today, from the monthly expenses you entered in Step 2." />
+        <MetricCard label="Potential Savings" value={`${result.savingsRate.toFixed(1)}% · ${cur(result.monthlyCashFlow)}/mo`} tone="pos" tooltip="What's left of your take-home pay after expenses. It's what you could be saving each month." />
+        <MetricCard label="Effective Tax Rate" value={`${result.effectiveRate.toFixed(1)}%`} sub={`${cur(result.federalTax + result.stateTax + result.ficaTax)} total tax`} tone="tax" tooltip="The share of your total income that goes to taxes: federal, state, Social Security and Medicare (FICA)." />
+        <MetricCard label="Monthly Cash Flow" value={cur(result.monthlyCashFlow)} sub={`${result.monthsCovered.toFixed(1)} months covered`} tone="pos" tooltip="Take-home pay minus monthly expenses. If it's positive, you're saving; if it's negative, you're spending more than you make." />
+        <MetricCard label="FIN Number" value={cur(result.futureSavingsNeeded)} sub={result.shortfall > 0 ? `−${cur(result.shortfall)} shortfall` : `+${cur(result.projectedSavings - result.futureSavingsNeeded)} surplus`} tone={result.shortfall > 0 ? 'neg' : 'pos'} tooltip="Your Financial Independence Number: the nest egg you'll need at retirement to cover your desired income, after Social Security and other income. It's adjusted for inflation to the year you retire." />
       </div>
 
       {/* Action buttons */}
@@ -1595,7 +1669,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
   );
 }
 
-function MetricCard({ label, value, sub, tone }: any) {
+function MetricCard({ label, value, sub, tone, tooltip }: any) {
   const toneColors: Record<string, { mark: string; label: string; value: string }> = {
     pos: { mark: '#0088b0', label: '#0088b0', value: '#006786' },
     neg: { mark: '#d6006c', label: '#d6006c', value: '#aa0b56' },
@@ -1618,8 +1692,12 @@ function MetricCard({ label, value, sub, tone }: any) {
         letterSpacing: '0.08em',
         color: colors.label,
         marginBottom: '0.25rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
       }}>
         {label}
+        {tooltip && <Tooltip text={tooltip}>{label}</Tooltip>}
       </div>
       <div style={{
         fontSize: '30px',
