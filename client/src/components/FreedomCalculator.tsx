@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { blank, compute, cur, pct, Profile, ComputedResult, CATS } from '@/lib/ffic-engine';
 import { generatePlanPDF } from '@/lib/pdf-export';
 
@@ -1252,24 +1252,34 @@ function StepPIN({ plan, result }: any) {
   );
 }
 
-const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint }: any) => (
-  <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
-    <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
-      {label}
-    </label>
-    <input
-      type="number"
-      defaultValue={value}
-      onBlur={onChange}
-      placeholder={placeholder}
-      min={min}
-      max={max}
-      step={step}
-      style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem', boxSizing: 'border-box' }}
-    />
-    {hint && <div style={{ fontSize: '11px', color: '#999' }}>{hint}</div>}
-  </div>
-);
+const InputCard = ({ label, value, onChange, placeholder, min, max, step, hint }: any) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current && value !== undefined && value !== null) {
+      inputRef.current.value = String(value);
+    }
+  }, [value]);
+
+  return (
+    <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0ddd9' }}>
+      <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#0088b0', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
+        {label}
+      </label>
+      <input
+        ref={inputRef}
+        type="number"
+        onBlur={onChange}
+        placeholder={placeholder}
+        min={min}
+        max={max}
+        step={step}
+        style={{ width: '100%', padding: '10px 12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', marginBottom: '0.5rem', boxSizing: 'border-box' }}
+      />
+      {hint && <div style={{ fontSize: '11px', color: '#999' }}>{hint}</div>}
+    </div>
+  );
+};
 
 function StepFIN({ plan, result, updatePlan }: any) {
 
