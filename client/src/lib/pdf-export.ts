@@ -17,15 +17,15 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
       <table style="width: 100%; border-collapse: collapse;">
         <tr style="background: #f9f9f9;">
           <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Net Worth</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: bold;">$${result.netWorth.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: bold;">$${Math.round(result.netWorth).toLocaleString()}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Annual Expenses (Today)</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.annualExpensesToday.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.annualExpensesToday).toLocaleString()}</td>
         </tr>
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;">Monthly Cash Flow</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.monthlyCashFlow.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.monthlyCashFlow).toLocaleString()}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Savings Rate</td>
@@ -41,16 +41,16 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
       <table style="width: 100%; border-collapse: collapse;">
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;"><strong>FIN Number (Required)</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${result.futureSavingsNeeded.toLocaleString()}</strong></td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${Math.round(result.futureSavingsNeeded).toLocaleString()}</strong></td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Projected Savings at Retirement</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.projectedSavings.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.projectedSavings).toLocaleString()}</td>
         </tr>
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;">Shortfall / Surplus</td>
           <td style="padding: 10px; border: 1px solid #ddd; text-align: right; color: ${result.shortfall > 0 ? '#d6006c' : '#0088b0'};">
-            ${result.shortfall > 0 ? '−$' + result.shortfall.toLocaleString() : '+$' + (result.projectedSavings - result.futureSavingsNeeded).toLocaleString()}
+            ${result.shortfall > 0 ? '−$' + Math.round(result.shortfall).toLocaleString() : '+$' + Math.round(result.projectedSavings - result.futureSavingsNeeded).toLocaleString()}
           </td>
         </tr>
       </table>
@@ -59,19 +59,23 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
       <table style="width: 100%; border-collapse: collapse;">
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;">Total Annual Income</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.totalIncome.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.totalIncome).toLocaleString()}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Federal Tax</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.federalTax.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.federalTax).toLocaleString()}</td>
         </tr>
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;">State Tax</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.stateTax.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.stateTax).toLocaleString()}</td>
         </tr>
         <tr>
+          <td style="padding: 10px; border: 1px solid #ddd;">Social Security & Medicare (FICA)</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.ficaTax).toLocaleString()}</td>
+        </tr>
+        <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;"><strong>After-Tax Income</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${result.afterTaxIncome.toLocaleString()}</strong></td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${Math.round(result.afterTaxIncome).toLocaleString()}</strong></td>
         </tr>
       </table>
 
@@ -79,15 +83,15 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
       <table style="width: 100%; border-collapse: collapse;">
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;">Total Assets</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.totalAssets.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.totalAssets).toLocaleString()}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd;">Total Liabilities</td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${result.totalLiabilities.toLocaleString()}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${Math.round(result.totalLiabilities).toLocaleString()}</td>
         </tr>
         <tr style="background: #f0f0f0;">
           <td style="padding: 10px; border: 1px solid #ddd;"><strong>Net Worth</strong></td>
-          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${result.netWorth.toLocaleString()}</strong></td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>$${Math.round(result.netWorth).toLocaleString()}</strong></td>
         </tr>
       </table>
 
