@@ -588,7 +588,7 @@ export default function FreedomCalculator({
         {step === 2 && <StepNetWorth plan={currentPlan} result={result} updatePlan={updatePlan} />}
         {step === 3 && <StepPIN plan={currentPlan} result={result} />}
         {step === 4 && <StepFIN plan={currentPlan} result={result} updatePlan={updatePlan} />}
-        {step === 5 && <StepDashboard plan={currentPlan} result={result} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} showToast={showToast} />}
+        {step === 5 && <StepDashboard plan={currentPlan} result={result} updatePlan={updatePlan} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} showToast={showToast} />}
 
         {/* Footer */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', gap: '1rem' }}>
@@ -1495,7 +1495,7 @@ function StepFIN({ plan, result, updatePlan }: any) {
   );
 }
 
-function StepDashboard({ plan, result, youCanBookUrl, advisorName, advisorPhone, advisorEmail, showToast }: any) {
+function StepDashboard({ plan, result, updatePlan, youCanBookUrl, advisorName, advisorPhone, advisorEmail, showToast }: any) {
   const downloadResults = () => {
     const data = `FINANCIAL FREEDOM CALCULATOR RESULTS
 ${new Date().toLocaleDateString()}
@@ -1586,12 +1586,14 @@ This is not financial advice. Consult with a licensed financial advisor before m
             if (!email) return;
             const name = window.prompt('Plan name:', plan.name) || plan.name;
             try {
+              updatePlan({ name });
+              const updatedPlan = { ...plan, name };
               const plans = JSON.parse(localStorage.getItem('calculator_plans') || '[]');
               plans.push({
                 id: Math.random().toString(36).slice(2),
                 name,
                 email,
-                data: plan,
+                data: updatedPlan,
                 savedAt: new Date().toISOString(),
               });
               localStorage.setItem('calculator_plans', JSON.stringify(plans));
