@@ -122,13 +122,19 @@ interface FreedomCalculatorProps {
 }
 
 export default function FreedomCalculator({
-  advisorName = 'Your Advisor',
-  advisorPhone = '',
-  advisorEmail = '',
+  advisorName: propAdvisorName = 'Your Advisor',
+  advisorPhone: propAdvisorPhone = '',
+  advisorEmail: propAdvisorEmail = '',
   advisorPhoto,
   youCanBookUrl = '#',
   showAdvisorBar = false
 }: FreedomCalculatorProps) {
+  // Read advisor info from URL params, fall back to props
+  const params = new URLSearchParams(window.location.search);
+  const advisorName = params.get('advisorName') || propAdvisorName;
+  const advisorPhone = params.get('advisorPhone') || propAdvisorPhone;
+  const advisorEmail = params.get('advisorEmail') || propAdvisorEmail;
+
   const [plans, setPlans] = useState<Profile[]>([]);
   const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
   const [step, setStep] = useState(0);
