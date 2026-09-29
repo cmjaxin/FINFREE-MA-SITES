@@ -21,7 +21,6 @@ export function Navigation({ logoUrl, applyUrl }: NavProps) {
   ];
 
   const resourcesLinks: NavLink[] = [
-    { href: '/blog', label: 'Mortgage Advice Blog' },
     { href: '/calculator', label: 'Financial Freedom Calculator' },
   ];
 
