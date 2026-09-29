@@ -1,5 +1,6 @@
 // Simple PDF export using canvas-based approach
-export async function generatePlanPDF(planName: string, result: any, plan: any) {
+export function generatePlanPDF(planName: string, result: any, plan: any): Promise<void> {
+  return (async () => {
   const html2pdf = (window as any).html2pdf;
   if (!html2pdf) {
     alert('PDF library not loaded. Please refresh the page.');
@@ -120,11 +121,12 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
     jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
   };
 
-  const originalBgColor = document.body.style.backgroundColor;
-  try {
-    document.body.style.backgroundColor = '#ffffff';
-    return html2pdf().set(options).from(element).save();
-  } finally {
-    document.body.style.backgroundColor = originalBgColor;
-  }
+    const originalBgColor = document.body.style.backgroundColor;
+    try {
+      document.body.style.backgroundColor = '#ffffff';
+      await html2pdf().set(options).from(element).save();
+    } finally {
+      document.body.style.backgroundColor = originalBgColor;
+    }
+  })();
 }
