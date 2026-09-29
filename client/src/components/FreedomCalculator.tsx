@@ -100,6 +100,8 @@ function Tooltip({ children, text }: { children: React.ReactNode; text: string }
             zIndex: 1000,
             boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
             lineHeight: 1.5,
+            textTransform: 'none',
+            letterSpacing: 'normal',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -1597,7 +1599,7 @@ This is not financial advice. Consult with a licensed financial advisor before m
                 savedAt: new Date().toISOString(),
               });
               localStorage.setItem('calculator_plans', JSON.stringify(plans));
-              showToast(`✓ Plan "${name}" saved`, 'success');
+              showToast(`Plan "${name}" saved`, 'success');
             } catch (err) {
               showToast('Error saving plan', 'error');
             }
