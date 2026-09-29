@@ -104,7 +104,7 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
 
   const options = {
     margin: 10,
-    filename: `${planName}-${new Date().toISOString().slice(0, 10)}.pdf`,
+    filename: `${planName}-${new Date().toLocaleDateString('en-CA')}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
       scale: 2,
@@ -116,5 +116,11 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
     jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
   };
 
-  return html2pdf().set(options).from(element).save();
+  const originalBgColor = document.body.style.backgroundColor;
+  try {
+    document.body.style.backgroundColor = '#ffffff';
+    return html2pdf().set(options).from(element).save();
+  } finally {
+    document.body.style.backgroundColor = originalBgColor;
+  }
 }
