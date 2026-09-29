@@ -559,7 +559,7 @@ export default function FreedomCalculator({
       </div>
 
       {/* Stepper */}
-      <div style={{
+      <div className="calc-stepper" style={{
         background: dark ? '#282625' : '#fff',
         padding: '16px 20px',
         display: 'flex',
@@ -571,6 +571,7 @@ export default function FreedomCalculator({
           <button
             key={i}
             onClick={() => goToStep(i)}
+            className="calc-step-indicator"
             style={{
               flex: '1',
               minWidth: '140px',
@@ -590,7 +591,7 @@ export default function FreedomCalculator({
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
+      <div className="calc-content" style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
         {step === 0 && <StepMoney plan={currentPlan} result={result} updatePlan={updatePlan} />}
         {step === 1 && <StepExpenses plan={currentPlan} result={result} updatePlan={updatePlan} />}
         {step === 2 && <StepNetWorth plan={currentPlan} result={result} updatePlan={updatePlan} />}
@@ -599,7 +600,7 @@ export default function FreedomCalculator({
         {step === 5 && <StepDashboard plan={currentPlan} result={result} updatePlan={updatePlan} youCanBookUrl={youCanBookUrl} advisorName={advisorName} advisorPhone={advisorPhone} advisorEmail={advisorEmail} showToast={showToast} />}
 
         {/* Footer */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', gap: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', gap: '1rem', flexWrap: 'wrap' }}>
           <button
             onClick={() => {
               if (step === 0) {
@@ -609,6 +610,7 @@ export default function FreedomCalculator({
                 setStep(step - 1);
               }
             }}
+            className="calc-button calc-button-secondary"
             style={{
               background: 'none',
               border: `1px solid ${dark ? '#3a3835' : '#d0ccc8'}`,
@@ -625,6 +627,7 @@ export default function FreedomCalculator({
           {step < 5 && (
             <button
               onClick={nextStep}
+              className="calc-button calc-button-secondary"
               style={{
                 background: '#5BCBF5',
                 color: '#0b1f38',
