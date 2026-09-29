@@ -108,9 +108,10 @@ export async function generatePlanPDF(planName: string, result: any, plan: any) 
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
       scale: 2,
-      allowTaint: true,
-      useCORS: false,
-      letterRendering: true
+      useCORS: true,
+      onclone: (doc: Document) => {
+        doc.querySelectorAll('style, link[rel="stylesheet"]').forEach(n => n.remove());
+      },
     },
     jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
   };
