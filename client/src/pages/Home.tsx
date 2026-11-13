@@ -301,21 +301,43 @@ export default function Home() {
       </div>
 
       {/* ── LET'S CONNECT ── */}
-      <section style={{ background: "#fff", padding: "4rem 0", borderTop: "1px solid #e0ddd9" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Connect With {a.firstName}</div>
-            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2rem)", fontWeight: 800, color: "#0A2540", marginBottom: "1rem", lineHeight: 1.2 }}>Let's Connect</h2>
-            <p style={{ fontSize: "1rem", color: "#555", maxWidth: 500, margin: "0 auto", lineHeight: 1.6 }}>Follow {a.firstName} for mortgage insights, market updates, and financial tips.</p>
+      <section style={{ background: "#0A2540", padding: "1.25rem 0" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem" }}>
+          <div style={{ fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#5BCBF5", whiteSpace: "nowrap" }}>
+            Let's Connect
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-            {a.facebook && <a href={a.facebook} target="_blank" rel="noopener noreferrer" title="Facebook" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>f</a>}
-            {a.instagram && <a href={a.instagram} target="_blank" rel="noopener noreferrer" title="Instagram" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>📷</a>}
-            {a.twitter && <a href={a.twitter} target="_blank" rel="noopener noreferrer" title="X (Twitter)" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>𝕏</a>}
-            {a.linkedin && <a href={a.linkedin} target="_blank" rel="noopener noreferrer" title="LinkedIn" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>in</a>}
-            {a.youtube && <a href={a.youtube} target="_blank" rel="noopener noreferrer" title="YouTube" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>▶️</a>}
-            {a.tiktok && <a href={a.tiktok} target="_blank" rel="noopener noreferrer" title="TikTok" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>🎵</a>}
+          <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+            {a.facebook && (
+              <a href={a.facebook} target="_blank" rel="noopener noreferrer" title="Facebook" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 0 1 2-2h1z"></path></svg>
+              </a>
+            )}
+            {a.instagram && (
+              <a href={a.instagram} target="_blank" rel="noopener noreferrer" title="Instagram" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><circle cx="17.5" cy="6.5" r="1.5"></circle></svg>
+              </a>
+            )}
+            {a.twitter && (
+              <a href={a.twitter} target="_blank" rel="noopener noreferrer" title="X" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M23.953 4.57a10 10 0 002.856-3.51 9.9 9.9 0 01-2.828.856 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+              </a>
+            )}
+            {a.linkedin && (
+              <a href={a.linkedin} target="_blank" rel="noopener noreferrer" title="LinkedIn" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            )}
+            {a.youtube && (
+              <a href={a.youtube} target="_blank" rel="noopener noreferrer" title="YouTube" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M22.54 6.42c-.26-.95-1.04-1.7-1.97-1.93C18.88 4 12 4 12 4s-6.88 0-8.57.49c-.93.23-1.71.98-1.97 1.93C1 8.08 1 11.5 1 11.5s0 3.42.49 5.08c.26.95 1.04 1.7 1.97 1.93C5.12 19 12 19 12 19s6.88 0 8.57-.49c.93-.23 1.71-.98 1.97-1.93.49-1.66.49-5.08.49-5.08s0-3.42-.49-5.08zM9.75 15.02v-6.04l6.56 3.02-6.56 3.02z"></path></svg>
+              </a>
+            )}
+            {a.tiktok && (
+              <a href={a.tiktok} target="_blank" rel="noopener noreferrer" title="TikTok" style={{ display: "flex", opacity: 0.8, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.8"}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.82 2.89 2.89 0 0 1 2.31-4.64 2.86 2.86 0 0 1 .88.13v-3.4a6.04 6.04 0 0 0-5.07 6.11A6.02 6.02 0 0 0 9.751 19.75a6.01 6.01 0 0 0 5.666-4.13.78.78 0 0 0 .101-.849 1 1 0 0 0-.868-.738h-.015a.7.7 0 0 0-.704.528 4.28 4.28 0 0 1-3.976 2.501 4.33 4.33 0 0 1 0-8.661 4.6 4.6 0 0 1 3.369 1.447V6.69z"></path></svg>
+              </a>
+            )}
           </div>
         </div>
       </section>
