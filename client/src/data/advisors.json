@@ -469,6 +469,74 @@
         }
       ]
     },
+    "rory-byrne": {
+      "name": "Rory Byrne",
+      "firstName": "Rory",
+      "title": "Mortgage Advisor",
+      "company": "NEO Home Loans",
+      "nmls": "2476920",
+      "yearsExperience": "15+",
+      "phone": "(512) 522-2320",
+      "phoneTel": "5125222320",
+      "email": "rory.byrne@neohomeloans.com",
+      "address": "S 1st St, Austin, TX, 78704",
+      "city": "Austin",
+      "state": "Texas",
+      "stateAbbr": "TX",
+      "applyUrl": "https://neohomeloans.com/start/r/130500",
+      "calendarUrl": "https://initialchatrory.youcanbook.me/",
+      "headshot": "https://mettlehq.com/wp-content/uploads/2026/11/rory-byrne.jpg",
+      "heroBgImage": "https://mettlehq.com/wp-content/uploads/2024/02/Blog-Cover-Photo-2024-02-02T102646.427.png",
+      "heroTestimonialImage": "https://mettlehq.com/wp-content/uploads/2026/08/Ed-ward.png",
+      "heroTestimonialAlt": "Client testimonial -NEO Home Loans",
+      "logoUrl": "https://mettlehq.com/wp-content/uploads/2026/07/Neo-better-Color.png",
+      "reviewsApiKey": "P4QzRCIlzvBbuhx6WI5Vf3lPvpbYOc4RsOdRXFs1TJICt-WcpzoySbIt9iZOp3lNsOJqskVxJ1ub7xSh",
+      "reviewsWidgetKey": "-l-hI5VqDtrz27hhqWWCEA",
+      "bnTouchUserId": "10695",
+      "bnTouchWebFormId": "5361",
+      "bnTouchSource": "Rory Byrne",
+      "heroHeadline": ["Smart Mortgage Planning", "for Entrepreneurs & Families"],
+      "heroSubhead": "Rory brings economics expertise and a thoughtful approach to mortgage planning, helping entrepreneurs and families make informed decisions.",
+      "heroBio": "With 15+ years in real estate and mortgage lending, Rory combines analytical thinking with genuine care to guide clients toward their long-term financial goals.",
+      "trustBarHeading": "Serving Austin & Central Texas Entrepreneurs",
+      "trustBarItems": ["Entrepreneurs", "Self-Employed", "Business Owners", "Complex Income", "First Time Buyers", "Refinancing"],
+      "trustBarFootnote": "Specialized experience serving business owners and entrepreneurs across Travis, Williamson, Hays, Bastrop, and Comal Counties",
+      "reviewsSectionHeading": "See Why Central Texas Families Trust Rory",
+      "reviewsSectionSubhead": "Real stories from real clients across Austin and Central Texas",
+      "aboutBio": [
+        "With more than 15 years of experience in real estate and mortgage lending, Rory Byrne is committed to helping clients navigate the home financing process with confidence and clarity.",
+        "Drawing on his background in economics, Rory brings a thoughtful, analytical approach to mortgage planning, breaking down complex financial concepts into clear, actionable guidance.",
+        "Rory believes every borrower deserves a lending experience built on trust, communication, and education. He takes the time to listen, understand each client's goals, and recommend financing strategies tailored to their unique needs."
+      ],
+      "aboutTags": ["Austin, TX", "15+ Years Experience", "NMLS #2476920", "NEO Home Loans", "Entrepreneur Specialist"],
+      "aboutWhyChoose": ["15+ Years of Mortgage Experience", "Entrepreneur Loan Expert", "Economics Background", "Complex Income Specialist", "Clear Financial Education", "Personalized Strategy"],
+      "footerDescription": "Mortgage advisor specializing in entrepreneurs and self-employed borrowers with complex income structures across Central Texas.",
+      "specialties": ["Entrepreneurs", "Self-Employed Borrowers", "Business Owners", "Complex Income Planning"],
+      "uniqueStrengths": [
+        "Entrepreneur & Self-Employed Expert - Deep understanding of business owner financing needs",
+        "Economics Background - Analytical approach to complex financial planning and mortgage strategies",
+        "Clear Communication - Breaks down complex concepts into understandable guidance",
+        "Complex Income Specialist - Experience with varied income sources and business structures",
+        "Long-Term Vision - Focuses on how mortgages fit into overall financial goals"
+      ],
+      "testimonials": [
+        {
+          "quote": "Rory took the time to understand our unique situation as entrepreneurs. His approach was refreshingly analytical and he explained everything clearly.",
+          "author": "Sarah & James Mitchell, Business Owners",
+          "location": "Austin, Texas"
+        },
+        {
+          "quote": "Working with Rory was a game-changer. He understood the complexities of our self-employment income and found solutions other lenders wouldn't consider.",
+          "author": "Alex Chen, Founder & CEO",
+          "location": "Austin, Texas"
+        },
+        {
+          "quote": "Rory's economics background really showed. He treated our mortgage as part of a bigger financial strategy, not just a transaction.",
+          "author": "Dr. Maria Rodriguez & Family",
+          "location": "Austin, Texas"
+        }
+      ]
+    },
     "drake-bloebaum": {
       "name": "Drake Bloebaum",
       "firstName": "Drake",
@@ -555,6 +623,8 @@
     "www.rosszimmermanmortgage.com": "ross-zimmerman",
     "scottbreenmortgage.com": "scott-breen",
     "www.scottbreenmortgage.com": "scott-breen",
+    "rorybyrnemortgage.com": "rory-byrne",
+    "www.rorybyrnemortgage.com": "rory-byrne",
     "finfree-ma-sites.vercel.app": "drake-bloebaum",
     "localhost:3000": "drake-bloebaum"
   }
