@@ -300,6 +300,26 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── LET'S CONNECT ── */}
+      <section style={{ background: "#fff", padding: "4rem 0", borderTop: "1px solid #e0ddd9" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 2rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5BCBF5", marginBottom: "1rem" }}>Connect With {a.firstName}</div>
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2rem)", fontWeight: 800, color: "#0A2540", marginBottom: "1rem", lineHeight: 1.2 }}>Let's Connect</h2>
+            <p style={{ fontSize: "1rem", color: "#555", maxWidth: 500, margin: "0 auto", lineHeight: 1.6 }}>Follow {a.firstName} for mortgage insights, market updates, and financial tips.</p>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap" }}>
+            {a.facebook && <a href={a.facebook} target="_blank" rel="noopener noreferrer" title="Facebook" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>f</a>}
+            {a.instagram && <a href={a.instagram} target="_blank" rel="noopener noreferrer" title="Instagram" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>📷</a>}
+            {a.twitter && <a href={a.twitter} target="_blank" rel="noopener noreferrer" title="X (Twitter)" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>𝕏</a>}
+            {a.linkedin && <a href={a.linkedin} target="_blank" rel="noopener noreferrer" title="LinkedIn" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>in</a>}
+            {a.youtube && <a href={a.youtube} target="_blank" rel="noopener noreferrer" title="YouTube" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>▶️</a>}
+            {a.tiktok && <a href={a.tiktok} target="_blank" rel="noopener noreferrer" title="TikTok" style={{ fontSize: "2rem", opacity: 0.7, transition: "opacity 0.2s", textDecoration: "none" }} onMouseEnter={(e) => e.currentTarget.style.opacity = "1"} onMouseLeave={(e) => e.currentTarget.style.opacity = "0.7"}>🎵</a>}
+          </div>
+        </div>
+      </section>
+
       {/* ── TESTIMONIALS ── */}
       {a.testimonials && a.testimonials.length > 0 && (
         <Testimonials
